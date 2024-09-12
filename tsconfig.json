@@ -1,10 +1,13 @@
 {
     "compilerOptions": {
-      "jsx": "react",
-      "target": "esnext",
-      "module": "esnext",
-      "moduleResolution": "node",
-      "types": ["vite/client"],
-      "allowSyntheticDefaultImports": true
+        "jsx": "react",
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "node",
+        "types": ["vite/client"],
+        "allowSyntheticDefaultImports": true,
+        "paths": {
+            "@/*": ["./resources/ts/*"]
+        }
     }
-  }
+}

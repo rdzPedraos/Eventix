@@ -7,7 +7,7 @@ import { createInertiaApp } from "@inertiajs/react";
 
 createInertiaApp({
     resolve: (name) => {
-        const pages = import.meta.glob("./Pages/**/*.tsx");
+        const pages = import.meta.glob("./pages/**/*.tsx");
         return pages[`./Pages/${name}.tsx`]();
     },
     setup({ el, App, props }) {

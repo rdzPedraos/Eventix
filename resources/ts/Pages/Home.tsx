@@ -1,5 +1,5 @@
 import React from "react";
 
 export default function Test() {
-    return <div>Hi!</div>;
+    return <div className="bg-pink-400">Hi!</div>;
 }

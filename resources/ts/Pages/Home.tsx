@@ -1,9 +1,5 @@
-import React from 'react'
+import React from "react";
 
 export default function Test() {
-    return (
-        <div>
-            Hi!
-        </div>
-    )
+    return <div>Hi!</div>;
 }

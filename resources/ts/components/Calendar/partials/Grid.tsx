@@ -32,7 +32,8 @@ export default function Grid({ day, events }: Props) {
             event.endDate.get("hour") + event.endDate.get("minute") / 60;
 
         const top = (startHour / 24) * 100;
-        const bottom = (endHour / 24) * 100;
+        let bottom = (endHour / 24) * 100;
+        if (bottom - top < 1) bottom += 1; // Minimum height of 1%
 
         // Calcular la posición horizontal y el ancho del evento
         const eventosSuperpuestos = eventosRenderizados.filter(

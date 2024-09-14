@@ -28,7 +28,7 @@ export default function Event({
 
     return (
         <div
-            className="absolute pb-[4px] pr-[4px] min-h-[30px]"
+            className="absolute pb-[4px] pr-[4px] min-h-[25px]"
             style={{
                 zIndex,
                 top: `${position.top}%`,
@@ -39,12 +39,13 @@ export default function Event({
             /*onClick={() => setEventoSeleccionado(evento)}*/
         >
             <div
-                className={`w-full h-full p-1 rounded-sm overflow-hidden text-xs ${color} border shadow-sm cursor-pointer transition-all hover:shadow-md`}
+                className={`w-full h-full py-[2px] px-1 rounded-sm overflow-hidden text-xs ${color} border shadow-sm cursor-pointer transition-all hover:shadow-md`}
             >
                 {shortEvent ? (
-                    <span className="truncate">
-                        <b>{title}, </b> {startDate.format("HH:mm")}
-                    </span>
+                    <div className="my-auto truncate text-[12px]">
+                        <b>{title}, </b>
+                        {startDate.format("HH:mm")}
+                    </div>
                 ) : (
                     <>
                         <div className="font-semibold truncate">{title}</div>

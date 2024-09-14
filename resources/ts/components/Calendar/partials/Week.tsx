@@ -74,9 +74,7 @@ export default function Week({}: Props) {
                         </div>
 
                         {/* Línea roja de hora actual */}
-                        {week.isSame(today, "week") && (
-                            <CurrentMoment week={week} />
-                        )}
+                        {<CurrentMoment />}
                     </div>
                 </div>
             </div>

@@ -9,12 +9,14 @@ export default {
         "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
     ],
     theme: {
-        extend: {},
-        colors: {
-            primary: "#00594E",
-            secondary: "#B5A160",
-            cta: "#005469"
+        extend: {
+            colors: {
+                primary: "#00594E",
+                secondary: "#B5A160",
+                cta: "#005469"
+            },
         },
+
     },
     plugins: [
         nextui()

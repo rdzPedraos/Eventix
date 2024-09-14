@@ -66,8 +66,9 @@ export default function Week({}: Props) {
                                     key={hour.toString()}
                                     className="h-16 relative"
                                 >
-                                    <span className="absolute -top-3 w-full px-2 py-2 text-center text-xs text-gray-500 bg-white">
-                                        {hour.format("HH:mm")}
+                                    <span className="absolute -top-4 w-full px-2 py-2 text-center text-xs text-gray-500 bg-white">
+                                        {hour.get("hour") > 0 &&
+                                            hour.format("HH:mm")}
                                     </span>
                                 </div>
                             ))}

@@ -1,12 +1,11 @@
-import { hours, now } from "@/utils/CalendarUtils";
-import { Dayjs } from "dayjs";
+import { Day, now } from "../utils";
 import React from "react";
 
 type Props = {
-    day?: Dayjs;
+    day?: Day;
 };
 
-export default function Day({ day = now }: Props) {
+export default function Day({ day = now() }: Props) {
     return (
         <div className="flex flex-col">
             <div>

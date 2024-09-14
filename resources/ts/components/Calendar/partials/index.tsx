@@ -1,7 +1,14 @@
-/*export { default as Header } from "./Header";
-export { default as Sidebar } from "./Sidebar";*/
-export { default as Week } from "./Week";
-export { default as Grid } from "./Grid";
-/*export { default as Day } from "./Day";*/
-export { default as Event } from "./Event";
-export { default as CurrentMoment } from "./CurrentMoment";
+import React from "react";
+import Week from "./Week";
+import { useCalendarContext } from "../context";
+
+export default function Calendar() {
+    const { mode } = useCalendarContext();
+
+    switch (mode) {
+        case "week":
+            return <Week />;
+        default:
+            throw new Error("Invalid type");
+    }
+}

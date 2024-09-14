@@ -1,8 +1,13 @@
 import React from "react";
-import { Week } from "./partials";
+import Calendar from "./partials";
+import CalendarProvider from "./context";
 
 type Props = {};
 
 export default function index({}: Props) {
-    return <Week />;
+    return (
+        <CalendarProvider>
+            <Calendar />
+        </CalendarProvider>
+    );
 }

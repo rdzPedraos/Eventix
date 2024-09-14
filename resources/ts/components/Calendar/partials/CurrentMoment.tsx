@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
+import { Day, now } from "../utils";
 
 type Props = {
-    week: Date;
+    week: Day;
 };
 
 export default function CurrentMoment({ week }: Props) {
-    const [current, setCurrent] = useState(new Date());
+    const [current, setCurrent] = useState(now());
 
     useEffect(() => {
         const timer = setInterval(() => {
-            setCurrent(() => new Date());
+            setCurrent(() => now());
         }, 60000); // Update every minute
 
         return () => clearInterval(timer);
@@ -19,9 +20,9 @@ export default function CurrentMoment({ week }: Props) {
         <div
             className="absolute left-0 right-0 border-t-2 border-red-500 z-30 pointer-events-none"
             style={{
-                top: `${(current.getHours() + current.getMinutes() / 60) * 4}rem`,
+                top: `${(current.get("hour") + current.get("minutes") / 60) * 4}rem`,
                 width: `${100 / 7 - 1}%`,
-                left: `${((current.getDay() - week.getDay() + 7) % 7) * (100 / 7) + 2}%`,
+                left: `${((current.get("day") - week.get("day") + 7) % 7) * (100 / 7) + 2}%`,
             }}
         >
             <div className="absolute -left-2 -top-2 w-4 h-4 bg-red-500 rounded-full" />

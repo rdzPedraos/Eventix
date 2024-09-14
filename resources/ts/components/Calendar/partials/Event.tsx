@@ -1,16 +1,17 @@
 import React from "react";
+import { Day } from "../utils";
 
 type Props = {
     title: string;
     color: string;
-    startDate: Date;
-    endDate: Date;
+    startDate: Day;
+    endDate: Day;
     zIndex: number;
     position: {
         top: number;
+        bottom: number;
         left: number;
         width: number;
-        height: number;
     };
 };
 
@@ -22,8 +23,8 @@ export default function Event({
     zIndex,
     position,
 }: Props) {
-    const minutes = (endDate.getTime() - startDate.getTime()) / (1000 * 60);
-    const shortEvent = minutes <= 30;
+    const minutes = endDate.diff(startDate, "minute");
+    const shortEvent = minutes <= 40;
 
     return (
         <div
@@ -32,7 +33,7 @@ export default function Event({
                 zIndex,
                 top: `${position.top}%`,
                 left: `${position.left}%`,
-                height: `${position.height}%`,
+                bottom: `${100 - position.bottom}%`,
                 width: `${position.width}%`,
             }}
             /*onClick={() => setEventoSeleccionado(evento)}*/
@@ -42,29 +43,14 @@ export default function Event({
             >
                 {shortEvent ? (
                     <span className="truncate">
-                        <b>{title}, </b> {startDate.getHours()}:
-                        {startDate.getMinutes().toString().padStart(2, "0")}
+                        <b>{title}, </b> {startDate.format("HH:mm")}
                     </span>
                 ) : (
                     <>
                         <div className="font-semibold truncate">{title}</div>
-                        <div className="flex gap-1">
-                            <span>
-                                {startDate.getHours()}:
-                                {endDate
-                                    .getMinutes()
-                                    .toString()
-                                    .padStart(2, "0")}
-                            </span>
-                            -
-                            <span>
-                                {endDate.getHours()}:
-                                {endDate
-                                    .getMinutes()
-                                    .toString()
-                                    .padStart(2, "0")}
-                            </span>
-                        </div>
+                        <span>
+                            {`${startDate.format("HH:mm")} - ${endDate.format("HH:mm")}`}
+                        </span>
                     </>
                 )}
             </div>

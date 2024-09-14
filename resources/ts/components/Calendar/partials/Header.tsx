@@ -48,7 +48,7 @@ export default function Header({}: Props) {
                 </div>
 
                 <h2 className="text-xl font-semibold">
-                    {day.format("MMMM YYYY")}
+                    {day.format("MMMM [de] YYYY")}
                 </h2>
             </div>
 

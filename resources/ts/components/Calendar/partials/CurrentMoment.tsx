@@ -33,19 +33,10 @@ const isCurrent = (current: Day, day: Day, mode: "week" | "day") => {
 };
 
 export default function CurrentMoment({}: Props) {
-    const { day, mode } = useCalendarContext();
-    const [current, setCurrent] = useState(now());
-    const position = useMemo(() => getPosition(current, mode), [current, mode]);
+    const { now, day, mode } = useCalendarContext();
+    const position = useMemo(() => getPosition(now, mode), [now, mode]);
 
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setCurrent(() => now());
-        }, 60000); // Update every minute
-
-        return () => clearInterval(timer);
-    }, []);
-
-    if (!isCurrent(current, day, mode)) {
+    if (!isCurrent(now, day, mode)) {
         return;
     }
 

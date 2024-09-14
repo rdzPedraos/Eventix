@@ -1,10 +1,17 @@
-import React, { createContext, useContext, useMemo, useState } from "react";
+import React, {
+    createContext,
+    useContext,
+    useEffect,
+    useMemo,
+    useState,
+} from "react";
 import { Day, now } from "./utils";
 import generateRandomEvents from "./hook";
 
 type ModeTypes = "week" | "day";
 
 type ContexType = {
+    now: Day;
     day: Day;
     setDay: React.Dispatch<React.SetStateAction<Day>>;
     mode: ModeTypes;
@@ -24,8 +31,17 @@ export default function CalendarProvider({
 }: {
     children: React.ReactNode;
 }) {
-    const [mode, setMode] = useState<ModeTypes>("week");
-    const [day, setDay] = useState<Day>(now);
+    const [mode, setMode] = useState<ModeTypes>("day");
+    const [current, setCurrent] = useState<Day>(now());
+    const [day, setDay] = useState<Day>(current);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrent(now());
+        }, 60000); // 1 minute
+
+        return () => clearInterval(interval);
+    }, []);
 
     const events = useMemo(() => {
         return generateRandomEvents(day);
@@ -33,7 +49,7 @@ export default function CalendarProvider({
 
     return (
         <CalendarContext.Provider
-            value={{ day, setDay, mode, setMode, events }}
+            value={{ day, setDay, mode, setMode, events, now: current }}
         >
             {children}
         </CalendarContext.Provider>

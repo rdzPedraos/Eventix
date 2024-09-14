@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 
 import { useCalendarContext } from "../context";
-import { getWeekDays, now } from "../utils";
+import { getWeekDays } from "../utils";
 
 import Grid from "./Grid";
 import CurrentMoment from "./CurrentMoment";
@@ -10,11 +10,9 @@ import Hours from "./Hours";
 type Props = {};
 
 export default function Week({}: Props) {
-    const { day, events } = useCalendarContext();
+    const { now, day, events } = useCalendarContext();
     const week = useMemo(() => day.startOf("week"), [day]);
     const weekDays = useMemo(() => getWeekDays(week), [week]);
-
-    const today = now();
 
     return (
         <div className="flex-grow flex flex-col overflow-hidden border border-gray-200 rounded-lg">
@@ -26,7 +24,7 @@ export default function Week({}: Props) {
                 <div className="bg-white p-2 border-r border-gray-200 w-16"></div>
                 <div className="grid grid-cols-7">
                     {weekDays.map((day) => {
-                        const currentDay = day.isSame(today, "day");
+                        const currentDay = day.isSame(now, "day");
                         return (
                             <div
                                 key={day.toString()}

@@ -9,8 +9,8 @@ import CurrentMoment from "./CurrentMoment";
 type Props = {};
 
 export default function Day({}: Props) {
-    const { day, events } = useCalendarContext();
-    const currentDay = day.isSame(now(), "day");
+    const { now, day, events } = useCalendarContext();
+    const currentDay = day.isSame(now, "day");
 
     return (
         <div className="flex-grow flex flex-col overflow-hidden border border-gray-200 rounded-lg">

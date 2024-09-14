@@ -59,7 +59,6 @@ export default function Grid({ day, events }: Props) {
             },
         });
     });
-    console.log(eventosRenderizados);
 
     return (
         <div className="border-r border-gray-200 relative">

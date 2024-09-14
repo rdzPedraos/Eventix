@@ -16,15 +16,21 @@ type Props = {
 };
 
 export default function Event({
+    id,
     title,
+    description,
     color,
     startDate,
     endDate,
     zIndex,
     position,
 }: Props) {
+    const { setSelectedEvent } = useCalendarContext();
     const minutes = endDate.diff(startDate, "minute");
     const shortEvent = minutes <= 40;
+
+    const onClick = () =>
+        setSelectedEvent({ id, title, color, startDate, endDate, description });
 
     return (
         <div
@@ -36,7 +42,7 @@ export default function Event({
                 bottom: `${100 - position.bottom}%`,
                 width: `${position.width}%`,
             }}
-            /*onClick={() => setEventoSeleccionado(evento)}*/
+            onClick={onClick}
         >
             <div
                 className={`w-full h-full py-[2px] px-1 rounded-sm overflow-hidden text-xs ${color} border shadow-sm cursor-pointer transition-all hover:shadow-md`}

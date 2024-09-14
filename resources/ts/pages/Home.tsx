@@ -1,10 +1,9 @@
 import React from "react";
 import { Calendar } from "@/components";
 
-export default function Test() {
+export default function Home() {
     return (
-        <div className="bg-pink-400">
-            Hi!
+        <div className="h-screen">
             <Calendar />
         </div>
     );

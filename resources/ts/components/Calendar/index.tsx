@@ -1,9 +1,8 @@
-import { getMonth } from "@/utils/calendar";
 import React from "react";
+import { Week } from "./partials";
 
-export default function index() {
-    const days = getMonth();
+type Props = {};
 
-    console.table(days);
-    return <div>Calendar...</div>;
+export default function index({}: Props) {
+    return <Week />;
 }

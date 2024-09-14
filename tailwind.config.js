@@ -19,7 +19,15 @@ export default {
 
     },
     plugins: [
-        nextui()
+        nextui({
+            layout: {
+                borderWidth: {
+                    small: "1px",
+                    medium: "1.5px",
+                    large: "2px",
+                }
+            }
+        })
     ],
 }
 

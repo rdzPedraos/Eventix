@@ -51,9 +51,7 @@ export default function Week({}: Props) {
                     </div>
                 </div>
 
-                {/* Calendario */}
                 <div
-                    /*ref={scrollContainerRef}*/
                     className="flex-grow overflow-y-auto custom-scrollbar"
                     style={{
                         scrollbarWidth: "thin",

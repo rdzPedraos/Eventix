@@ -5,8 +5,7 @@ import React, {
     useMemo,
     useState,
 } from "react";
-import { Day, now } from "./utils";
-import generateRandomEvents from "./hook";
+import { Day, now, generateRandomEvents } from "./utils";
 
 type ModeTypes = "week" | "day";
 

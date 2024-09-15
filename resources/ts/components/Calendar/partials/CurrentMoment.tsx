@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo } from "react";
 
-import { Day, now } from "../utils";
 import { useCalendarContext } from "../context";
+import { DayType, ViewModeTypes } from "../utils/types";
 
 type Props = {};
 
-const getPosition = (current: Day, mode: "week" | "day") => {
+const getPosition = (current: DayType, mode: ViewModeTypes) => {
     switch (mode) {
         case "week":
             return {
@@ -23,7 +23,7 @@ const getPosition = (current: Day, mode: "week" | "day") => {
     }
 };
 
-const isCurrent = (current: Day, day: Day, mode: "week" | "day") => {
+const isCurrent = (current: DayType, day: DayType, mode: ViewModeTypes) => {
     switch (mode) {
         case "week":
             return day.isSame(current, "week");

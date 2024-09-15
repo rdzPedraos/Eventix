@@ -1,6 +1,4 @@
-import { Day, now } from "../utils";
 import React from "react";
-import Header from "./Header";
 import { useCalendarContext } from "../context";
 import Hours from "./Hours";
 import Grid from "./Grid";

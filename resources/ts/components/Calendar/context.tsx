@@ -5,24 +5,14 @@ import React, {
     useMemo,
     useState,
 } from "react";
-import { Day, now, generateRandomEvents } from "./utils";
-
-type ModeTypes = "week" | "day";
-
-type EventType = {
-    id: string;
-    title: string;
-    description: string;
-    color: string;
-    startDate: Day;
-    endDate: Day;
-};
+import { now, generateRandomEvents } from "./utils/calendar";
+import { DayType, EventType, ViewModeTypes } from "./utils/types";
 
 type ContexType = {
-    now: Day;
-    day: Day;
-    setDay: React.Dispatch<React.SetStateAction<Day>>;
-    mode: ModeTypes;
+    now: DayType;
+    day: DayType;
+    setDay: React.Dispatch<React.SetStateAction<DayType>>;
+    mode: ViewModeTypes;
     setMode: React.Dispatch<React.SetStateAction<"week" | "day">>;
     events: EventType[];
 
@@ -35,13 +25,15 @@ type ContexType = {
 const CalendarContext = createContext<ContexType>({} as ContexType);
 
 export default function CalendarProvider({
+    eventDetail,
     children,
 }: {
+    eventDetail: React.ReactNode;
     children: React.ReactNode;
 }) {
-    const [mode, setMode] = useState<ModeTypes>("day");
-    const [current, setCurrent] = useState<Day>(now());
-    const [day, setDay] = useState<Day>(current);
+    const [mode, setMode] = useState<ViewModeTypes>("week");
+    const [current, setCurrent] = useState<DayType>(now());
+    const [day, setDay] = useState<DayType>(current);
     const [selectedEvent, setSelectedEvent] = useState<EventType>();
 
     useEffect(() => {

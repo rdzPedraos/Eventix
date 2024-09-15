@@ -1,9 +1,10 @@
 import React from "react";
 import { useCalendarContext } from "../context";
 
+import Header from "./Header";
 import Week from "./Week";
 import Day from "./Day";
-import Header from "./Header";
+import Modal from "./Modal";
 
 function render() {
     const { mode } = useCalendarContext();
@@ -25,6 +26,7 @@ export default function Calendar() {
         <div className="h-full w-full bg-white flex flex-col">
             <Header />
             {render()}
+            <Modal />
         </div>
     );
 }

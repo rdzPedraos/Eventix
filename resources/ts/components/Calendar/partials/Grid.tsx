@@ -1,15 +1,16 @@
 import React from "react";
 import Event from "./Event";
-import { Day, hours } from "../utils";
+import { hours } from "../utils/calendar";
+import { DayType } from "../utils/types";
 
 type Props = {
-    day: Day;
+    day: DayType;
     events: {
         id: string;
         title: string;
         color: string;
-        startDate: Day;
-        endDate: Day;
+        startDate: DayType;
+        endDate: DayType;
     }[];
 };
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { hours } from "../utils";
+import { hours } from "../utils/calendar";
 
 type Props = {};
 

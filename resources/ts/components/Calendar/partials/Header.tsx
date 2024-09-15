@@ -3,23 +3,23 @@ import React from "react";
 import { Button, Select, SelectItem } from "@nextui-org/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 
-import { Day, now } from "../utils";
+import { DayType, ViewModeTypes } from "../utils/types";
 import { useCalendarContext } from "../context";
 
 type Props = {};
 
 export default function Header({}: Props) {
-    const { day, setDay, mode, setMode } = useCalendarContext();
+    const { now, day, setDay, mode, setMode } = useCalendarContext();
 
-    const goToToday = () => setDay(now());
+    const goToToday = () => setDay(now);
 
     const changeWeek = (direction: "left" | "right") => {
         const add = direction === "left" ? -1 : 1;
-        setDay((day: Day) => day.add(add, "week"));
+        setDay((day: DayType) => day.add(add, "week"));
     };
 
     const onChangeMode = (option) => {
-        const mode = option.target.value as "week" | "day";
+        const mode = option.target.value as ViewModeTypes;
         setMode(mode);
     };
 

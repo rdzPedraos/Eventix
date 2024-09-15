@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 
 import { useCalendarContext } from "../context";
-import { getWeekDays } from "../utils";
+import { getWeekDays } from "../utils/calendar";
 
 import Grid from "./Grid";
 import CurrentMoment from "./CurrentMoment";

@@ -1,11 +1,12 @@
 import "dayjs/locale/es";
 import days, { Dayjs } from "dayjs";
+import colors from "./colors";
 days.locale("es");
 
 export default days;
-export type Day = Dayjs;
 
 export const now = (): Dayjs => days();
+
 export const hours: Dayjs[] = new Array(24)
     .fill(0)
     .map((_, i) => days().startOf("day").add(i, "hour"));
@@ -37,16 +38,6 @@ export function getMonthDays(
 
     return daysMatrix;
 }
-
-/* OTHERS */
-
-export const colors = [
-    "bg-blue-100 border-blue-300",
-    "bg-green-100 border-green-300",
-    "bg-purple-100 border-purple-300",
-    "bg-red-100 border-red-300",
-    "bg-yellow-100 border-yellow-300",
-];
 
 export function generateRandomEvents(day: Day) {
     const week = day.startOf("week");

@@ -4,8 +4,8 @@ import { useCalendarContext } from "../context";
 import { getWeekDays } from "../utils/calendar";
 
 import Grid from "./Grid";
-import CurrentMoment from "./CurrentMoment";
 import Hours from "./Hours";
+import CurrentMoment from "./CurrentMoment";
 
 type Props = {};
 

@@ -1,14 +1,8 @@
 import React from "react";
 import { useCalendarContext } from "../context";
-import { DayType } from "../utils/types";
+import { EventType } from "../utils/types";
 
-type Props = {
-    id: string;
-    title: string;
-    description: string;
-    color: string;
-    startDate: DayType;
-    endDate: DayType;
+type Props = EventType & {
     zIndex: number;
     position: {
         top: number;

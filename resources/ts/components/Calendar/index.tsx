@@ -1,12 +1,15 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import Calendar from "./partials";
 import CalendarProvider from "./context";
+import { eventDetailType } from "./utils/types";
 
-type Props = {};
+type Props = {
+    eventDetail: eventDetailType;
+};
 
-export default function index({}: Props) {
+export default function index(props: Props) {
     return (
-        <CalendarProvider>
+        <CalendarProvider {...props}>
             <Calendar />
         </CalendarProvider>
     );

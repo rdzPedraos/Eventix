@@ -13,7 +13,8 @@ import { useCalendarContext } from "../context";
 type Props = {};
 
 export default function Modal({}: Props) {
-    const { selectedEvent, setSelectedEvent } = useCalendarContext();
+    const { selectedEvent, setSelectedEvent, eventDetail } =
+        useCalendarContext();
 
     const onOpenChange = (open: boolean) => {
         if (!open) setSelectedEvent(undefined);
@@ -25,28 +26,7 @@ export default function Modal({}: Props) {
             onOpenChange={onOpenChange}
         >
             <ModalContent>
-                {(onClose) => (
-                    <>
-                        <ModalHeader>{selectedEvent.title}</ModalHeader>
-                        <ModalBody>
-                            <p>
-                                <strong>Fecha:</strong>{" "}
-                                {selectedEvent.startDate.format("DD/MM/YYYY")}
-                            </p>
-                            <p>
-                                <strong>Hora:</strong>{" "}
-                                {selectedEvent.startDate.format("HH:mm")}
-                            </p>
-                            <p>
-                                <strong>Descripción:</strong>{" "}
-                                {selectedEvent.description}
-                            </p>
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button onClick={onClose}>Close</Button>
-                        </ModalFooter>
-                    </>
-                )}
+                {(onClose) => eventDetail({ event: selectedEvent, onClose })}
             </ModalContent>
         </ModalComponent>
     );

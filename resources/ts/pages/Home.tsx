@@ -1,10 +1,10 @@
 import React from "react";
-import { Calendar } from "@/components";
+import { Calendar, EventInfo } from "@/components";
 
 export default function Home() {
     return (
         <div className="h-screen">
-            <Calendar />
+            <Calendar eventDetail={EventInfo} />
         </div>
     );
 }

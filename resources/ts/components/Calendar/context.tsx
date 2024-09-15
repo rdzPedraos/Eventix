@@ -1,35 +1,44 @@
 import React, {
     createContext,
+    Dispatch,
+    ReactNode,
+    SetStateAction,
     useContext,
     useEffect,
     useMemo,
     useState,
 } from "react";
+
 import { now, generateRandomEvents } from "./utils/calendar";
-import { DayType, EventType, ViewModeTypes } from "./utils/types";
+
+import {
+    DayType,
+    eventDetailType,
+    EventType,
+    ViewModeTypes,
+} from "./utils/types";
 
 type ContexType = {
     now: DayType;
     day: DayType;
-    setDay: React.Dispatch<React.SetStateAction<DayType>>;
+    setDay: Dispatch<SetStateAction<DayType>>;
     mode: ViewModeTypes;
-    setMode: React.Dispatch<React.SetStateAction<"week" | "day">>;
+    setMode: Dispatch<SetStateAction<ViewModeTypes>>;
     events: EventType[];
 
-    eventDetail: React.ReactNode;
-    selectedEvent: EventType | undefined;
-    setSelectedEvent: React.Dispatch<
-        React.SetStateAction<EventType | undefined>
-    >;
+    eventDetail: eventDetailType;
+    selectedEvent: EventType;
+    setSelectedEvent: Dispatch<SetStateAction<EventType>>;
 };
+
 const CalendarContext = createContext<ContexType>({} as ContexType);
 
 export default function CalendarProvider({
-    eventDetail,
     children,
+    eventDetail,
 }: {
-    eventDetail: React.ReactNode;
-    children: React.ReactNode;
+    children: ReactNode;
+    eventDetail: eventDetailType;
 }) {
     const [mode, setMode] = useState<ViewModeTypes>("week");
     const [current, setCurrent] = useState<DayType>(now());

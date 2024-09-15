@@ -1,4 +1,5 @@
 import { Dayjs } from "dayjs";
+import { ReactElement } from "react";
 
 export type DayType = Dayjs;
 
@@ -12,3 +13,8 @@ export type EventType = {
     startDate: DayType;
     endDate: DayType;
 };
+
+export type eventDetailType = (props: {
+    event: EventType;
+    onClose: () => void;
+}) => ReactElement;

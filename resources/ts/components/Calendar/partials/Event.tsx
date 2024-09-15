@@ -31,7 +31,7 @@ export default function Event({
 
     return (
         <div
-            className="absolute pb-[4px] pr-[4px] min-h-[25px]"
+            className="absolute pb-[4px] pr-[4px] min-h-[25px] select-none"
             style={{
                 zIndex,
                 top: `${position.top}%`,

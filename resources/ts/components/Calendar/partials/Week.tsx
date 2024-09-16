@@ -17,10 +17,7 @@ export default function Week({}: Props) {
     return (
         <div className="flex-grow flex flex-col overflow-hidden border border-gray-200 rounded-lg">
             {/* Dias */}
-            <div
-                className="grid grid-cols-[auto_1fr] border-b border-gray-200 pr-2 shadow"
-                /*style={{ paddingRight: `${scrollbarWidth}px` }}*/
-            >
+            <div className="grid grid-cols-[auto_1fr] border-b border-gray-200">
                 <div className="bg-white p-2 border-r border-gray-200 w-16"></div>
                 <div className="grid grid-cols-7">
                     {weekDays.map((day) => {

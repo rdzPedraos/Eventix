@@ -22,12 +22,18 @@ class LoginController extends Controller
      */
     public function store(Request $request)
     {
-        $credentials = $request->validate([
+        $request->validate([
             "email" => ["required", "email"],
             "password" => ["required"],
+            "remember" => ["nullable", "boolean"],
         ]);
 
-        if (Auth::attempt($credentials)) {
+        if (
+            Auth::attempt(
+                $request->only("email", "password"),
+                $request->get("remember")
+            )
+        ) {
             $request->session()->regenerate();
             return redirect()->intended();
         }

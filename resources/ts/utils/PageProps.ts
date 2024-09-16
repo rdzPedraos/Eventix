@@ -6,6 +6,12 @@ export type Auth = {
     };
 };
 
+export type App = {
+    name: string;
+    locale: string;
+};
+
 export type PageProps = {
     auth: Auth;
+    app: App;
 };

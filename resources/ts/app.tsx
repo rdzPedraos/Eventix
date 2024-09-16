@@ -5,7 +5,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import { createInertiaApp } from "@inertiajs/react";
 import { NextUIProvider } from "@nextui-org/react";
-import Layout from "./Layout/AuthLayout";
+import Layout from "./Layout/UserLayout";
 
 createInertiaApp({
     resolve: (name) => {

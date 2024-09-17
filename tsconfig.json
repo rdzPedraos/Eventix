@@ -6,8 +6,10 @@
         "moduleResolution": "node",
         "types": ["vite/client"],
         "allowSyntheticDefaultImports": true,
+        "baseUrl": ".",
         "paths": {
-            "@/*": ["./resources/ts/*"]
+            "@/*": ["resources/ts/*"],
+            "@ziggyjs": ["vendor/tightenco/ziggy/src/js"]
         }
     }
 }

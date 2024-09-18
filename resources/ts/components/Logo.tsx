@@ -1,7 +1,8 @@
-import { PageProps } from "@/utils/PageProps";
-import { Link, usePage } from "@inertiajs/react";
-import { Image } from "@nextui-org/react";
 import React from "react";
+
+import { Image } from "@nextui-org/react";
+import { router, usePage } from "@inertiajs/react";
+import { PageProps } from "@/utils/PageProps";
 
 type Props = {
     size?: "sm" | "md" | "lg";
@@ -21,11 +22,15 @@ export default function Logo({
     onlyImage = false,
 }: Props) {
     const { app } = usePage<PageProps>().props;
-
     const s = sizes[size];
 
+    const onClick = () => router.get("/");
+
     return (
-        <Link href="/" className="flex gap-1 items-end">
+        <div
+            className="flex gap-1 items-end cursor-pointer hover:opacity-80"
+            onClick={onClick}
+        >
             <Image
                 className="mb-1"
                 src="/img/logo.png"
@@ -36,6 +41,6 @@ export default function Logo({
             {!onlyImage && (
                 <h1 className={`font-bold ${s.text} ${color}`}>{app.name}</h1>
             )}
-        </Link>
+        </div>
     );
 }

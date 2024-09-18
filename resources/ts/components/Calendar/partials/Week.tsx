@@ -48,10 +48,10 @@ export default function Week({}: Props) {
                     scrollbarColor: "rgba(203, 213, 225, 0.7) transparent",
                 }}
             >
-                <div className="relative grid grid-cols-[auto_1fr]">
+                <div className="grid grid-cols-[auto_1fr]">
                     <Hours />
 
-                    <div className="grid grid-cols-7">
+                    <div className="relative grid grid-cols-7">
                         {weekDays.map((day) => (
                             <Grid
                                 key={day.toString()}
@@ -59,10 +59,10 @@ export default function Week({}: Props) {
                                 events={events}
                             />
                         ))}
-                    </div>
 
-                    {/* Línea roja de hora actual */}
-                    {<CurrentMoment />}
+                        {/* Línea roja de hora actual */}
+                        {<CurrentMoment />}
+                    </div>
                 </div>
             </div>
         </div>

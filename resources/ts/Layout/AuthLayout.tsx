@@ -9,9 +9,10 @@ type Props = {
 export default function AuthLayout({ children }: Props) {
     return (
         <div className="md:grid grid-cols-2 h-screen items-center">
-            <div className="relative h-full flex items-center justify-center p-8 md:p-16">
+            <div className="relative h-full p-8 md:p-16 overflow-y-auto scrollbar-custom">
                 {children}
             </div>
+
             <div className="hidden md:block h-full bg-gradient-to-tr from-green-700 to-primary-800">
                 <div className="h-full flex flex-col items-center justify-center">
                     <Logo />

@@ -26,7 +26,7 @@ export default function Login({}: Props) {
         <>
             <Head title="Login" />
 
-            <div className="w-full max-w-xl">
+            <div className="h-full w-full max-w-xl flex flex-col justify-center">
                 <Logo size="sm" color="text-gray-700" />
 
                 <p className="my-4 text-gray-500">

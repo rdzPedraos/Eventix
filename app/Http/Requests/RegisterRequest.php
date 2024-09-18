@@ -28,7 +28,7 @@ class RegisterRequest extends FormRequest
         return [
             "document_type_code" => ["required", "exists:document_types,code"],
             "document_number" => ["required", "string", "unique:users,document_number"],
-            "email" => ["required", "email", "max:255", "unique:users,email", "max:1"],
+            "email" => ["required", "email", "max:255", "unique:users,email"],
             "phone" => ["required", "numeric"],
             "name" => ["required", "string", "max:255"],
             "last_name" => ["required", "string", "max:255"],

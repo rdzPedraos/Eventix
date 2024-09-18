@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\DocumentType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -23,8 +24,13 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $documentType = DocumentType::inRandomOrder()->first();
         return [
             'name' => fake()->name(),
+            "last_name" => fake()->lastName(),
+            "document_type_code" => $documentType->code,
+            "document_number" => fake()->unique()->regexify($documentType->regex),
+            "phone" => fake()->phoneNumber(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
@@ -37,7 +43,7 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
         ]);
     }

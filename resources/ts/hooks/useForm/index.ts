@@ -2,9 +2,11 @@ import { useForm as _useForm } from "@inertiajs/react";
 
 import { Method, VisitOptions } from "@inertiajs/core";
 import { InertiaFormProps } from "@inertiajs/react/types/useForm";
-import { InputTypes, useFormReturnType } from "./types";
+import { InputTypes, RegisterType, useFormReturnType } from "./types";
 
-const createRegister = <T extends object>(form: InertiaFormProps<T>) => {
+const createRegister = <T extends object>(
+    form: InertiaFormProps<T>
+): RegisterType<T> => {
     function getErrorMessage(key: keyof T) {
         const errorMessage = form.errors[key] as string;
         return {

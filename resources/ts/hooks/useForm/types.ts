@@ -3,7 +3,10 @@ import { Method, VisitOptions } from "@inertiajs/core";
 
 export type InputTypes = "text" | "checkbox" | "select";
 
-export type RegisterType = (key: string, type?: InputTypes) => any;
+export type RegisterType<T extends object> = (
+    key: keyof T,
+    type?: InputTypes
+) => object;
 
 export type useFormReturnType<T extends object> = InertiaFormProps<T> & {
     onSubmit: (
@@ -15,5 +18,5 @@ export type useFormReturnType<T extends object> = InertiaFormProps<T> & {
         errors: Partial<Record<keyof T, string>>,
         keyMap?: Record<string, keyof T>
     ) => void;
-    register: RegisterType;
+    register: RegisterType<T>;
 };

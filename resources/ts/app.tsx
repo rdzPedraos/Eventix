@@ -6,6 +6,7 @@ import { createRoot } from "react-dom/client";
 import { createInertiaApp } from "@inertiajs/react";
 import { NextUIProvider } from "@nextui-org/react";
 import Layout from "./Layout/UserLayout";
+import { Toaster } from "react-hot-toast";
 
 createInertiaApp({
     resolve: (name) => {
@@ -24,6 +25,7 @@ createInertiaApp({
     setup({ el, App, props }) {
         createRoot(el).render(
             <NextUIProvider>
+                <Toaster />
                 <App {...props} />
             </NextUIProvider>
         );

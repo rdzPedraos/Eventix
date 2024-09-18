@@ -16,7 +16,6 @@ type Props = {};
 
 export default function Form({}: Props) {
     const {
-        data,
         onSubmit,
         otpStatus,
         register,
@@ -29,7 +28,7 @@ export default function Form({}: Props) {
         {
             title: "Datos básicos",
             icon: <UserIcon width={20} />,
-            Component: <Basic register={register} data={data} />,
+            Component: <Basic register={register} />,
             onNext: sendOtp,
         },
         {

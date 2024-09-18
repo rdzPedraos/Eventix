@@ -20,7 +20,7 @@ return new class extends Migration
 
             $table->string("phone", 20)->after("email");
 
-            $table->foreign("document_type_code")->references("code")->on("document_types");
+            $table->foreign("document_type_code")->references("code")->on("document_types")->cascadeOnUpdate();
         });
     }
 

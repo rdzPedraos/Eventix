@@ -1,7 +1,4 @@
 export interface Country {
-  // columns
-  iso_code: string
-  name: string
   // relations
   document_types: DocumentType[]
 }
@@ -10,10 +7,7 @@ export interface DocumentType {
   // columns
   code: string
   name: string
-  country_iso_code: string
   regex: string
-  // relations
-  country: Country
 }
 
 export interface User {

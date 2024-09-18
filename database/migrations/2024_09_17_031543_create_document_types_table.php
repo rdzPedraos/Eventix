@@ -14,10 +14,7 @@ return new class extends Migration
         Schema::create('document_types', function (Blueprint $table) {
             $table->char("code", 10)->primary();
             $table->char("name", 255);
-            $table->char("country_iso_code", 3);
             $table->char("regex", 100);
-
-            $table->foreign("country_iso_code")->references("iso_code")->on("countries");
         });
     }
 

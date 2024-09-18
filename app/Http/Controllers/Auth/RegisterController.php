@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
-use App\Models\Country;
 use App\Models\DocumentType;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -17,10 +16,9 @@ class RegisterController extends Controller
      */
     public function index()
     {
-        $countries = Country::all();
         $documentTypes = DocumentType::all();
 
-        return Inertia::render("Auth/Register", compact("countries", "documentTypes"));
+        return Inertia::render("Auth/Register", compact("documentTypes"));
     }
 
 

@@ -10,7 +10,6 @@ import { triggerConfetti } from "@/utils/Confetti";
 export default function hook() {
     const { register, submit, data, setErrors, setData } = useForm({
         email: "",
-        country_iso_code: "",
         document_type_code: "",
         document_number: "",
         name: "",

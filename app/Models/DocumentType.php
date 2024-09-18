@@ -17,8 +17,4 @@ class DocumentType extends Model
 
 
     /* RELATIONS */
-    public function country()
-    {
-        return $this->belongsTo(Country::class);
-    }
 }

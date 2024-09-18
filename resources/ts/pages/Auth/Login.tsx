@@ -3,8 +3,7 @@ import { useForm } from "@/hooks/useForm";
 import { Button, Checkbox, Input } from "@nextui-org/react";
 import useForm from "@/hooks/useForm";
 import AuthLayout from "@/Layout/AuthLayout";
-import { Head, Logo } from "@/components";
-import PasswordInput from "@/components/PasswordInput";
+import { Head, Logo, PasswordInput } from "@/components";
 
 type Props = {};
 
@@ -14,9 +13,6 @@ export default function Login({}: Props) {
         password: "",
         remember: false,
     });
-
-    const [isVisible, setIsVisible] = useState(false);
-    const toggleVisibility = () => setIsVisible(!isVisible);
 
     return (
         <>

@@ -1,6 +1,6 @@
 import React from "react";
 import { RegisterType } from "@/hooks/useForm/types";
-import PasswordInput from "@/components/PasswordInput";
+import { PasswordInput } from "@/components";
 
 type Props = {
     register: RegisterType;

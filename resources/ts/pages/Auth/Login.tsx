@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "@/hooks/useForm";
 import { Button, Checkbox, Input } from "@nextui-org/react";
+import useForm from "@/hooks/useForm";
 import AuthLayout from "@/Layout/AuthLayout";
 import { Head, Logo } from "@/components";
 import PasswordInput from "@/components/PasswordInput";

@@ -52,7 +52,7 @@ const createRegister = <T extends object>(form: InertiaFormProps<T>) => {
     return callback;
 };
 
-export function useForm<T extends object>(
+export default function useForm<T extends object>(
     initialState: T
 ): useFormReturnType<T> {
     const form = _useForm<T>(initialState);

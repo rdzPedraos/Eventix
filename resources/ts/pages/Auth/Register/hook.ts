@@ -4,7 +4,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { route } from "@ziggyjs";
 
-import { useForm } from "@/hooks/useForm";
+import useForm from "@/hooks/useForm";
 import { triggerConfetti } from "@/utils/Confetti";
 
 export default function hook() {

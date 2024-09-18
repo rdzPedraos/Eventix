@@ -1,6 +1,11 @@
-import React, { useState } from "react";
-import { useForm } from "@/hooks/useForm";
+import React from "react";
+
+import { Link } from "@inertiajs/react";
+import { route } from "@ziggyjs";
+
 import { Button, Checkbox, Input } from "@nextui-org/react";
+import { ArrowRightIcon } from "@heroicons/react/24/solid";
+
 import useForm from "@/hooks/useForm";
 import AuthLayout from "@/Layout/AuthLayout";
 import { Head, Logo, PasswordInput } from "@/components";
@@ -8,7 +13,7 @@ import { Head, Logo, PasswordInput } from "@/components";
 type Props = {};
 
 export default function Login({}: Props) {
-    const { register, onSubmit, errors } = useForm({
+    const { register, onSubmit } = useForm({
         email: "",
         password: "",
         remember: false,
@@ -56,13 +61,14 @@ export default function Login({}: Props) {
                             </Checkbox>
 
                             <Link
-                                href="/password/reset"
+                                href="#"
                                 className="text-primary hover:underline"
                             >
                                 ¿Olvidaste tu contraseña?
                             </Link>
                         </div>
                     </div>
+
                     <Button
                         variant="shadow"
                         color="primary"
@@ -75,7 +81,7 @@ export default function Login({}: Props) {
                 </form>
 
                 <Link
-                    href="/register"
+                    href={route("register.index")}
                     className="absolute bottom-10 left-0 right-0 text-center text-default-500 hover:underline"
                 >
                     ¿No tienes cuenta? <strong>Regístrate</strong>

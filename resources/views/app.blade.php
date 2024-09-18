@@ -7,10 +7,10 @@
 
     @vite('resources/ts/app.tsx')
     @inertiaHead
+    @routes
 </head>
 
 <body>
-    @routes
     @inertia
 </body>
 

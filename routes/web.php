@@ -14,4 +14,7 @@ Route::middleware("auth")->group(function () {
 
 Route::get('/', function () {
     return Inertia::render("Home");
-});
+})->name("home");
+
+Route::post("otp/send", [OtpController::class, "create"])->name("otp.send");
+Route::post("otp/verify", [OtpController::class, "verify"])->name("otp.verify");

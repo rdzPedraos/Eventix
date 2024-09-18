@@ -3,12 +3,7 @@ import { useForm } from "@/hooks/useForm";
 import { Button, Checkbox, Input } from "@nextui-org/react";
 import AuthLayout from "@/Layout/AuthLayout";
 import { Head, Logo } from "@/components";
-import {
-    ArrowRightIcon,
-    EyeIcon,
-    EyeSlashIcon,
-} from "@heroicons/react/24/solid";
-import { Link } from "@inertiajs/react";
+import PasswordInput from "@/components/PasswordInput";
 
 type Props = {};
 
@@ -46,36 +41,13 @@ export default function Login({}: Props) {
                             isRequired
                         />
 
-                        <Input
+                        <PasswordInput
                             {...register("password")}
-                            type={isVisible ? "text" : "password"}
                             label="Password"
                             variant="underlined"
                             size="sm"
                             color="primary"
                             isRequired
-                            endContent={
-                                <button
-                                    className="focus:outline-none"
-                                    type="button"
-                                    onClick={toggleVisibility}
-                                    aria-label="toggle password visibility"
-                                >
-                                    {isVisible ? (
-                                        <EyeSlashIcon
-                                            height={20}
-                                            width={20}
-                                            className="text-2xl text-default-400 pointer-events-none"
-                                        />
-                                    ) : (
-                                        <EyeIcon
-                                            height={20}
-                                            width={20}
-                                            className="text-2xl text-default-400 pointer-events-none"
-                                        />
-                                    )}
-                                </button>
-                            }
                         />
 
                         <div className="flex justify-between">

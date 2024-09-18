@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Controllers\Auth\OtpController;
 use App\Models\DocumentType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Crypt;
@@ -44,14 +43,14 @@ class RegisterRequest extends FormRequest
             function (Validator $validator) {
                 $regex = DocumentType::find($this->document_type_code)->regex;
                 if (!preg_match("/$regex/", $this->document_number)) {
-                    $validator->errors()->add("document_number", "The document number is invalid.");
+                    $validator->errors()->add("document_number", __("validation.regex"));
                 }
 
                 $verify_otp = Crypt::decrypt($this->input("verify_otp"));
                 $otp = $this->input("otp");
 
                 if ($verify_otp != $otp) {
-                    $validator->errors()->add("otp", "The otp is invalid.");
+                    $validator->errors()->add("otp", __("validation.code.invalid"));
                 }
             }
         ];

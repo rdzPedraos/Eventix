@@ -35,15 +35,11 @@ class OtpController extends Controller
         $otp = cache()->get($cache_key);
 
         if (!$otp) {
-            throw ValidationException::withMessages([
-                "otp" => "The otp is expired.",
-            ]);
+            throw ValidationException::withMessages(["otp" => __("validation.code.expired")]);
         }
 
         if ($otp != $request->otp) {
-            throw ValidationException::withMessages([
-                "otp" => "The otp is invalid.",
-            ]);
+            throw ValidationException::withMessages(["otp" => __("validation.code.invalid")]);
         }
 
         cache()->forget($cache_key);

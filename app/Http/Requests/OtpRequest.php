@@ -54,4 +54,13 @@ class OtpRequest extends FormRequest
 
         return $rules;
     }
+
+    public function attributes(): array
+    {
+        return [
+            "source" => $this->input("channel") === "email"
+                ? __("validation.attributes.email")
+                : __("validation.attributes.phone"),
+        ];
+    }
 }

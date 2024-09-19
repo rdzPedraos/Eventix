@@ -6,7 +6,7 @@ import OtpBox from "@/components/OtpBox";
 
 type Props = {
     register: RegisterType<RegisterFormFields>;
-    sendCode: () => Promise<boolean>;
+    sendCode: (force: boolean) => Promise<boolean>;
     editable: boolean;
 };
 
@@ -17,7 +17,7 @@ export default function Email({ register, sendCode, editable }: Props) {
         if (loading) return;
 
         setLoading(true);
-        await sendCode();
+        await sendCode(true);
         setLoading(false);
     };
 

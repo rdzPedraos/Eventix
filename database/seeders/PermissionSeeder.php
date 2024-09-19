@@ -47,8 +47,6 @@ class PermissionSeeder extends Seeder
             PermissionEnum::ACADEMIC_ROLES_LIST_REQUEST,
             PermissionEnum::ACADEMIC_ROLES_APPROVE,
         ],
-
-        RoleEnum::SUPER_ADMIN->value => [],
     ];
 
     /**
@@ -65,6 +63,8 @@ class PermissionSeeder extends Seeder
             ]);
         }
 
+        $rol = Role::firstOrCreate(["name" => RoleEnum::SUPER_ADMIN->value]);
+        $rol->syncPermissions(PermissionEnum::cases());
 
         foreach (self::ROLES as $name => $permissions) {
             $role = Role::firstOrCreate([

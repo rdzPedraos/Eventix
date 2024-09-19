@@ -8,15 +8,7 @@ export default {
         "./resources/**/*.blade.php",
         "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
     ],
-    theme: {
-        extend: {
-            colors: {
-                primary: "#00594E",
-                secondary: "#b4a169"
-            },
-        },
 
-    },
     plugins: [
         nextui({
             layout: {
@@ -25,28 +17,41 @@ export default {
                     medium: "1.5px",
                     large: "2px",
                 },
-
-                navbar: {
-                    color: "blue",
-                }
             },
 
             themes: {
                 light: {
                     colors: {
                         primary: {
-                            background: "#00594E",
+                            background: "#00594f",
+                            DEFAULT: "#00594f",
 
-                            50: "#E6F4F3",
-                            100: "#C0E6E0",
-                            200: "#99D8CD",
-                            300: "#73CAB9",
-                            400: "#4DBCA6",
-                            500: "#00594E",
-                            600: "#3A8B7E",
-                            700: "#2D6D63",
-                            800: "#1F4F48",
-                            900: "#12322D",
+                            50: "#eaeff2",
+                            100: "#d0e0df",
+                            200: "#b8d2cf",
+                            300: "#a3c3be",
+                            400: "#9bc1bd",
+                            500: "#72a39d",
+                            600: "#5f9591",
+                            700: "#46877f",
+                            800: "#2f786f",
+                            900: "#18675d",
+                        },
+
+                        secondary: {
+                            background: "#b5a260",
+                            DEFAULT: "#b5a260",
+
+                            50: "#f9f6f1",
+                            100: "#f2eee3",
+                            200: "#e4dec6",
+                            300: "#ded5b8",
+                            400: "#d6cda6",
+                            500: "#d0c399",
+                            600: "#c8ba8b",
+                            700: "#c2b17d",
+                            800: "#bea970",
+                            900: "#b5a260",
                         },
                     },
                 }

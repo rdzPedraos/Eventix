@@ -20,19 +20,19 @@ export const MenuMap = [
     },
     {
         label: "Roles académicos",
-        to: "academic-role.index",
+        to: "home", //"academic-role.index",
         Icon: AcademicCapIcon,
         permission: "academic_roles.check",
     },
     {
         label: "Espacios académicos",
-        to: "place.index",
+        to: "home", //"place.index",
         Icon: MapPinIcon,
         permission: "places.edit",
     },
     {
         label: "Roles de sistema",
-        to: "system-role.index",
+        to: "home", //"system-role.index",
         Icon: ShieldCheckIcon,
         permission: "system_roles.list",
     },

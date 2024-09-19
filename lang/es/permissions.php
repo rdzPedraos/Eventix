@@ -1,7 +1,12 @@
 <?php
 
 return [
-    'activity.register' => "Registrar actividad",
+    'roles' => [
+        'super_admin' => 'Super administrador',
+        'admin' => 'Administrador',
+        'bienestar' => 'Bienestar',
+    ],
+
     'activity.check' => "Revisar actividad",
     'activity.create' => "Crear actividad",
     'activity.add_editor' => "Agregar editor",
@@ -11,7 +16,6 @@ return [
     'activity.remove_all' => "Remover todas las actividades",
     'activity.publish' => "Publicar actividad",
 
-    'survey.answer' => "Responder encuesta",
     'survey.check' => "Revisar encuesta",
     'survey.create' => "Crear encuesta",
     'survey.edit' => "Editar encuesta",

@@ -13,21 +13,24 @@ import { Logo, Profile } from "@/components";
 type Props = {
     user: PageProps["auth"]["user"];
     openSidebar: boolean;
-    setOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
+    setOpenSidebar: React.Dispatch<React.SetStateAction<boolean>> | false;
 };
 
 export default function NavBar({ user, openSidebar, setOpenSidebar }: Props) {
-    const toggleSidebar = () => setOpenSidebar((s) => !s);
-
     return (
         <Navbar maxWidth="full" position="static" className="bg-primary">
-            <button onClick={toggleSidebar} className="text-white mr-2">
-                {openSidebar ? (
-                    <XMarkIcon width={30} />
-                ) : (
-                    <Bars3Icon width={30} />
-                )}
-            </button>
+            {setOpenSidebar && (
+                <button
+                    onClick={() => setOpenSidebar((s) => !s)}
+                    className="text-white mr-2"
+                >
+                    {openSidebar ? (
+                        <XMarkIcon width={30} />
+                    ) : (
+                        <Bars3Icon width={30} />
+                    )}
+                </button>
+            )}
 
             <NavbarBrand>
                 <Logo />

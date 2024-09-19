@@ -23,7 +23,7 @@ export default function AuthLayout({
             <NavBar
                 user={user}
                 openSidebar={openSideBar}
-                setOpenSidebar={setOpenSidebar}
+                setOpenSidebar={hasPermissions ? setOpenSidebar : false}
             />
 
             <div className="flex overflow-hidden">

@@ -25,7 +25,6 @@ class PermissionSeeder extends Seeder
             PermissionEnum::SURVEY_PUBLISH,
             PermissionEnum::ATTENDANCE_CHECK,
             PermissionEnum::ATTENDANCE_REPORT,
-            PermissionEnum::PLACES_SHOW,
         ],
 
         RoleEnum::BIENESTAR->value => [
@@ -42,11 +41,9 @@ class PermissionSeeder extends Seeder
             PermissionEnum::SURVEY_PUBLISH,
             PermissionEnum::ATTENDANCE_CHECK,
             PermissionEnum::ATTENDANCE_REPORT,
-            PermissionEnum::PLACES_SHOW,
-
-            PermissionEnum::PLACES_CREATE,
             PermissionEnum::PLACES_EDIT,
             PermissionEnum::PLACES_DELETE,
+            PermissionEnum::ACADEMIC_ROLES_CHECK,
             PermissionEnum::ACADEMIC_ROLES_LIST_REQUEST,
             PermissionEnum::ACADEMIC_ROLES_APPROVE,
         ],

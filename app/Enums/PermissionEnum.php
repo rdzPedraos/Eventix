@@ -26,11 +26,10 @@ enum PermissionEnum: string
     case ATTENDANCE_CHECK = 'attendance.check';
     case ATTENDANCE_REPORT = 'attendance.report';
 
-    case PLACES_SHOW = 'places.show';
-    case PLACES_CREATE = 'places.create';
     case PLACES_EDIT = 'places.edit';
     case PLACES_DELETE = 'places.delete';
 
+    case ACADEMIC_ROLES_CHECK = 'academic_roles.check';
     case ACADEMIC_ROLES_LIST_REQUEST = 'academic_roles.list_request';
     case ACADEMIC_ROLES_APPROVE = 'academic_roles.approve';
 

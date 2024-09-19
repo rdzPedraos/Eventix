@@ -27,8 +27,6 @@ return [
     'attendance.check' => "Revisar asistencia",
     'attendance.report' => "Generar reporte de asistencia",
 
-    'places.show' => "Mostrar espacios académicos",
-    'places.create' => "Crear espacio académico",
     'places.edit' => "Editar espacio académico",
     'places.delete' => "Eliminar espacio académico",
 

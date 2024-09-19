@@ -1,9 +1,11 @@
-import { Logo, Profile } from "@/components";
-import { User } from "@/utils/PageProps";
-import { CursorArrowRaysIcon } from "@heroicons/react/24/solid";
-import { Link } from "@inertiajs/react";
-import { Navbar, NavbarBrand, NavbarContent } from "@nextui-org/react";
 import React from "react";
+import { Link } from "@inertiajs/react";
+
+import { CursorArrowRaysIcon } from "@heroicons/react/24/solid";
+import { Navbar, NavbarBrand, NavbarContent } from "@nextui-org/react";
+
+import { User } from "@/types/PageProps";
+import { Logo, Profile } from "@/components";
 
 type Props = {
     user: User | null;

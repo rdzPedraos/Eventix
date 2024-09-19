@@ -1,4 +1,4 @@
-import { Auth } from "@/utils/PageProps";
+import React from "react";
 import {
     Avatar,
     Dropdown,
@@ -6,7 +6,7 @@ import {
     DropdownMenu,
     DropdownTrigger,
 } from "@nextui-org/react";
-import React from "react";
+import { Auth } from "@/types/PageProps";
 
 type Props = {
     user: Auth["user"];

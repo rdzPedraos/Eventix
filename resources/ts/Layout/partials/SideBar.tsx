@@ -1,5 +1,5 @@
-import { Permissions } from "@/utils/PageProps";
 import React from "react";
+import { Permissions } from "@/types/PageProps";
 
 type Props = {
     permissions: Permissions;

@@ -1,9 +1,9 @@
 import React from "react";
-import { RegisterType } from "@/hooks/useForm/types";
+import { RegisterType } from "@/hooks/useForm";
 import { PasswordInput } from "@/components";
 
 type Props = {
-    register: RegisterType;
+    register: RegisterType<RegisterFormFields>;
 };
 
 export default function Password({ register }: Props) {

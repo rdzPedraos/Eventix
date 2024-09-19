@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { ArrowPathRoundedSquareIcon } from "@heroicons/react/24/solid";
 
-import { RegisterType } from "@/hooks/useForm/types";
+import { RegisterType } from "@/hooks/useForm";
 import OtpBox from "@/components/OtpBox";
 
 type Props = {
-    register: RegisterType;
+    register: RegisterType<RegisterFormFields>;
     sendCode: () => Promise<boolean>;
     editable: boolean;
 };

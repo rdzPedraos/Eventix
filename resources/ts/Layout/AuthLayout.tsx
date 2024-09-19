@@ -1,8 +1,6 @@
 import React from "react";
 import { usePage } from "@inertiajs/react";
 
-import { PageProps } from "@/types/PageProps";
-
 import NavBar from "./partials/NavBar";
 import Sidebar from "./partials/Sidebar";
 

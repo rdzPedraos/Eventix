@@ -4,11 +4,10 @@ import { Link } from "@inertiajs/react";
 import { CursorArrowRaysIcon } from "@heroicons/react/24/solid";
 import { Navbar, NavbarBrand, NavbarContent } from "@nextui-org/react";
 
-import { User } from "@/types/PageProps";
 import { Logo, Profile } from "@/components";
 
 type Props = {
-    user: User | null;
+    user: PageProps["auth"]["user"];
 };
 
 export default function NavBar({ user }: Props) {

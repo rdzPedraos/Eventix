@@ -8,18 +8,8 @@ import useForm from "@/hooks/useForm";
 import { triggerConfetti } from "@/utils/Confetti";
 
 export default function hook() {
-    const { register, submit, data, setErrors, setData } = useForm({
-        email: "",
-        document_type_code: "",
-        document_number: "",
-        name: "",
-        last_name: "",
-        phone: "",
-        otp: "",
-        verify_otp: "",
-        password: "",
-        verify_password: "",
-    });
+    const { register, submit, data, setErrors, setData } =
+        useForm<RegisterFormFields>({} as RegisterFormFields);
 
     const [otpStatus, setOtpStatus] = useState<"empty" | "sent" | "verified">(
         "empty"

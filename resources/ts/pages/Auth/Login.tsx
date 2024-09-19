@@ -13,11 +13,7 @@ import { Head, Logo, PasswordInput } from "@/components";
 type Props = {};
 
 export default function Login({}: Props) {
-    const { register, onSubmit } = useForm({
-        email: "",
-        password: "",
-        remember: false,
-    });
+    const { register, onSubmit } = useForm({} as LoginFormFields);
 
     return (
         <>

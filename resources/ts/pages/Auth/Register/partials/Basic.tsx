@@ -1,14 +1,13 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { usePage } from "@inertiajs/react";
 
 import { Input, Select, SelectItem } from "@nextui-org/react";
-import { PageProps } from "@/utils/PageProps";
 
-import { RegisterType } from "@/hooks/useForm/types";
+import { RegisterType } from "@/hooks/useForm";
 import { DocumentType } from "@/types/models";
 
 type Props = {
-    register: RegisterType;
+    register: RegisterType<RegisterFormFields>;
 };
 
 export default function Basic({ register }: Props) {

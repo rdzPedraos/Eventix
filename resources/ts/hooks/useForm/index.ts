@@ -87,3 +87,5 @@ export default function useForm<T extends object>(
         setErrors,
     };
 }
+
+export type { InputTypes, RegisterType, useFormReturnType };

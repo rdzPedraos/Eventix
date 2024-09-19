@@ -3,8 +3,6 @@ import React from "react";
 import { Image } from "@nextui-org/react";
 import { router, usePage } from "@inertiajs/react";
 
-import { PageProps } from "@/types/PageProps";
-
 type Props = {
     size?: "sm" | "md" | "lg";
     color?: string;

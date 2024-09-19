@@ -1,6 +1,5 @@
 import React from "react";
 import { Head as _Head, usePage } from "@inertiajs/react";
-import { PageProps } from "@/types/PageProps";
 
 type Props = {
     title: string;

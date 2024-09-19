@@ -6,10 +6,9 @@ import {
     DropdownMenu,
     DropdownTrigger,
 } from "@nextui-org/react";
-import { Auth } from "@/types/PageProps";
 
 type Props = {
-    user: Auth["user"];
+    user: PageProps["auth"]["user"];
 };
 
 export default function Profile({ user }: Props) {

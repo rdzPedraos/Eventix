@@ -5,7 +5,8 @@ use App\Http\Controllers\Auth\OtpController;
 use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 
-Route::inertia("/", "Home")->name("home");
+Route::get("/", fn() => redirect()->route("home"));
+Route::inertia("/home", "Home")->name("home");
 
 Route::post("otp/send", [OtpController::class, "create"])->name("otp.send");
 Route::post("otp/verify", [OtpController::class, "verify"])->name("otp.verify");

@@ -6,6 +6,7 @@ use App\Enums\RoleEnum;
 use App\Models\Activity;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 
 class TestingSeeder extends Seeder
 {
@@ -14,6 +15,10 @@ class TestingSeeder extends Seeder
      */
     public function run(): void
     {
+        //delete all files and ocntent, set empty disk. NOTE WITHOUT REMOVE FOLDER AND .GITIGNORE FILE. AVOID DELETE GITIGNORE FILE
+        $disk = Storage::disk('activities');
+        $disk->delete(array_filter($disk->allFiles(), fn($path) => $path !== ".gitignore"));
+
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@test.com',

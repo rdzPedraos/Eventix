@@ -22,7 +22,8 @@ export default function Day({}: Props) {
                     key={day.toString()}
                     className={`bg-white p-2 text-center border-r border-gray-200 ${currentDay ? "bg-blue-50" : ""}`}
                 >
-                    <div className="font-medium">{day.format("dddd")}</div>
+                    <span className="text-sm">{day.format("dddd")}</span>
+
                     <div
                         className={`text-xl ${currentDay ? "bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center mx-auto" : ""}`}
                     >
@@ -32,7 +33,7 @@ export default function Day({}: Props) {
             </div>
 
             <div
-                className="flex-grow overflow-y-auto custom-scrollbar"
+                className="flex-grow overflow-y-auto"
                 style={{
                     scrollbarWidth: "thin",
                     scrollbarColor: "rgba(203, 213, 225, 0.7) transparent",

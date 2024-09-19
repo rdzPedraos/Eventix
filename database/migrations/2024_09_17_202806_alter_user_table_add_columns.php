@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string("last_name", 25)->after("name");
 
             $table->string("document_type_code", 10)->after("id");
-            $table->string("document_number", 20)->unique()->after("document_type_code");
+            $table->string("document_number", 20)->after("document_type_code");
 
             $table->string("phone", 20)->after("email");
 

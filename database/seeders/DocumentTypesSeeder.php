@@ -12,7 +12,7 @@ class DocumentTypesSeeder extends Seeder
      */
     public function run(): void
     {
-        DocumentType::insert([
+        $dt = [
             [
                 "code" => "CC",
                 "name" => "Cédula de Ciudadanía",
@@ -38,6 +38,10 @@ class DocumentTypesSeeder extends Seeder
                 "name" => "OTRO",
                 "regex" => "^(\d{6,10})$",
             ]
-        ]);
+        ];
+
+        foreach ($dt as $d) {
+            DocumentType::firstOrCreate($d);
+        }
     }
 }

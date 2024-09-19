@@ -4,7 +4,6 @@ namespace App\Enums;
 
 enum PermissionEnum: string
 {
-    case ACTIVITY_REGISTER = 'activity.register';
     case ACTIVITY_CHECK = 'activity.check';
     case ACTIVITY_CREATE = 'activity.create';
     case ACTIVITY_ADD_EDITOR = 'activity.add_editor';

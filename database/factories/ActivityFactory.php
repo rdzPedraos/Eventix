@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\ActivityStatusEnum;
+use App\Enums\PermissionEnum;
 use App\Enums\RoleEnum;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -20,13 +21,16 @@ class ActivityFactory extends Factory
      */
     public function definition(): array
     {
+        //get random user with permission to create activities
+        $created_by = User::permission(PermissionEnum::ACTIVITY_CREATE)->inRandomOrder()->first()->id;
+
         return [
             "name" => fake()->text(25),
             "description" => fake()->text(255),
             "image" => fake()->image(Storage::disk("activities")->path("")),
             "status" => fake()->randomElement(ActivityStatusEnum::cases()),
             "color" => fake()->hexColor(),
-            "created_by" => User::inRandomOrder()->first(),
+            "created_by" => $created_by,
         ];
     }
 }

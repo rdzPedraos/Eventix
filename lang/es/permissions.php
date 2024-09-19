@@ -2,7 +2,7 @@
 
 return [
     'roles' => [
-        'super_admin' => 'Super administrador',
+        'super-admin' => 'Super administrador',
         'admin' => 'Administrador',
         'bienestar' => 'Bienestar',
     ],

@@ -41,6 +41,7 @@ export default function AuthLayout({
                     <footer className="p-1 shadow text-center text-sm bg-slate-50 text-gray-500 bottom-0">
                         {name}, 2024 | Creado por
                         <a
+                            target="_blank"
                             href="https://github.com/rdzPedraos"
                             className="underline text-primary ml-1"
                         >

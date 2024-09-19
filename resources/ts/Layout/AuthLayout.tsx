@@ -2,7 +2,7 @@ import React from "react";
 import { usePage } from "@inertiajs/react";
 
 import NavBar from "./partials/NavBar";
-import Sidebar from "./partials/Sidebar";
+import SideBar from "./partials/SideBar";
 
 export default function AuthLayout({
     children,
@@ -15,7 +15,7 @@ export default function AuthLayout({
         <>
             <NavBar user={auth?.user} />
             <main>
-                {auth && <Sidebar permissions={auth.permissions} />}
+                {auth && <SideBar permissions={auth.permissions} />}
                 {children}
             </main>
         </>

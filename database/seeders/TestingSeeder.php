@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Enums\RoleEnum;
+use App\Models\Activity;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -32,5 +33,7 @@ class TestingSeeder extends Seeder
             'name' => 'Super Admin',
             "email" => "super@test.com"
         ])->assignRole(RoleEnum::SUPER_ADMIN->value);
+
+        Activity::factory(10)->create();
     }
 }

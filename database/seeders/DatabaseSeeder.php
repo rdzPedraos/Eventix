@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
         $this->call([
             DocumentTypesSeeder::class,
+            PermissionSeeder::class,
         ]);
 
         if (!app()->environment('production')) {

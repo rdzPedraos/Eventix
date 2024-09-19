@@ -59,11 +59,11 @@ class PermissionSeeder extends Seeder
 
         foreach (PermissionEnum::cases() as $permission) {
             Permission::firstOrCreate([
-                'name' => $permission->value
+                'name' => $permission
             ]);
         }
 
-        $rol = Role::firstOrCreate(["name" => RoleEnum::SUPER_ADMIN->value]);
+        $rol = Role::firstOrCreate(["name" => RoleEnum::SUPER_ADMIN]);
         $rol->syncPermissions(PermissionEnum::cases());
 
         foreach (self::ROLES as $name => $permissions) {

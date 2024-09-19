@@ -22,17 +22,17 @@ class TestingSeeder extends Seeder
         User::factory()->create([
             'name' => 'Admin User',
             'email' => 'admin@test.com',
-        ])->assignRole(RoleEnum::ADMIN->value);
+        ])->assignRole(RoleEnum::ADMIN);
 
         User::factory()->create([
             'name' => 'Bienestar User',
             'email' => 'bienestar@test.com',
-        ])->assignRole(RoleEnum::BIENESTAR->value);
+        ])->assignRole(RoleEnum::BIENESTAR);
 
         User::factory()->create([
             'name' => 'Super Admin',
             "email" => "super@test.com"
-        ])->assignRole(RoleEnum::SUPER_ADMIN->value);
+        ])->assignRole(RoleEnum::SUPER_ADMIN);
 
         Activity::factory(10)->create();
     }

@@ -1,30 +1,71 @@
+import { PageProps } from "@/utils/PageProps";
+import { Link, usePage } from "@inertiajs/react";
+import {
+    Avatar,
+    Dropdown,
+    DropdownItem,
+    DropdownMenu,
+    DropdownTrigger,
+    Image,
+    Navbar,
+    NavbarBrand,
+    NavbarContent,
+} from "@nextui-org/react";
 import React from "react";
 import Logo from "../components/Logo";
-import { Image } from "@nextui-org/react";
+import { CursorArrowRaysIcon } from "@heroicons/react/24/solid";
 
-type Props = {
+export default function AuthLayout({
+    children,
+}: {
     children: React.ReactNode;
-};
+}) {
+    const { auth } = usePage<PageProps>().props;
 
-export default function AuthLayout({ children }: Props) {
     return (
-        <div className="md:grid grid-cols-2 h-screen items-center">
-            <div className="relative h-full p-8 md:p-16 overflow-y-auto scrollbar-custom">
-                {children}
-            </div>
-
-            <div className="hidden md:block h-full bg-gradient-to-tr from-green-700 to-primary-800">
-                <div className="h-full flex flex-col items-center justify-center">
+        <>
+            <Navbar maxWidth="full" position="static" className="bg-primary">
+                <NavbarBrand>
                     <Logo />
+                </NavbarBrand>
 
-                    <Image
-                        src="img/login.svg"
-                        className="-mt-14"
-                        width={600}
-                        alt="animacion de calendario"
-                    />
-                </div>
-            </div>
-        </div>
+                {auth ? (
+                    <NavbarContent justify="end">
+                        <Dropdown>
+                            <DropdownTrigger>
+                                <Avatar isBordered color="primary" size="sm" />
+                            </DropdownTrigger>
+
+                            <DropdownMenu>
+                                <DropdownItem
+                                    textValue="perfil"
+                                    className="gap-2"
+                                >
+                                    <p>{auth.user.name}</p>
+                                    <p>{auth.user.email}</p>
+                                </DropdownItem>
+                                <DropdownItem
+                                    color="danger"
+                                    className="text-danger"
+                                    href="/logout"
+                                >
+                                    Salir
+                                </DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
+                    </NavbarContent>
+                ) : (
+                    <Link
+                        href="/login"
+                        className="text-white hover:underline flex gap-1 items-center"
+                    >
+                        Iniciar sesión
+                        <CursorArrowRaysIcon width={20} height={20} />
+                    </Link>
+                )}
+            </Navbar>
+
+            <main>{children}</main>
+        </>
     );
 }

@@ -7,7 +7,7 @@ import { Button, Checkbox, Input } from "@nextui-org/react";
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
 
 import useForm from "@/hooks/useForm";
-import AuthLayout from "@/Layout/AuthLayout";
+import GuestLayout from "@/Layout/GuestLayout";
 import { Head, Logo, PasswordInput } from "@/components";
 
 type Props = {};
@@ -91,4 +91,4 @@ export default function Login({}: Props) {
     );
 }
 
-Login.layout = (children) => <AuthLayout children={children} />;
+Login.layout = (children) => <GuestLayout children={children} />;

@@ -4,7 +4,7 @@ import { Link } from "@inertiajs/react";
 import { route } from "@ziggyjs";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 
-import AuthLayout from "@/Layout/AuthLayout";
+import GuestLayout from "@/Layout/GuestLayout";
 import { Head, Logo } from "@/components";
 import Form from "./partials/Form";
 
@@ -32,4 +32,4 @@ export default function Register({}: Props) {
     );
 }
 
-Register.layout = (children) => <AuthLayout children={children} />;
+Register.layout = (children) => <GuestLayout children={children} />;

@@ -2,7 +2,7 @@ import React from "react";
 import { usePage } from "@inertiajs/react";
 
 import NavBar from "./partials/NavBar";
-import MainSidebar from "./partials/Sidebar";
+import MainSidebar from "./partials/MainSidebar";
 
 export default function AuthLayout({
     children,

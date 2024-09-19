@@ -29,7 +29,7 @@ export default function Email({ register, sendCode, editable }: Props) {
                 <span>
                     Si no llegó, puedes solicitar otro haciendo
                     <span
-                        className="ml-2 text-primary hover:underline cursor-pointer"
+                        className={`ml-2 text-primary ${loading ? "cursor-not-allowed animate-pulse" : "cursor-pointer hover:underline"}`}
                         onClick={onClick}
                     >
                         click aquí

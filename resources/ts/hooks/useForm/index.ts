@@ -40,7 +40,7 @@ const createRegister = <T extends object>(
 
             default:
                 return {
-                    value: form.data[key] as string,
+                    defaultValue: form.data[key] as string,
                     onValueChange: (value: string) => {
                         form.clearErrors(key);
                         form.setData(key, value as T[keyof T]);

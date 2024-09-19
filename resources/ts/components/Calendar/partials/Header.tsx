@@ -24,7 +24,7 @@ export default function Header({}: Props) {
     };
 
     return (
-        <div className="sticky top-0 flex justify-between items-center p-4 bg-white z-50 shadow">
+        <div className="sticky top-0 flex justify-between items-center p-3 bg-white z-50 shadow">
             <div className="flex items-center space-x-4">
                 <Button variant="ghost" onClick={goToToday}>
                     Hoy

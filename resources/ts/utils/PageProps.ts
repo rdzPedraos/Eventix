@@ -1,9 +1,14 @@
+export type Permissions = string[];
+
+export type User = {
+    id: number;
+    name: string;
+    email: string;
+};
+
 export type Auth = {
-    user: {
-        id: number;
-        name: string;
-        email: string;
-    };
+    user: User;
+    permissions: Permissions;
 };
 
 export type App = {

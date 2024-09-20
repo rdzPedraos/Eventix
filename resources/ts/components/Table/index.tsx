@@ -20,12 +20,12 @@ export default function index<T extends ItemObject>({
     pagination,
     ...props
 }: TableProps<T>) {
-    const { path, per_page, current_page, last_page } = pagination;
+    const { path, per_page, current_page: page, last_page } = pagination;
 
     const onSearch: onSearchType = (data) => {
         router.get(path, {
             per_page,
-            page: current_page,
+            page,
             ...data,
         });
     };
@@ -35,11 +35,7 @@ export default function index<T extends ItemObject>({
             {...props}
             topContent={<Header per_page={per_page} onSearch={onSearch} />}
             bottomContent={
-                <Footer
-                    current_page={current_page}
-                    last_page={last_page}
-                    onSearch={onSearch}
-                />
+                <Footer page={page} last_page={last_page} onSearch={onSearch} />
             }
         >
             <TableHeader columns={columns}>

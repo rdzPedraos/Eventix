@@ -17,7 +17,7 @@ export function Header({
             selectedKeys={[per_page.toString()]}
             onChange={(e) =>
                 onSearch({
-                    current_page: 1,
+                    page: 1,
                     per_page: e.target.value,
                 })
             }
@@ -30,11 +30,11 @@ export function Header({
 }
 
 export function Footer({
-    current_page,
+    page,
     last_page,
     onSearch,
 }: {
-    current_page: PaginationProps["current_page"];
+    page: PaginationProps["current_page"];
     last_page: PaginationProps["last_page"];
     onSearch: onSearchType;
 }) {
@@ -45,9 +45,9 @@ export function Footer({
             showShadow
             color="primary"
             variant="light"
-            page={current_page}
+            page={page}
             total={last_page}
-            onChange={(current_page) => onSearch({ current_page })}
+            onChange={(page) => onSearch({ page })}
         />
     );
 }

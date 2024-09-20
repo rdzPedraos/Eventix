@@ -12,4 +12,9 @@ export type TableProps<T> = {
     pagination: PaginationProps;
 } & Partial<ParenTableProps>;
 
-export type onSearchType = (data: Partial<PaginationProps>) => void;
+export type onSearchType = (
+    data: Partial<{
+        page: PaginationProps["current_page"];
+        per_page: PaginationProps["per_page"];
+    }>
+) => void;

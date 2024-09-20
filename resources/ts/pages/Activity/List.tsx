@@ -5,7 +5,8 @@ import { Chip, Tooltip } from "@nextui-org/react";
 import { PencilSquareIcon } from "@heroicons/react/24/solid";
 import { ActivityResource } from "@/types/resources";
 
-import { Table } from "@/components";
+import { Breadcrumb, Table } from "@/components";
+import { route } from "@ziggyjs";
 
 const renderCell = (activity: ActivityResource, columnKey: string) => {
     switch (columnKey) {
@@ -52,20 +53,28 @@ export default function List() {
         .map((activity) => activity.id.toString());
 
     return (
-        <div className="px-5 py-3">
-            <Table
-                aria-label="Actividades"
-                data={data}
-                disabledKeys={disabledKeys}
-                pagination={meta}
-                columns={[
-                    { uid: "name", label: "Titulo" },
-                    { uid: "description", label: "Descripción" },
-                    { uid: "status", label: "Estado" },
-                    { uid: "actions", label: "Acciones" },
-                ]}
-                renderCell={renderCell}
+        <>
+            <Breadcrumb
+                className="px-5 py-3"
+                current="Actividades"
+                items={[{ to: route("home"), label: "Calendario" }]}
             />
-        </div>
+
+            <div className="px-5">
+                <Table
+                    aria-label="Actividades"
+                    data={data}
+                    disabledKeys={disabledKeys}
+                    pagination={meta}
+                    columns={[
+                        { uid: "name", label: "Titulo" },
+                        { uid: "description", label: "Descripción" },
+                        { uid: "status", label: "Estado" },
+                        { uid: "actions", label: "Acciones" },
+                    ]}
+                    renderCell={renderCell}
+                />
+            </div>
+        </>
     );
 }

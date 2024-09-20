@@ -6,3 +6,4 @@ export { default as Wizard } from "./Wizard";
 export { default as PasswordInput } from "./PasswordInput";
 export { default as Profile } from "./Profile";
 export { default as Table } from "./Table";
+export { default as Breadcrumb } from "./Breadcrumb";

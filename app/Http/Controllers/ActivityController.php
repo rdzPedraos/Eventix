@@ -30,7 +30,7 @@ class ActivityController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render("Activity/Create");
     }
 
     /**

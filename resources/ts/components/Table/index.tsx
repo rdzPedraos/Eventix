@@ -18,6 +18,7 @@ export default function index<T extends ItemObject>({
     data,
     renderCell,
     pagination,
+    topContent,
     ...props
 }: TableProps<T>) {
     const { path, per_page, current_page: page, last_page } = pagination;
@@ -33,7 +34,13 @@ export default function index<T extends ItemObject>({
     return (
         <Table
             {...props}
-            topContent={<Header per_page={per_page} onSearch={onSearch} />}
+            topContent={
+                <Header
+                    content={topContent}
+                    per_page={per_page}
+                    onSearch={onSearch}
+                />
+            }
             bottomContent={
                 <Footer page={page} last_page={last_page} onSearch={onSearch} />
             }

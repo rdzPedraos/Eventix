@@ -10,6 +10,8 @@ export type TableProps<T> = {
     data: T[];
     renderCell: (item: T, column_uid: string) => JSX.Element;
     pagination: PaginationProps;
+
+    topContent?: React.ReactNode;
 } & Partial<ParenTableProps>;
 
 export type onSearchType = (

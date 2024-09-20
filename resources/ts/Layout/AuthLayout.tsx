@@ -19,7 +19,7 @@ export default function AuthLayout({
     const hasPermissions = permissions.length > 0;
 
     return (
-        <div className="h-screen grid grid-rows-[auto,1fr]">
+        <div className="h-screen grid grid-rows-[auto,1fr] bg-gray-50">
             <NavBar
                 user={user}
                 openSidebar={openSideBar}

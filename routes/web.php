@@ -20,5 +20,5 @@ Route::middleware("guest")->group(function () {
 Route::middleware("auth")->group(function () {
     Route::get("logout", [LoginController::class, "destroy"])->name("logout");
 
-    Route::resource("activity", ActivityController::class);
+    Route::resource("actividades", ActivityController::class)->names("activities");
 });

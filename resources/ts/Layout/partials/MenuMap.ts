@@ -14,7 +14,7 @@ export const MenuMap = [
     },
     {
         label: "Actividades",
-        to: "activity.index",
+        to: "activities.index",
         Icon: RectangleStackIcon,
         permission: "activity.check",
     },

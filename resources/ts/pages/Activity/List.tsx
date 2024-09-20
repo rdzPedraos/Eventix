@@ -1,8 +1,8 @@
 import React from "react";
-import { usePage } from "@inertiajs/react";
-import { Chip, Tooltip } from "@nextui-org/react";
+import { Link, usePage } from "@inertiajs/react";
+import { Button, Chip, Tooltip } from "@nextui-org/react";
 
-import { PencilSquareIcon } from "@heroicons/react/24/solid";
+import { PencilSquareIcon, PlusIcon } from "@heroicons/react/24/solid";
 import { ActivityResource } from "@/types/resources";
 
 import { Breadcrumb, Table } from "@/components";
@@ -60,7 +60,7 @@ export default function List() {
                 items={[{ to: route("home"), label: "Calendario" }]}
             />
 
-            <div className="px-5">
+            <div className="mx-5">
                 <Table
                     aria-label="Actividades"
                     data={data}
@@ -73,6 +73,17 @@ export default function List() {
                         { uid: "actions", label: "Acciones" },
                     ]}
                     renderCell={renderCell}
+                    topContent={
+                        <Button
+                            as={Link}
+                            href={route("activities.create")}
+                            color="primary"
+                            variant="flat"
+                            startContent={<PlusIcon width={20} />}
+                        >
+                            Crear actividad
+                        </Button>
+                    }
                 />
             </div>
         </>

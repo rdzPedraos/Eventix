@@ -14,6 +14,7 @@ class Activity extends Model
         'name',
         'description',
         'image',
+        "status",
         'color',
         'created_by',
     ];

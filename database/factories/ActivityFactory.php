@@ -33,7 +33,16 @@ class ActivityFactory extends Factory
             "description" => fake()->text(255),
             "image" => $image_path,
             "status" => fake()->randomElement(ActivityStatusEnum::cases()),
-            "color" => fake()->hexColor(),
+            "color" => fake()->randomElement([
+                "#f6e58d",
+                "#ffbe76",
+                "#badc58",
+                "#dff9fb",
+                "#f9ca24",
+                "#ff7979",
+                "#7ed6df",
+                "#00d2d3",
+            ]),
             "created_by" => $created_by,
         ];
     }

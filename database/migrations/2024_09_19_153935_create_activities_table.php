@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string("name");
             $table->text("description")->nullable();
             $table->text("image")->nullable();
-            $table->enum("status", ActivityStatusEnum::casesValue());
+            $table->string("status")->default(ActivityStatusEnum::EDITING);
             $table->char("color", 7);
 
             $table->unsignedBigInteger("created_by");

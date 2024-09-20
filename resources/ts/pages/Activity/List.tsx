@@ -25,7 +25,7 @@ const renderCell = (activity: ActivityListResource, columnKey: string) => {
             );
 
         case "actions":
-            if (activity.status.isClosed) return null;
+            if (!activity.editable) return null;
 
             return (
                 <Tooltip content="Revisar actividad">

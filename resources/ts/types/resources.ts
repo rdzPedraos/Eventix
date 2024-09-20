@@ -14,12 +14,14 @@ export type ActivityListResource = {
             | "secondary";
         label: string;
         isClosed: boolean;
+        isPublished: boolean;
     };
     color: string;
     created_at: string | null;
     updated_at: string | null;
     created_by: number;
     image: string | null;
+    editable: boolean;
 };
 
 export type ActivityResource = {

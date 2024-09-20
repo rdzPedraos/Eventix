@@ -1,6 +1,7 @@
 import "dayjs/locale/es";
 import days, { Dayjs } from "dayjs";
 import colors from "./colors";
+import { DayType, EventType, ViewModeTypes } from "./types";
 days.locale("es");
 
 export default days;
@@ -39,7 +40,10 @@ export function getMonthDays(
     return daysMatrix;
 }
 
-export function generateRandomEvents(day: Day) {
+export async function generateRandomEvents(
+    day: DayType,
+    mode: ViewModeTypes
+): Promise<EventType[]> {
     const week = day.startOf("week");
 
     const events = Array(40)

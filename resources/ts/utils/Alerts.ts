@@ -17,3 +17,10 @@ export function triggerAlert(
 
     toast.promise(promise, { loading, success, error });
 }
+
+export function toastAlert(
+    message: string,
+    type: "success" | "error" | "loading" | "default" = "default"
+) {
+    toast[type](message);
+}

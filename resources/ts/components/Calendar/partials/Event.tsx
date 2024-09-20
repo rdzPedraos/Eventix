@@ -42,7 +42,10 @@ export default function Event({
             onClick={onClick}
         >
             <div
-                className={`w-full h-full py-[2px] px-1 rounded-sm overflow-hidden text-xs ${color} border shadow-sm cursor-pointer transition-all hover:shadow-md`}
+                style={{
+                    backgroundColor: color,
+                }}
+                className={`w-full h-full py-[2px] px-1 rounded-sm overflow-hidden text-xs border-1 border-opacity-20 border-black shadow-sm cursor-pointer transition-all hover:shadow-md`}
             >
                 {shortEvent ? (
                     <div className="my-auto truncate text-[12px]">

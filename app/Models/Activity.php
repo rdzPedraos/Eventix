@@ -24,7 +24,6 @@ class Activity extends Model
         'status' => ActivityStatusEnum::class,
     ];
 
-
     /* Relations */
     public function owner()
     {

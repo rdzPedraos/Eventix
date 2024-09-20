@@ -8,7 +8,7 @@ type Props = {
 };
 
 export default function EventInfo({ event, onClose }: Props) {
-    const { title, startDate, description } = event;
+    const { title, startDate, endDate, description } = event;
 
     return (
         <>
@@ -18,7 +18,10 @@ export default function EventInfo({ event, onClose }: Props) {
                     <strong>Fecha:</strong> {startDate.format("DD/MM/YYYY")}
                 </p>
                 <p>
-                    <strong>Hora:</strong> {startDate.format("HH:mm")}
+                    <strong>Hora inicio:</strong> {startDate.format("HH:mm")}
+                </p>
+                <p>
+                    <strong>Hora cierre:</strong> {endDate.format("HH:mm")}
                 </p>
                 <p>
                     <strong>Descripción:</strong> {description}

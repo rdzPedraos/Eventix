@@ -33,7 +33,7 @@ class ActivityResource extends JsonResource
             "updated_at" => $this->updated_at,
             "created_by" => $this->owner->name,
             "image" => $base64,
-            "schedulers" => $this->schedulers,
+            "schedulers" => SchedulerResource::collection($this->schedulers)->toArray($request),
         ];
     }
 }

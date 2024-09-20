@@ -36,9 +36,13 @@ const CalendarContext = createContext<ContexType>({} as ContexType);
 export default function CalendarProvider({
     children,
     eventDetail,
+    events,
+    onChangeEvents,
 }: {
     children: ReactNode;
     eventDetail?: eventDetailType;
+    events: EventType[];
+    onChangeEvents: (day: DayType, mode: ViewModeTypes) => void;
 }) {
     const [mode, setMode] = useState<ViewModeTypes>("week");
     const [current, setCurrent] = useState<DayType>(now());
@@ -53,9 +57,9 @@ export default function CalendarProvider({
         return () => clearInterval(interval);
     }, []);
 
-    const events = useMemo(() => {
-        return generateRandomEvents(day);
-    }, [day]);
+    useEffect(() => {
+        onChangeEvents(day, mode);
+    }, [day, mode]);
 
     return (
         <CalendarContext.Provider

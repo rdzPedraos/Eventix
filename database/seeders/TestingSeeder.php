@@ -41,6 +41,6 @@ class TestingSeeder extends Seeder
         ])->assignRole(RoleEnum::SUPER_ADMIN);
 
         Activity::factory(10)->create();
-        Scheduler::factory(30)->create();
+        Scheduler::factory(15)->create();
     }
 }

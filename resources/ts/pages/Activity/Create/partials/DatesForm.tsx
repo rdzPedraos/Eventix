@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
+import { route } from "@ziggyjs";
+
+import axios from "axios";
+import { parseDate, parseTime } from "@internationalized/date";
 
 import { PlusIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { Button, DatePicker, TimeInput } from "@nextui-org/react";
-import { Calendar, Container } from "@/components";
+import { DayType, ViewModeTypes } from "@/components/Calendar/utils/types";
+import days from "@/components/Calendar/utils/calendar";
 import { Scheduler } from "@/types/models";
-import toast from "react-hot-toast";
-import { parseDate, parseTime } from "@internationalized/date";
+import { Calendar, Container } from "@/components";
+import { toastAlert } from "@/utils";
 
 type Props = {
     schedulers: Scheduler[];
@@ -21,9 +26,12 @@ function allowAddScheduler(schedulers: Scheduler[]) {
 }
 
 export default function DatesForm({ schedulers, setSchedulers }: Props) {
+    console.log(schedulers);
+    const [events, setEvents] = useState([]);
+
     const addScheduler = () => {
         if (!allowAddScheduler(schedulers)) {
-            return toast.error(
+            return toastAlert(
                 "No puedes definir otra fecha si no has completado la actual"
             );
         }
@@ -46,6 +54,25 @@ export default function DatesForm({ schedulers, setSchedulers }: Props) {
         newSchedulers[id][key] = value as string & number;
         console.log({ id, key, value, newSchedulers });
         setSchedulers(newSchedulers);
+    };
+
+    const onSearchEvents = (day: DayType, mode: ViewModeTypes) => {
+        axios
+            .get(route("api.activities.index"), { params: { day, mode } })
+            .then(({ data }) => {
+                const dates = data.map(
+                    ({ id, activity, start_date, end_date }) => ({
+                        id: id,
+                        title: activity.name,
+                        description: activity.description,
+                        color: activity.color,
+                        startDate: days(start_date),
+                        endDate: days(end_date),
+                    })
+                );
+
+                setEvents(dates);
+            });
     };
 
     return (
@@ -120,7 +147,7 @@ export default function DatesForm({ schedulers, setSchedulers }: Props) {
             </Container>
 
             <div className="mx-5 rounded-xl overflow-hidden">
-                <Calendar />
+                <Calendar events={events} onChangeEvents={onSearchEvents} />
             </div>
         </>
     );

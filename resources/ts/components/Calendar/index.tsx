@@ -1,10 +1,17 @@
-import React, { ReactElement } from "react";
+import React from "react";
 import Calendar from "./partials";
 import CalendarProvider from "./context";
-import { eventDetailType } from "./utils/types";
+import {
+    DayType,
+    eventDetailType,
+    EventType,
+    ViewModeTypes,
+} from "./utils/types";
 
 type Props = {
     eventDetail?: eventDetailType;
+    events: EventType[];
+    onChangeEvents: (day: DayType, mode: ViewModeTypes) => void;
 };
 
 export default function index(props: Props) {

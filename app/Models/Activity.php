@@ -10,6 +10,14 @@ class Activity extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'description',
+        'image',
+        'color',
+        'created_by',
+    ];
+
     //castea la columna status con el enum ActivityStatusEnum para que use el label, si uso directamente ActivityStatusEnum::class parece que no lo toma.
     protected $casts = [
         'status' => ActivityStatusEnum::class,

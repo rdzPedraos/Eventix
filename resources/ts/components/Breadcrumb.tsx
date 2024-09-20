@@ -14,7 +14,12 @@ type Props = {
     current?: string;
 } & React.ComponentProps<typeof Breadcrumbs>;
 
-export default function Breadcrumb({ current, items, ...props }: Props) {
+export default function Breadcrumb({
+    current,
+    items,
+    className = "mx-7 my-3",
+    ...props
+}: Props) {
     return (
         <>
             {current && <Head title={current} />}
@@ -23,6 +28,7 @@ export default function Breadcrumb({ current, items, ...props }: Props) {
                 color="primary"
                 size="lg"
                 onAction={(to) => router.get(to.toString())}
+                className={className}
                 {...props}
             >
                 {items.map(({ Icon, to, label }) => (

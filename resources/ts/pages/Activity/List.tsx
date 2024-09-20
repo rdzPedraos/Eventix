@@ -55,12 +55,11 @@ export default function List() {
     return (
         <>
             <Breadcrumb
-                className="px-5 py-3"
                 current="Actividades"
                 items={[{ to: route("home"), label: "Calendario" }]}
             />
 
-            <div className="mx-5">
+            <div className="mx-4">
                 <Table
                     aria-label="Actividades"
                     data={data}

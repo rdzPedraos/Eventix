@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Enums\RoleEnum;
 use App\Models\Activity;
+use App\Models\Scheduler;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
@@ -40,5 +41,6 @@ class TestingSeeder extends Seeder
         ])->assignRole(RoleEnum::SUPER_ADMIN);
 
         Activity::factory(10)->create();
+        Scheduler::factory(30)->create();
     }
 }

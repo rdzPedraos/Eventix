@@ -22,4 +22,5 @@ type ActivityCreateFormFields = {
     description: String;
     image: File;
     color: String;
+    dates: Date[];
 };

@@ -7,6 +7,7 @@ import { Breadcrumb } from "@/components";
 
 import Header from "./partials/Header";
 import BasicForm from "./partials/BasicForm";
+import DatesForm from "./partials/DatesForm";
 
 export default function Create() {
     const { register, submit, setData, errors } = useForm(
@@ -38,6 +39,7 @@ export default function Create() {
             <div className="flex flex-col gap-4">
                 <Header onSubmit={onSubmit} />
                 <BasicForm registerInp={register} errors={errors} />
+                <DatesForm />
             </div>
         </>
     );

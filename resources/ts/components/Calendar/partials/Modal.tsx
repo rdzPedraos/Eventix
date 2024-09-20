@@ -16,6 +16,8 @@ export default function Modal({}: Props) {
     const { selectedEvent, setSelectedEvent, eventDetail } =
         useCalendarContext();
 
+    if (eventDetail === undefined) return null;
+
     const onOpenChange = (open: boolean) => {
         if (!open) setSelectedEvent(undefined);
     };

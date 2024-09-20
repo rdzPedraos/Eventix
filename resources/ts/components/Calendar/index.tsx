@@ -4,7 +4,7 @@ import CalendarProvider from "./context";
 import { eventDetailType } from "./utils/types";
 
 type Props = {
-    eventDetail: eventDetailType;
+    eventDetail?: eventDetailType;
 };
 
 export default function index(props: Props) {

@@ -38,7 +38,7 @@ export default function CalendarProvider({
     eventDetail,
 }: {
     children: ReactNode;
-    eventDetail: eventDetailType;
+    eventDetail?: eventDetailType;
 }) {
     const [mode, setMode] = useState<ViewModeTypes>("week");
     const [current, setCurrent] = useState<DayType>(now());

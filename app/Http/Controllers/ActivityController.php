@@ -3,16 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ActivityStatusEnum;
+use App\Enums\PermissionEnum;
 use App\Http\Requests\ActivityRequest;
 use App\Http\Resources\ActivityResource;
 use App\Models\Activity;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
-class ActivityController extends Controller
+class ActivityController extends Controller implements HasMiddleware
 {
-    public function __construct() {}
+    public static function middleware()
+    {
+        return [
+            new Middleware("permission:" . PermissionEnum::ACTIVITY_CHECK->value, ["index"]),
+            new Middleware("permission:" . PermissionEnum::ACTIVITY_CREATE->value, ["create", "store"]),
+        ];
+    }
 
     /**
      * Display a listing of the resource.

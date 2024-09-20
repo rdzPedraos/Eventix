@@ -73,7 +73,8 @@ class ActivityController extends Controller implements HasMiddleware
             throw $e;
         }
 
-        return redirect()->route("activities.index");
+        if ($request->action == "publish") return redirect()->route("activities.index");
+        return redirect()->route("activities.edit", $activity);
     }
 
     /**
@@ -118,6 +119,8 @@ class ActivityController extends Controller implements HasMiddleware
             DB::rollBack();
             throw $e;
         }
+
+        if ($request->action == "publish") return redirect()->route("activities.index");
     }
 
     /**

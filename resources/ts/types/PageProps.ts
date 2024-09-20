@@ -13,6 +13,21 @@ type PageProps = {
     };
 };
 
+type PaginationProps = {
+    current_page: number;
+    from: number;
+    last_page: number;
+    path: string;
+    per_page: number | string;
+    links: {
+        url: null | string;
+        label: string;
+        active: boolean;
+    }[];
+    to: number;
+    total: number;
+};
+
 type CollectionProps<T> = {
     data: T[];
     links: {
@@ -21,18 +36,5 @@ type CollectionProps<T> = {
         next: string;
         prev: string;
     };
-    meta: {
-        current_page: number;
-        from: number;
-        last_page: number;
-        path: string;
-        per_page: number;
-        links: {
-            url: null | string;
-            label: string;
-            active: boolean;
-        }[];
-        to: number;
-        total: number;
-    };
+    meta: PaginationProps;
 };

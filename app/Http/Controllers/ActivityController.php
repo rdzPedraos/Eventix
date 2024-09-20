@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\ActivityStatusEnum;
 use App\Enums\PermissionEnum;
 use App\Http\Requests\ActivityRequest;
+use App\Http\Resources\ActivityListResource;
 use App\Http\Resources\ActivityResource;
 use App\Models\Activity;
 use Illuminate\Http\Request;
@@ -31,7 +32,7 @@ class ActivityController extends Controller implements HasMiddleware
         $user = $request->user();
 
         $activities = $user->accesibleActivities()->orderBy("updated_at", "DESC")->paginate($request->per_page ?? 10);
-        $activities = ActivityResource::collection($activities);
+        $activities = ActivityListResource::collection($activities);
 
         return Inertia::render("Activity/List", compact('activities'));
     }

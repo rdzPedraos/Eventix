@@ -26,6 +26,7 @@
     "dependencies": {
         "@heroicons/react": "^2.1.5",
         "@inertiajs/react": "^1.2.0",
+        "@internationalized/date": "^3.5.5",
         "@nextui-org/react": "^2.4.6",
         "@types/react": "^18.3.5",
         "@types/react-dom": "^18.3.0",

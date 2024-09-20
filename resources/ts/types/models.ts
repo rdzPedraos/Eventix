@@ -20,6 +20,15 @@ export interface DocumentType {
   regex: string
 }
 
+export interface Scheduler {
+  // columns
+  id: number
+  activity_id: number
+  day: string
+  start: string
+  end: string
+}
+
 export interface User {
   // columns
   id: number

@@ -8,11 +8,20 @@ import { Breadcrumb } from "@/components";
 import Header from "./partials/Header";
 import BasicForm from "./partials/BasicForm";
 import DatesForm from "./partials/DatesForm";
+import { Scheduler } from "@/types/models";
+
+type ActivityCreateFormFields = {
+    name: String;
+    description: String;
+    image: File;
+    color: String;
+    schedulers: Scheduler[];
+};
 
 export default function Create() {
-    const { register, submit, setData, errors } = useForm(
-        {} as ActivityCreateFormFields
-    );
+    const { register, submit, data, setData, errors } = useForm({
+        schedulers: [],
+    } as ActivityCreateFormFields);
 
     useEffect(() => {
         const random = Math.floor(Math.random() * PastelColors.length);
@@ -24,6 +33,10 @@ export default function Create() {
             submit("post", route("activities.store", { action }), {
                 preserveState: true,
             });
+    };
+
+    const setSchedulers = (schedulers: Scheduler[]) => {
+        setData("schedulers", schedulers);
     };
 
     return (
@@ -39,7 +52,10 @@ export default function Create() {
             <div className="flex flex-col gap-4">
                 <Header onSubmit={onSubmit} />
                 <BasicForm registerInp={register} errors={errors} />
-                <DatesForm />
+                <DatesForm
+                    schedulers={data.schedulers}
+                    setSchedulers={setSchedulers}
+                />
             </div>
         </>
     );

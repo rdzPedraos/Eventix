@@ -16,11 +16,3 @@ type RegisterFormFields = {
     password: String;
     verify_password: String;
 };
-
-type ActivityCreateFormFields = {
-    name: String;
-    description: String;
-    image: File;
-    color: String;
-    dates: Date[];
-};

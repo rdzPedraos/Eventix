@@ -29,4 +29,9 @@ class Activity extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+    public function schedulers()
+    {
+        return $this->hasMany(Scheduler::class);
+    }
 }

@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class ActivityController extends Controller implements HasMiddleware
@@ -50,16 +51,27 @@ class ActivityController extends Controller implements HasMiddleware
      */
     public function store(ActivityRequest $request)
     {
-        $activity = new Activity($request->validated());
-        $activity->created_by = Auth::id();
+        DB::beginTransaction();
 
-        if ($request->action == "save") {
-            $activity->status = ActivityStatusEnum::EDITING;
-        } else {
-            $activity->status = ActivityStatusEnum::PUBLISHED;
+        try {
+            $activity = new Activity($request->validated());
+            $activity->created_by = Auth::id();
+
+            if ($request->action == "save") {
+                $activity->status = ActivityStatusEnum::EDITING;
+            } else {
+                $activity->status = ActivityStatusEnum::PUBLISHED;
+            }
+
+            $activity->save();
+            $schedulers = $request->schedulers;
+            $activity->schedulers()->createMany($schedulers);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
         }
-
-        $activity->save();
 
         return redirect()->route("activities.index");
     }

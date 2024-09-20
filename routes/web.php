@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\OtpController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -19,5 +20,5 @@ Route::middleware("guest")->group(function () {
 Route::middleware("auth")->group(function () {
     Route::get("logout", [LoginController::class, "destroy"])->name("logout");
 
-    Route::inertia("activity", "Activity/List")->name("activity.index");
+    Route::resource("activity", ActivityController::class);
 });

@@ -16,4 +16,13 @@ enum ActivityStatusEnum: string
     {
         return __("activity.status.{$this->value}");
     }
+
+    public function color(): string
+    {
+        return match ($this) {
+            self::EDITING => "secondary",
+            self::PUBLISHED => "success",
+            self::CANCELED => "danger",
+        };
+    }
 }

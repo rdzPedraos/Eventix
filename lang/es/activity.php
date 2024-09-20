@@ -4,8 +4,8 @@ use App\Enums\ActivityStatusEnum;
 
 return [
     "status" => [
-        ActivityStatusEnum::EDITING->name => "edicion",
-        ActivityStatusEnum::PUBLISHED->name => "publicado",
-        ActivityStatusEnum::CANCELED->name => "cancelado",
+        ActivityStatusEnum::EDITING->value => "en edición",
+        ActivityStatusEnum::PUBLISHED->value => "publicado",
+        ActivityStatusEnum::CANCELED->value => "cancelado",
     ]
 ];

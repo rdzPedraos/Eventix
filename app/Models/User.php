@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Enums\RoleEnum;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -48,5 +50,21 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function accesibleActivities(): Builder
+    {
+        if ($this->hasRole(RoleEnum::SUPER_ADMIN)) {
+            return Activity::query();
+        }
+
+        return $this->activities()->getQuery();
+    }
+
+    /* relations */
+
+    public function activities()
+    {
+        return $this->hasMany(Activity::class, 'created_by');
     }
 }

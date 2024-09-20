@@ -36,12 +36,6 @@ return [
             'throw' => false,
         ],
 
-        "activities" => [
-            "driver" => "local",
-            "root" => storage_path("app/activities"),
-            "throw" => true,
-        ],
-
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

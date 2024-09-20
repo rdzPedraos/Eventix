@@ -1,10 +1,12 @@
 import React from "react";
-import { ArrowUpTrayIcon } from "@heroicons/react/24/solid";
 
-import { Button, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
+import { Image, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
+
+import { ActivityCreateFormFields } from "../type";
 import { RegisterType } from "@/hooks/useForm";
 import { PastelColors } from "@/utils/Colors";
 import { Container } from "@/components";
+import UploadFile from "@/components/UploadFile";
 
 function renderColorItem(color: (typeof PastelColors)[0]) {
     return (
@@ -19,12 +21,35 @@ function renderColorItem(color: (typeof PastelColors)[0]) {
 type Props = {
     registerInp: RegisterType<ActivityCreateFormFields>;
     errors: Partial<Record<keyof ActivityCreateFormFields, string>>;
+    data: ActivityCreateFormFields;
+    setImage: (image: File) => void;
 };
 
-export default function BasicForm({ registerInp, errors }: Props) {
+export default function BasicForm({
+    registerInp,
+    errors,
+    data,
+    setImage,
+}: Props) {
+    const onUpload = (files: FileList) => {
+        const file = files[0];
+        if (!file) return;
+
+        setImage(file);
+    };
+
     return (
         <Container>
             <form className="flex flex-col gap-4">
+                {data.image && (
+                    <Image
+                        isZoomed
+                        height={100}
+                        src={data.image}
+                        alt="Imagen de la actividad"
+                    />
+                )}
+
                 <div className="flex justify-start gap-4">
                     <Select
                         aria-label="Color"
@@ -41,13 +66,13 @@ export default function BasicForm({ registerInp, errors }: Props) {
                         ))}
                     </Select>
 
-                    <Button
+                    <UploadFile
+                        onUpload={onUpload}
                         variant="flat"
                         color="secondary"
-                        startContent={<ArrowUpTrayIcon width={20} />}
                     >
                         Subir foto (opcional)
-                    </Button>
+                    </UploadFile>
                 </div>
 
                 {errors.color && (

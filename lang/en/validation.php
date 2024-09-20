@@ -167,6 +167,10 @@ return [
         "invalid" => "The :attribute code not match",
     ],
 
+    "base64" => [
+        "invalid_encode" => "The :attribute field was loaded with an invalid base64 encode",
+    ],
+
 
     /*
     |--------------------------------------------------------------------------

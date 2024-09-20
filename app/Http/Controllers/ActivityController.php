@@ -51,21 +51,21 @@ class ActivityController extends Controller implements HasMiddleware
      */
     public function store(ActivityRequest $request)
     {
+        $validated = [
+            ...$request->validated(),
+            "image" => $request->image,
+            "created_by" => Auth::id(),
+        ];
+
+        $activity = new Activity($validated);
+        if ($request->action == "publish") {
+            $activity->status = ActivityStatusEnum::PUBLISHED;
+        }
+
         DB::beginTransaction();
-
         try {
-            $activity = new Activity($request->validated());
-            $activity->created_by = Auth::id();
-
-            if ($request->action == "save") {
-                $activity->status = ActivityStatusEnum::EDITING;
-            } else {
-                $activity->status = ActivityStatusEnum::PUBLISHED;
-            }
-
             $activity->save();
-            $schedulers = $request->schedulers;
-            $activity->schedulers()->createMany($schedulers);
+            $activity->schedulers()->createMany($validated["schedulers"]);
 
             DB::commit();
         } catch (\Exception $e) {
@@ -89,15 +89,35 @@ class ActivityController extends Controller implements HasMiddleware
      */
     public function edit(Activity $activity)
     {
-        //
+        $activity = (new ActivityResource($activity))->toArray(request());
+        return Inertia::render("Activity/Create", compact('activity'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Activity $activity)
+    public function update(ActivityRequest $request, Activity $activity)
     {
-        //
+        $validated = [
+            ...$request->validated(),
+            "image" => $request->image,
+        ];
+
+
+        DB::beginTransaction();
+        try {
+            if ($request->action == "publish") {
+                $activity->status = ActivityStatusEnum::PUBLISHED;
+            }
+            $activity->update($validated);
+            $activity->schedulers()->delete();
+            $activity->schedulers()->createMany($validated["schedulers"]);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
     /**

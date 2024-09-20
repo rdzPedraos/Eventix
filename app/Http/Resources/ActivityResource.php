@@ -15,6 +15,8 @@ class ActivityResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $imgSrc = $this->image ? Storage::disk("public")->url($this->image) : null;
+
         return [
             "id" => $this->id,
             "name" => $this->name,
@@ -24,7 +26,8 @@ class ActivityResource extends JsonResource
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
             "created_by" => $this->owner->name,
-            "image" => $this->image ? Storage::disk("public")->path($this->image) : null,
+            "image" => $imgSrc,
+            "schedulers" => $this->schedulers,
         ];
     }
 }

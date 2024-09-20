@@ -168,6 +168,10 @@ return [
         "invalid" => "El código :attribute no coincide.",
     ],
 
+    "base64" => [
+        "invalid_encode" => "El campo :attribute no es una imagen válida.",
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines

@@ -8,3 +8,4 @@ export { default as Profile } from "./Profile";
 export { default as Table } from "./Table";
 export { default as Breadcrumb } from "./Breadcrumb";
 export { default as Container } from "./Container";
+export { default as UploadFile } from "./UploadFile";

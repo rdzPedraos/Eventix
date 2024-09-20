@@ -4,10 +4,11 @@ import { InboxIcon, PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import { Container } from "@/components";
 
 type Props = {
-    onSubmit: (type: "save" | "publish") => () => void;
+    onSave: () => void;
+    onPublish: () => void;
 };
 
-export default function Header({ onSubmit }: Props) {
+export default function Header({ onSave, onPublish }: Props) {
     return (
         <Container>
             <h1 className="text-3xl mb-4">Formulario</h1>
@@ -24,7 +25,7 @@ export default function Header({ onSubmit }: Props) {
                 <Button
                     variant="flat"
                     color="primary"
-                    onClick={onSubmit("save")}
+                    onClick={onSave}
                     endContent={<InboxIcon width={20} />}
                 >
                     Guardar cambios
@@ -33,7 +34,7 @@ export default function Header({ onSubmit }: Props) {
                 <Button
                     variant="ghost"
                     color="success"
-                    onClick={onSubmit("publish")}
+                    onClick={onPublish}
                     endContent={<PaperAirplaneIcon width={20} />}
                 >
                     Publicar

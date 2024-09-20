@@ -3,12 +3,12 @@ import { Link, usePage } from "@inertiajs/react";
 import { Button, Chip, Tooltip } from "@nextui-org/react";
 
 import { PencilSquareIcon, PlusIcon } from "@heroicons/react/24/solid";
-import { ActivityResource } from "@/types/resources";
+import { ActivityListResource } from "@/types/resources";
 
 import { Breadcrumb, Table } from "@/components";
 import { route } from "@ziggyjs";
 
-const renderCell = (activity: ActivityResource, columnKey: string) => {
+const renderCell = (activity: ActivityListResource, columnKey: string) => {
     switch (columnKey) {
         case "status":
             const status = activity.status;
@@ -29,10 +29,12 @@ const renderCell = (activity: ActivityResource, columnKey: string) => {
 
             return (
                 <Tooltip content="Revisar actividad">
-                    <PencilSquareIcon
-                        width={18}
-                        className="cursor-pointer text-default-500 mx-auto"
-                    />
+                    <Link href={route("activities.edit", { activity })}>
+                        <PencilSquareIcon
+                            width={18}
+                            className="cursor-pointer text-default-500 mx-auto"
+                        />
+                    </Link>
                 </Tooltip>
             );
 
@@ -45,7 +47,7 @@ export default function List() {
     const {
         activities: { data, meta },
     } = usePage<{
-        activities: CollectionProps<ActivityResource>;
+        activities: CollectionProps<ActivityListResource>;
     }>().props;
 
     const disabledKeys = data

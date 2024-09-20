@@ -7,12 +7,12 @@ import { Scheduler } from "@/types/models";
 import { ActivityResource } from "@/types/resources";
 
 import useForm from "@/hooks/useForm";
-import { PastelColors } from "@/utils/Colors";
 import { Breadcrumb } from "@/components";
 
 import Header from "./partials/Header";
 import BasicForm from "./partials/BasicForm";
 import DatesForm from "./partials/DatesForm";
+import { PastelColors, realisticConfetti, triggerAlert } from "@/utils";
 
 export default function Create() {
     const { activity } = usePage<{
@@ -39,19 +39,37 @@ export default function Create() {
         reader.readAsDataURL(image);
     };
 
-    const onSubmit = (params = {}) => {
+    const onSubmit = (params = {}, actions = {}) => {
         if (activity) {
             return submit(
                 "put",
-                route("activities.update", { activity, ...params })
+                route("activities.update", { activity, ...params }),
+                actions
             );
         }
 
-        submit("post", route("activities.store", params));
+        submit("post", route("activities.store", params), actions);
     };
 
-    const onSave = () => onSubmit();
-    const onPublish = () => onSubmit({ action: "publish" });
+    const onSave = () =>
+        triggerAlert((resolve, reject) => {
+            onSubmit(undefined, {
+                onError: reject,
+                onFinish: resolve,
+            });
+        });
+
+    const onPublish = () =>
+        triggerAlert((resolve, reject) => {
+            onSubmit(
+                { action: "publish" },
+                {
+                    onError: reject,
+                    onFinish: resolve,
+                    onSuccess: realisticConfetti,
+                }
+            );
+        });
 
     return (
         <>

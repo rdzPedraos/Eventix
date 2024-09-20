@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 
 import axios from "axios";
-import toast from "react-hot-toast";
 import { route } from "@ziggyjs";
 
 import useForm from "@/hooks/useForm";
-import { triggerConfetti } from "@/utils/Confetti";
+import { triggerConfetti, triggerAlert } from "@/utils";
 
 export default function hook() {
     const { register, submit, data, setErrors, setData } =
@@ -76,19 +75,20 @@ export default function hook() {
     };
 
     const onSubmit = () => {
-        const promise = new Promise((resolve, reject) => {
-            submit("post", route("register.store"), {
-                onSuccess: () => triggerConfetti(),
-                onError: reject,
-                onFinish: resolve,
-            });
-        });
-
-        toast.promise(promise, {
-            loading: "Registrando...",
-            success: "¡Registro exitoso!",
-            error: "Hubo un error en el registro, se han dejado anotaciones en los campos",
-        });
+        triggerAlert(
+            (resolve, reject) => {
+                submit("post", route("register.store"), {
+                    onSuccess: triggerConfetti,
+                    onError: reject,
+                    onFinish: resolve,
+                });
+            },
+            {
+                loading: "Registrando...",
+                success: "¡Registro exitoso!",
+                error: "Hubo un error en el registro, se han dejado anotaciones en los campos",
+            }
+        );
     };
 
     return {

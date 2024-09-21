@@ -15,6 +15,7 @@ Route::post("otp/verify", [OtpController::class, "verify"])->name("otp.verify");
 Route::middleware("guest")->group(function () {
     Route::resource("login", LoginController::class)->only(["index", "store"])->name("index", "login");
     Route::resource("register", RegisterController::class)->only(["index", "store"]);
+    Route::post("register/pre-validate", [RegisterController::class, "validateData"])->name("register.validate");
 });
 
 Route::middleware("auth")->group(function () {

@@ -6,7 +6,7 @@ import { route } from "@ziggyjs";
 import useForm from "@/hooks/useForm";
 import { triggerConfetti, triggerAlert } from "@/utils";
 
-export default function hook() {
+export default function useHook() {
     const { register, submit, data, setErrors, setData } =
         useForm<RegisterFormFields>({} as RegisterFormFields);
 
@@ -20,11 +20,7 @@ export default function hook() {
         if (otpStatus !== "empty" && !force) return true;
 
         const response = await axios
-            .post(route("otp.send"), {
-                document_number: data.document_number,
-                source: data.email,
-                channel: "email",
-            })
+            .post(route("register.validate"), data)
             .catch((error) => {
                 return error.response;
             });
@@ -34,7 +30,7 @@ export default function hook() {
             return true;
         }
 
-        setErrors(response.data.errors, { source: "email" });
+        setErrors(response.data.errors);
         return false;
     };
 

@@ -24,33 +24,50 @@ class RegisterRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             "document_type_code" => ["required", "exists:document_types,code"],
             "document_number" => ["required", "string", "unique:users,document_number"],
             "email" => ["required", "email", "max:255", "unique:users,email"],
             "phone" => ["required", "numeric"],
-            "name" => ["required", "string", "max:255"],
-            "last_name" => ["required", "string", "max:255"],
-            "verify_otp" => ["nullable", "string"],
-            "otp" => ["nullable", "string", "size:5"],
-            "password" => ["required", "string", "min:8"],
+            "name" => ["required", "string", "min:2", "max:25"],
+            "last_name" => ["required", "string", "min:2", "max:25"],
         ];
+
+        if ($this->route()->getName() == "register.store") {
+            $rules = [
+                ...$rules,
+                "verify_otp" => ["required", "string"],
+                "otp" => ["required", "string", "size:5"],
+                "password" => ["required", "string", "min:8"],
+            ];
+        }
+
+        return $rules;
     }
 
     public function after()
     {
         return [
             function (Validator $validator) {
-                $regex = DocumentType::find($this->document_type_code)->regex;
-                if (!preg_match("/$regex/", $this->document_number)) {
-                    $validator->errors()->add("document_number", __("validation.regex"));
+                if ($this->document_type_code) {
+                    $regex = DocumentType::find($this->document_type_code)->regex;
+
+                    $validator->errors()->addIf(
+                        !preg_match("/$regex/", $this->document_number),
+                        "document_number",
+                        __("validation.regex", ["attribute" => __("validation.attributes.document_number")])
+                    );
                 }
 
-                $verify_otp = Crypt::decrypt($this->input("verify_otp"));
-                $otp = $this->input("otp");
+                if ($this->verify_otp) {
+                    $verify_otp = Crypt::decrypt($this->input("verify_otp"));
+                    $otp = $this->input("otp");
 
-                if ($verify_otp != $otp) {
-                    $validator->errors()->add("otp", __("validation.code.invalid"));
+                    $validator->errors()->addIf(
+                        $verify_otp != $otp,
+                        "otp",
+                        __("validation.code.invalid", ["attribute" => __("validation.attributes.otp")])
+                    );
                 }
             }
         ];

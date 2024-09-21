@@ -20,7 +20,7 @@ export default function Register({}: Props) {
 
                 <Link
                     href={route("login")}
-                    className="mt-2 mb-8 flex gap-1 text-primary-500 hover:text-primary-600"
+                    className="mt-2 mb-8 flex gap-1 text-primary hover:text-primary-600"
                 >
                     <ArrowLeftIcon width={20} />
                     ¿Ya tienes una cuenta? Inicia sesión

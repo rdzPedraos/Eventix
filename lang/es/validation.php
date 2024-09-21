@@ -165,7 +165,7 @@ return [
     /* CUSTOM VALIDATIONS */
     "code" => [
         "expired" => "El código :attribute no ha sido creado o ha expirado. Por favor, crea otro.",
-        "invalid" => "El código :attribute no coincide.",
+        "invalid" => "El código :attribute no coincide con el registrado.",
     ],
 
     "base64" => [
@@ -210,6 +210,7 @@ return [
         "email" => "correo electrónico",
         "phone" => "teléfono",
         "document_type" => "tipo de documento",
+        "document_type_code" => "tipo de documento",
         "document_number" => "número de documento",
         "password" => "contraseña",
     ],

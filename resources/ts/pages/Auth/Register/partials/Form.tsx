@@ -6,7 +6,7 @@ import {
     UserIcon,
 } from "@heroicons/react/24/solid";
 
-import hook from "../hook";
+import useHook from "../hook";
 import { Wizard } from "@/components";
 import Basic from "./Basic";
 import Email from "./Email";
@@ -22,7 +22,7 @@ export default function Form({}: Props) {
         sendOtp,
         verifyOtp,
         verifyPassword,
-    } = hook();
+    } = useHook();
 
     const steps = [
         {

@@ -14,13 +14,6 @@ class OtpRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        $user_auth = Auth::user();
-
-        //Si está autenticado, sólo permitirá usar el otp si el usuario autenticado es el mismo que está validando el otp.
-        if ($user_auth) {
-            return $user_auth->document_number == $this->input("document_number");
-        }
-
         return true;
     }
 
@@ -32,21 +25,22 @@ class OtpRequest extends FormRequest
     public function rules(): array
     {
         $auth = Auth::user();
+        $column = $this->input("channel") == "email" ? "email" : "phone";
+
+        //only allow unique document_number and source for users not registered or for the authenticated user
+        $uniqueDocument = "unique:users,document_number";
+        $uniqueSource = "unique:users,$column";
+        if ($auth) {
+            $uniqueDocument .= ",$auth->id";
+            $uniqueSource .= ",$auth->id";
+        }
 
         $rules = [
-            "document_number" => ["required", "string"],
-            "source" => ["required", "string"],
+            "document_number" => ["required", "string", $uniqueDocument],
+            "source" => ["required", "string", $uniqueSource],
             "channel" => ["required", "string", "in:email,sms"],
             "otp" => ["nullable", "string", "size:5"],
         ];
-
-        //Si no está autenticado, permitirá usar el otp si el email no está registrado en la base de datos.
-        if (!$auth) {
-            $column = $this->input("channel") == "email" ? "email" : "phone";
-
-            $rules["document_number"][] = "unique:users,document_number";
-            $rules["source"][] = "unique:users,$column";
-        }
 
         if ($this->route()->getName() == "otp.verify") {
             $rules["otp"][] = "required";

@@ -9,13 +9,13 @@ use Illuminate\Support\Facades\Route;
 Route::get("/", fn() => redirect()->route("home"));
 Route::inertia("/home", "Home")->name("home");
 
+Route::resource("register", RegisterController::class)->only(["index", "store"]);
+Route::post("register/pre-validate", [RegisterController::class, "validateData"])->name("register.validate");
 Route::post("otp/send", [OtpController::class, "create"])->name("otp.send");
 Route::post("otp/verify", [OtpController::class, "verify"])->name("otp.verify");
 
 Route::middleware("guest")->group(function () {
     Route::resource("login", LoginController::class)->only(["index", "store"])->name("index", "login");
-    Route::resource("register", RegisterController::class)->only(["index", "store"]);
-    Route::post("register/pre-validate", [RegisterController::class, "validateData"])->name("register.validate");
 });
 
 Route::middleware("auth")->group(function () {

@@ -8,8 +8,8 @@ import React, {
 import { Input } from "@nextui-org/react";
 
 type Props = {
-    value?: string;
-    onValueChange?: (value: string) => void;
+    value: string;
+    onChange: (value: string) => void;
     length?: number;
     variant?: "flat" | "faded" | "bordered" | "underlined";
     color?: "default" | "primary" | "secondary";
@@ -23,7 +23,7 @@ export default function OtpBox({
     length = 5,
     variant,
     color,
-    onValueChange,
+    onChange,
     errorMessage,
     disabled,
 }: Props) {
@@ -46,7 +46,7 @@ export default function OtpBox({
 
     useEffect(() => {
         focusInput();
-        onValueChange?.(otp.join(""));
+        onChange(otp.join(""));
     }, [otp]);
 
     const handleKeyDown = (

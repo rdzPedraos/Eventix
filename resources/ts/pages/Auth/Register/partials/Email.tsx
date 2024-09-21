@@ -44,7 +44,7 @@ export default function Email({ register, sendCode, editable }: Props) {
             </p>
 
             <div className="flex items-center gap-2">
-                <OtpBox {...register("otp")} disabled={editable} />
+                <OtpBox {...register("otp", "otpbox")} disabled={editable} />
             </div>
         </>
     );

@@ -21,7 +21,7 @@ class ActivityController extends Controller implements HasMiddleware
     {
         return [
             new Middleware("permission:" . PermissionEnum::ACTIVITY_CHECK->value, ["index"]),
-            new Middleware("permission:" . PermissionEnum::ACTIVITY_CREATE->value, ["create", "store"]),
+            new Middleware("permission:" . PermissionEnum::ACTIVITY_CREATE->value, ["create", "store", "edit", "update"]),
         ];
     }
 

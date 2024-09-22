@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Casts\NameCast;
 use App\Enums\RoleEnum;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -47,6 +48,8 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
+            'name' => NameCast::class,
+            'last_name' => NameCast::class,
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];

@@ -171,6 +171,9 @@ return [
         "invalid_encode" => "The :attribute field was loaded with an invalid base64 encode",
     ],
 
+    "phone" =>  [
+        "invalid" => "The :attribute field is not a valid phone number",
+    ],
 
     /*
     |--------------------------------------------------------------------------

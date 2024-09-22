@@ -172,6 +172,10 @@ return [
         "invalid_encode" => "El campo :attribute no es una imagen válida.",
     ],
 
+    "phone" => [
+        "invalid" => "El campo :attribute no es un número de teléfono válido.",
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines

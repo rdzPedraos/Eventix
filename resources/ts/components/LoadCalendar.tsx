@@ -8,7 +8,7 @@ import {
     ViewModeTypes,
 } from "./Calendar/utils/types";
 import { CalendarProvider, Calendar } from "./Calendar";
-import days from "./Calendar/utils/calendar";
+import { createDay } from "./Calendar/utils/calendar";
 
 type Props = {
     eventDetail?: eventDetailType;
@@ -18,7 +18,6 @@ export default function LoadCalendar({}: Props) {
     const [events, setEvents] = useState([]);
 
     const onSearchEvents = (day: DayType, mode: ViewModeTypes) => {
-        console.log({ day });
         axios
             .get(route("api.activities.index"), {
                 params: { day, mode },
@@ -30,8 +29,8 @@ export default function LoadCalendar({}: Props) {
                         title: activity.name,
                         description: activity.description,
                         color: activity.color,
-                        startDate: days(start_date),
-                        endDate: days(end_date),
+                        startDate: createDay(start_date),
+                        endDate: createDay(end_date),
                     })
                 );
 

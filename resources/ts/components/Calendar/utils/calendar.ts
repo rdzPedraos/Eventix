@@ -1,16 +1,17 @@
 import "dayjs/locale/es";
+import utc from "dayjs/plugin/utc";
 import days, { Dayjs } from "dayjs";
 
-import { DayType, EventType, ViewModeTypes } from "./types";
 days.locale("es");
+days.extend(utc);
 
-export default days;
+export const createDay = (date?: days.ConfigType) => days(date).utc(true);
 
-export const now = (): Dayjs => days();
+export const now = (): Dayjs => createDay();
 
 export const hours: Dayjs[] = new Array(24)
     .fill(0)
-    .map((_, i) => days().startOf("day").add(i, "hour"));
+    .map((_, i) => now().startOf("day").add(i, "hour"));
 
 export function getWeekDays(day: Dayjs): Dayjs[] {
     const firstDay = day.set("day", -day.day());

@@ -1,4 +1,4 @@
-import days from "@/components/Calendar/utils/calendar";
+import { createDay } from "@/components/Calendar/utils/calendar";
 import { Scheduler } from "@/types/models";
 import { CalendarDate, Time } from "@internationalized/date";
 import { DatePicker, TimeInput } from "@nextui-org/react";
@@ -24,8 +24,8 @@ function getData(
         };
     }
 
-    const start = days(start_date);
-    const end = days(end_date);
+    const start = createDay(start_date);
+    const end = createDay(end_date);
 
     return { start, end };
 }

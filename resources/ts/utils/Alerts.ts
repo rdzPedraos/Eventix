@@ -20,7 +20,7 @@ export function triggerAlert(
 
 export function toastAlert(
     message: string,
-    type: "success" | "error" | "loading" | "default" = "default"
+    type: "success" | "error" | "loading" = "error"
 ) {
     toast[type](message);
 }

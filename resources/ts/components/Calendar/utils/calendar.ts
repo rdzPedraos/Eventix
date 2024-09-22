@@ -1,6 +1,6 @@
 import "dayjs/locale/es";
 import days, { Dayjs } from "dayjs";
-import colors from "./colors";
+
 import { DayType, EventType, ViewModeTypes } from "./types";
 days.locale("es");
 
@@ -38,42 +38,4 @@ export function getMonthDays(
     });
 
     return daysMatrix;
-}
-
-export async function generateRandomEvents(
-    day: DayType,
-    mode: ViewModeTypes
-): Promise<EventType[]> {
-    const week = day.startOf("week");
-
-    const events = Array(40)
-        .fill(null)
-        .map((_, i) => {
-            const color = colors[Math.floor(Math.random() * colors.length)];
-
-            const title = `Evento ${i + 1}`;
-            const description = `Descripción del evento ${i + 1}`;
-
-            const startDate = week
-                .add(Math.floor(Math.random() * 7), "day")
-                .startOf("day")
-                .add(Math.floor(Math.random() * 23), "hour")
-                .add(Math.floor(Math.random() * 4) * 15, "minute"); // 0, 15, 30, or 45 minutes
-
-            const endDate = startDate.add(
-                Math.floor(Math.random() * (24 - startDate.hour())) * 15,
-                "minute"
-            );
-
-            return {
-                id: i.toString(),
-                startDate,
-                endDate,
-                title,
-                color,
-                description,
-            };
-        });
-
-    return events;
 }

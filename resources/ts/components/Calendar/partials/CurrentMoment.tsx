@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 
-import { useCalendarContext } from "../context";
+import { useCalendarContext } from "../CalendarContext";
 import { DayType, ViewModeTypes } from "../utils/types";
 
 type Props = {};

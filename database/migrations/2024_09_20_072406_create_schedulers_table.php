@@ -14,9 +14,8 @@ return new class extends Migration
         Schema::create('schedulers', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('activity_id');
-            $table->date('day');
-            $table->time('start');
-            $table->time('end');
+            $table->timestamp('start_date');
+            $table->timestamp('end_date');
 
             $table->foreign('activity_id')->references('id')->on('activities')->cascadeOnDelete()->cascadeOnUpdate();
         });

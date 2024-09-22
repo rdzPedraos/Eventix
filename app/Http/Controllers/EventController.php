@@ -23,9 +23,9 @@ class EventController extends Controller
             $startOfWeek = $date->copy()->startOfWeek()->subDay();
             $endOfWeek = $date->copy()->endOfWeek()->subDay();
 
-            $schedulers = Scheduler::whereBetween('day', [$startOfWeek, $endOfWeek]);
+            $schedulers = Scheduler::whereBetween('start_date', [$startOfWeek, $endOfWeek]);
         } elseif ($mode === 'dia') {
-            $schedulers = Scheduler::whereDate('day', $date);
+            $schedulers = Scheduler::whereDate('start_date', $date);
         } else {
             return response()->json(['error' => 'Tipo no válido'], 400);
         }

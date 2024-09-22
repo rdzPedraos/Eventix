@@ -1,21 +1,12 @@
-import React, { useState } from "react";
-import { route } from "@ziggyjs";
-
-import axios from "axios";
-import {
-    getLocalTimeZone,
-    parseDate,
-    parseTime,
-    today,
-} from "@internationalized/date";
+import React from "react";
 
 import { PlusIcon, TrashIcon } from "@heroicons/react/24/solid";
-import { Button, DatePicker, Link, TimeInput } from "@nextui-org/react";
-import { DayType, ViewModeTypes } from "@/components/Calendar/utils/types";
-import days from "@/components/Calendar/utils/calendar";
+import { Button } from "@nextui-org/react";
+
 import { Scheduler } from "@/types/models";
-import { Calendar, Container } from "@/components";
+import { LoadCalendar, Container } from "@/components";
 import { toastAlert } from "@/utils";
+import SchedulerInput from "./SchedulerInput";
 
 type Props = {
     schedulers: Scheduler[];
@@ -24,16 +15,13 @@ type Props = {
 
 function allowAddScheduler(schedulers: Scheduler[]) {
     const allCompletes = schedulers.every(
-        (scheduler) => scheduler.day && scheduler.start && scheduler.end
+        (scheduler) => scheduler.start_date && scheduler.end_date
     );
 
     return allCompletes;
 }
 
 export default function DatesForm({ schedulers, setSchedulers }: Props) {
-    console.log(schedulers);
-    const [events, setEvents] = useState([]);
-
     const addScheduler = () => {
         if (!allowAddScheduler(schedulers)) {
             return toastAlert(
@@ -41,7 +29,8 @@ export default function DatesForm({ schedulers, setSchedulers }: Props) {
             );
         }
 
-        setSchedulers([...schedulers, {} as Scheduler]);
+        const id = schedulers[schedulers.length - 1]?.id + 1 || 1;
+        setSchedulers([...schedulers, { id } as Scheduler]);
     };
 
     const removeScheduler = (index: number) => {
@@ -50,34 +39,12 @@ export default function DatesForm({ schedulers, setSchedulers }: Props) {
         setSchedulers(newSchedulers);
     };
 
-    const editScheduler = (
-        id: number,
-        key: keyof Scheduler,
-        value: Scheduler[keyof Scheduler]
-    ) => {
-        const newSchedulers = [...schedulers];
-        newSchedulers[id][key] = value as string & number;
-        console.log({ id, key, value, newSchedulers });
-        setSchedulers(newSchedulers);
-    };
-
-    const onSearchEvents = (day: DayType, mode: ViewModeTypes) => {
-        axios
-            .get(route("api.activities.index"), { params: { day, mode } })
-            .then(({ data }) => {
-                const dates = data.map(
-                    ({ id, activity, start_date, end_date }) => ({
-                        id: id,
-                        title: activity.name,
-                        description: activity.description,
-                        color: activity.color,
-                        startDate: days(start_date),
-                        endDate: days(end_date),
-                    })
-                );
-
-                setEvents(dates);
-            });
+    const updateScheduler = (index: number) => {
+        return (scheduler: Scheduler) => {
+            const newSchedulers = [...schedulers];
+            newSchedulers[index] = scheduler;
+            setSchedulers(newSchedulers);
+        };
     };
 
     return (
@@ -90,56 +57,28 @@ export default function DatesForm({ schedulers, setSchedulers }: Props) {
                 </p>
 
                 <div className="flex flex-col gap-2">
-                    {schedulers.map(({ day, start, end }, index) => (
-                        <div
-                            key={day + start + end}
-                            className="flex justify-start gap-4"
-                        >
-                            <button
-                                className="text-danger"
-                                onClick={() => removeScheduler(index)}
-                            >
-                                <TrashIcon width={20} />
-                            </button>
+                    {schedulers.map((scheduler, index) => {
+                        console.log("render", scheduler.id);
 
-                            <DatePicker
-                                showMonthAndYearPickers
-                                minValue={today(getLocalTimeZone())}
-                                label="Fecha"
-                                size="sm"
-                                isRequired
-                                className="w-36"
-                                value={day ? parseDate(day) : null}
-                                onChange={(day) =>
-                                    editScheduler(index, "day", day.toString())
-                                }
-                            />
-                            <TimeInput
-                                label="Inicio"
-                                size="sm"
-                                isRequired
-                                className="w-24"
-                                defaultValue={start ? parseTime(start) : null}
-                                onChange={(time) =>
-                                    editScheduler(
-                                        index,
-                                        "start",
-                                        time.toString()
-                                    )
-                                }
-                            />
-                            <TimeInput
-                                label="Cierre"
-                                size="sm"
-                                isRequired
-                                className="w-24"
-                                defaultValue={end ? parseTime(end) : null}
-                                onChange={(time) =>
-                                    editScheduler(index, "end", time.toString())
-                                }
-                            />
-                        </div>
-                    ))}
+                        return (
+                            <div
+                                key={scheduler.id}
+                                className="flex justify-start gap-4"
+                            >
+                                <button
+                                    className="text-danger"
+                                    onClick={() => removeScheduler(index)}
+                                >
+                                    <TrashIcon width={20} />
+                                </button>
+
+                                <SchedulerInput
+                                    scheduler={scheduler}
+                                    onChange={updateScheduler(index)}
+                                />
+                            </div>
+                        );
+                    })}
                 </div>
 
                 <Button
@@ -154,7 +93,7 @@ export default function DatesForm({ schedulers, setSchedulers }: Props) {
             </Container>
 
             <div className="mx-5 rounded-xl overflow-hidden">
-                <Calendar events={events} onChangeEvents={onSearchEvents} />
+                <LoadCalendar />
             </div>
         </>
     );

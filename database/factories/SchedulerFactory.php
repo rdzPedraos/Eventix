@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Activity;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Activity>
@@ -19,18 +20,18 @@ class SchedulerFactory extends Factory
     public function definition(): array
     {
         $activity = Activity::inRandomOrder()->first();
-        $lastScheduler = $activity->schedulers()->orderBy("day")->orderBy("start")->first();
-        $startDay = $lastScheduler->day ?? Carbon::now()->startOfWeek()->subDay();
+        $lastScheduler = $activity->schedulers()->orderBy("start_date")->first();
+        $lastDay = $lastScheduler->start_date ?? Carbon::now()->startOfWeek()->subDay();
 
-        $day = fake()->dateTimeBetween($startDay->format('Y-m-d'), $startDay->addDays(7)->format('Y-m-d'))->format('Y-m-d');
-        $start = fake()->dateTimeBetween($day, "{$day}23:00:00");
-        $end = fake()->dateTimeBetween($start, "{$day}23:30:00");
+        $startDate = Carbon::parse($lastDay)->addDays(rand(1, 7))->addMinutes(15 * rand(0, 4 * 23));
+        $endDate = fake()->dateTimeBetween($startDate, $startDate->copy()->endOfDay()->subMinutes(15));
+
+        Log::debug("hours", ["activity" => $activity->id, "start" => $startDate->format("Y-m-d H:i:s"), "end" => $endDate->format("Y-m-d H:i:s")]);
 
         return [
             'activity_id' => $activity->id,
-            'day' => $day,
-            'start' => $start,
-            'end' => $end,
+            'start_date' => $startDate,
+            'end_date' => $endDate,
         ];
     }
 }

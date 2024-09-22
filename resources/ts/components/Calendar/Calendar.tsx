@@ -1,10 +1,10 @@
 import React from "react";
-import { useCalendarContext } from "../context";
+import { useCalendarContext } from "./CalendarContext";
 
-import Header from "./Header";
-import Week from "./Week";
-import Day from "./Day";
-import Modal from "./Modal";
+import Header from "./partials/Header";
+import Week from "./partials/Week";
+import Day from "./partials/Day";
+import Modal from "./partials/Modal";
 
 function render() {
     const { mode } = useCalendarContext();

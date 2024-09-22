@@ -5,11 +5,10 @@ import React, {
     SetStateAction,
     useContext,
     useEffect,
-    useMemo,
     useState,
 } from "react";
 
-import { now, generateRandomEvents } from "./utils/calendar";
+import { now } from "./utils/calendar";
 
 import {
     DayType,
@@ -33,17 +32,19 @@ type ContexType = {
 
 const CalendarContext = createContext<ContexType>({} as ContexType);
 
+type CalendarProviderProps = {
+    children: ReactNode;
+    eventDetail?: eventDetailType;
+    events: EventType[];
+    onChangeEvents: (day: DayType, mode: ViewModeTypes) => void;
+};
+
 export default function CalendarProvider({
     children,
     eventDetail,
     events,
     onChangeEvents,
-}: {
-    children: ReactNode;
-    eventDetail?: eventDetailType;
-    events: EventType[];
-    onChangeEvents: (day: DayType, mode: ViewModeTypes) => void;
-}) {
+}: CalendarProviderProps) {
     const [mode, setMode] = useState<ViewModeTypes>("week");
     const [current, setCurrent] = useState<DayType>(now());
     const [day, setDay] = useState<DayType>(current);
@@ -58,6 +59,7 @@ export default function CalendarProvider({
     }, []);
 
     useEffect(() => {
+        console.log("useffect", { day, mode });
         onChangeEvents(day, mode);
     }, [day, mode]);
 

@@ -16,8 +16,10 @@ class SchedulerResource extends JsonResource
     public function toArray(Request $request): array
     {
         //$this->day is a Carbon instance add startDate and endDate
-        $startDate = Carbon::parse($this->day)->format("Y-m-d $this->start");
-        $endDate = Carbon::parse($this->day)->format("Y-m-d $this->end");
+        #$startDate = Carbon::parse($this->day)->format("Y-m-d $this->start");
+        #$endDate = Carbon::parse($this->day)->format("Y-m-d $this->end");
+        $start_date = Carbon::parse($this->start_date)->format("Y-m-d\TH:i:s.00");
+        $end_date = Carbon::parse($this->end_date)->format("Y-m-d\TH:i:s.00");
 
         return [
             'id' => $this->id,
@@ -26,9 +28,8 @@ class SchedulerResource extends JsonResource
                 "description" => $this->activity->description,
                 "color" => $this->activity->color,
             ],
-            'day' => $this->day,
-            "start_date" => $startDate,
-            "end_date" => $endDate,
+            "start_date" => $start_date,
+            "end_date" => $end_date,
         ];
     }
 }

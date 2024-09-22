@@ -14,24 +14,14 @@ class Scheduler extends Model
 
     protected $fillable = [
         'activity_id',
-        'day',
-        'start',
-        'end',
+        'start_date',
+        'end_date',
     ];
 
-    public $casts = [];
-
-
-    public function setStartAttribute($value)
-    {
-        $this->attributes['start'] = Carbon::parse($value)->format('H:i:00');
-    }
-
-    public function setEndAttribute($value)
-    {
-        $this->attributes['end'] = Carbon::parse($value)->format('H:i:00');
-    }
-
+    public $casts = [
+        "start_date" => "datetime",
+        "end_date" => "datetime",
+    ];
 
     public function activity()
     {

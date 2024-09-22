@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { route } from "@ziggyjs";
 import { usePage } from "@inertiajs/react";
 
@@ -14,20 +14,24 @@ import BasicForm from "./partials/BasicForm";
 import DatesForm from "./partials/DatesForm";
 import { PastelColors, realisticConfetti, triggerAlert } from "@/utils";
 
+function defaultActivity() {
+    const activity = {} as ActivityCreateFormFields;
+    const randColor = Math.floor(Math.random() * PastelColors.length);
+
+    activity.schedulers = [];
+    activity.color = PastelColors[randColor];
+
+    return activity;
+}
+
 export default function Create() {
+    console.log("load page");
     const { activity } = usePage<{
         activity: ActivityResource;
     }>().props;
 
-    const { register, submit, data, setData, errors } = useForm(
-        activity || ({ schedulers: [] } as ActivityCreateFormFields)
-    );
-
-    useEffect(() => {
-        if (activity) return;
-        const random = Math.floor(Math.random() * PastelColors.length);
-        setData("color", PastelColors[random]);
-    }, []);
+    const { register, submit, data, setData, errors } =
+        useForm<ActivityCreateFormFields>(activity || defaultActivity());
 
     const setSchedulers = (schedulers: Scheduler[]) => {
         setData("schedulers", schedulers);

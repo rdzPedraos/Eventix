@@ -11,6 +11,7 @@ export interface Activity {
   updated_at: string|null
   // relations
   owner: User
+  schedulers: Scheduler[]
 }
 
 export interface DocumentType {
@@ -24,9 +25,10 @@ export interface Scheduler {
   // columns
   id: number
   activity_id: number
-  day: string
-  start: string
-  end: string
+  start_date: string
+  end_date: string
+  // relations
+  activity: Activity
 }
 
 export interface User {
@@ -34,8 +36,8 @@ export interface User {
   id: number
   document_type_code: string
   document_number: string
-  name: string
-  last_name: string
+  name: unknown
+  last_name: unknown
   email: string
   phone: string
   password?: string

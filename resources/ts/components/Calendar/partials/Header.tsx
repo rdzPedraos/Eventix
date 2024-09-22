@@ -4,7 +4,7 @@ import { Button, Select, SelectItem } from "@nextui-org/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 
 import { DayType, ViewModeTypes } from "../utils/types";
-import { useCalendarContext } from "../context";
+import { useCalendarContext } from "../";
 
 type Props = {};
 

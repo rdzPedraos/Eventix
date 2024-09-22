@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 
-import { useCalendarContext } from "../context";
+import { useCalendarContext } from "../";
 import { getWeekDays } from "../utils/calendar";
 
 import Grid from "./Grid";

@@ -1,5 +1,5 @@
 import React from "react";
-import { useCalendarContext } from "../context";
+import { useCalendarContext } from "../";
 import { EventType } from "../utils/types";
 
 type Props = EventType & {

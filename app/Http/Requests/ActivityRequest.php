@@ -30,9 +30,8 @@ class ActivityRequest extends FormRequest
             "image" => ["nullable", new Base64Image()],
             "color" => ["required", "string", "regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/"],
             "schedulers" => ["required", "array", "min:1"],
-            "schedulers.*.day" => ["required", "date"],
-            "schedulers.*.start" => ["required", "date_format:H:i:s"],
-            "schedulers.*.end" => ["required", "date_format:H:i:s"],
+            "schedulers.*.start_date" => ["required", "date"],
+            "schedulers.*.end_date" => ["required", "date"],
         ];
     }
 

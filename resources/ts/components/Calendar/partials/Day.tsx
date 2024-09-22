@@ -1,5 +1,5 @@
 import React from "react";
-import { useCalendarContext } from "../context";
+import { useCalendarContext } from "../CalendarContext";
 import Hours from "./Hours";
 import Grid from "./Grid";
 import CurrentMoment from "./CurrentMoment";

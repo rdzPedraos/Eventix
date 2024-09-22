@@ -1,6 +1,5 @@
 export { default as Head } from "./Head";
 export { default as Logo } from "./Logo";
-export { default as Calendar } from "./Calendar";
 export { default as EventInfo } from "./EventInfo";
 export { default as Wizard } from "./Wizard";
 export { default as PasswordInput } from "./PasswordInput";
@@ -9,3 +8,4 @@ export { default as Table } from "./Table";
 export { default as Breadcrumb } from "./Breadcrumb";
 export { default as Container } from "./Container";
 export { default as UploadFile } from "./UploadFile";
+export { default as LoadCalendar } from "./LoadCalendar";

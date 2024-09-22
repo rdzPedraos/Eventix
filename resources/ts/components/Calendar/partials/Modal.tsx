@@ -8,7 +8,7 @@ import {
     ModalFooter,
     ModalHeader,
 } from "@nextui-org/react";
-import { useCalendarContext } from "../context";
+import { useCalendarContext } from "../";
 
 type Props = {};
 

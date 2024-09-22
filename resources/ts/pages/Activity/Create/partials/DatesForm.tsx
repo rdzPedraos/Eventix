@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import { route } from "@ziggyjs";
 
 import axios from "axios";
-import { parseDate, parseTime } from "@internationalized/date";
+import {
+    getLocalTimeZone,
+    parseDate,
+    parseTime,
+    today,
+} from "@internationalized/date";
 
 import { PlusIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { Button, DatePicker, TimeInput } from "@nextui-org/react";
@@ -81,7 +86,7 @@ export default function DatesForm({ schedulers, setSchedulers }: Props) {
                 <h2 className="text-2xl mb-4">Cronograma</h2>
                 <p className="mb-4">
                     Aqui puedes agregar todas las reuniones que desees 😉!
-                    Además, puedes ir previsualiando tu calendario 📆
+                    Además, puedes previsualizar tu calendario 📆
                 </p>
 
                 <div className="flex flex-col gap-2">
@@ -98,6 +103,8 @@ export default function DatesForm({ schedulers, setSchedulers }: Props) {
                             </button>
 
                             <DatePicker
+                                showMonthAndYearPickers
+                                minValue={today(getLocalTimeZone())}
                                 label="Fecha"
                                 size="sm"
                                 isRequired

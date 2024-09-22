@@ -21,8 +21,7 @@ class ActivityListResource extends JsonResource
 
         $editable = false;
         if (!$isClosed) {
-
-            $editable = $user->hasRole(RoleEnum::SUPER_ADMIN) || $this->status != ActivityStatusEnum::PUBLISHED || $this->owner->id == $user->id;
+            $editable = $user->isSuperAdmin() || $this->status != ActivityStatusEnum::PUBLISHED || $this->owner->id == $user->id;
         }
 
         return [

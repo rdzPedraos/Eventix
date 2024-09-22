@@ -55,13 +55,16 @@ class User extends Authenticatable
         ];
     }
 
+    public function isSuperAdmin(): bool
+    {
+        return $this->hasRole(RoleEnum::SUPER_ADMIN);
+    }
+
     public function accesibleActivities(): Builder
     {
-        if ($this->hasRole(RoleEnum::SUPER_ADMIN)) {
-            return Activity::query();
-        }
-
-        return $this->activities()->getQuery();
+        return self::isSuperAdmin()
+            ? Activity::query()
+            : $this->activities()->getQuery();
     }
 
     /* relations */

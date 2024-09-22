@@ -11,8 +11,7 @@ type Props = {};
 
 export default function Week({}: Props) {
     const { now, day, events } = useCalendarContext();
-    const week = useMemo(() => day.startOf("week"), [day]);
-    const weekDays = useMemo(() => getWeekDays(week), [week]);
+    const weekDays = useMemo(() => getWeekDays(day), [day]);
 
     return (
         <div className="flex-grow flex flex-col overflow-hidden border border-gray-200 rounded-lg">

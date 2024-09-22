@@ -10,7 +10,8 @@ export default function Password({ register }: Props) {
     return (
         <>
             <p className="mb-4 text-gray-500">
-                Ingrese una contraseña segura para su cuenta.
+                Ingrese una contraseña segura para su cuenta. La contraseña debe
+                tener al menos 8 caracteres.
             </p>
 
             <div className="flex flex-col gap-4">

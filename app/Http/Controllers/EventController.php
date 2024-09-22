@@ -17,11 +17,11 @@ class EventController extends Controller
         ]);
 
         $mode = $request->input('mode');
-        $date = Carbon::parse(time: $request->input('date'));
+        $date = Carbon::parse(time: $request->input('date'),);
 
         if ($mode === 'week') {
-            $startOfWeek = $date->copy()->startOfWeek()->subDay();
-            $endOfWeek = $date->copy()->endOfWeek()->subDay();
+            $startOfWeek = $date->copy()->startOfWeek(0);
+            $endOfWeek = $startOfWeek->copy()->addDays(7);
 
             $schedulers = Scheduler::whereBetween('start_date', [$startOfWeek, $endOfWeek]);
         } elseif ($mode === 'dia') {

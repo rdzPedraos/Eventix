@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Activity;
 use Carbon\Carbon;
+use Carbon\WeekDay;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Log;
 
@@ -21,9 +22,9 @@ class SchedulerFactory extends Factory
     {
         $activity = Activity::inRandomOrder()->first();
         $lastScheduler = $activity->schedulers()->orderBy("start_date")->first();
-        $lastDay = $lastScheduler->start_date ?? Carbon::now()->startOfWeek()->subDay();
+        $lastDay = $lastScheduler->start_date ?? Carbon::now()->startOfWeek(WeekDay::Sunday);
 
-        $startDate = Carbon::parse($lastDay)->addDays(rand(1, 7))->addMinutes(15 * rand(0, 4 * 23));
+        $startDate = Carbon::parse($lastDay)->addDays(rand(0, 6))->addMinutes(15 * rand(0, 4 * 23));
         $endDate = fake()->dateTimeBetween($startDate, $startDate->copy()->endOfDay()->subMinutes(15));
 
         Log::debug("hours", ["activity" => $activity->id, "start" => $startDate->format("Y-m-d H:i:s"), "end" => $endDate->format("Y-m-d H:i:s")]);

@@ -1,9 +1,8 @@
 import React from "react";
 
-import { Link } from "@inertiajs/react";
 import { route } from "@ziggyjs";
 
-import { Button, Checkbox, Input } from "@nextui-org/react";
+import { Button, Checkbox, Input, Link } from "@nextui-org/react";
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
 
 import useForm from "@/hooks/useForm";
@@ -78,7 +77,8 @@ export default function Login({}: Props) {
 
                 <Link
                     href={route("register.index")}
-                    className="absolute bottom-10 left-0 right-0 text-center text-default-500 hover:underline"
+                    color="foreground"
+                    className="block absolute bottom-10 left-0 right-0 text-center text-default-500 hover:underline"
                 >
                     ¿No tienes cuenta? <strong>Regístrate</strong>
                 </Link>

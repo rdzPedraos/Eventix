@@ -1,6 +1,6 @@
 import React from "react";
-import { Link, usePage } from "@inertiajs/react";
-import { Button, Chip, Tooltip } from "@nextui-org/react";
+import { usePage } from "@inertiajs/react";
+import { Button, Chip, Link, Tooltip } from "@nextui-org/react";
 
 import { PencilSquareIcon, PlusIcon } from "@heroicons/react/24/solid";
 import { ActivityListResource } from "@/types/resources";

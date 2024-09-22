@@ -10,7 +10,7 @@ import {
 } from "@internationalized/date";
 
 import { PlusIcon, TrashIcon } from "@heroicons/react/24/solid";
-import { Button, DatePicker, TimeInput } from "@nextui-org/react";
+import { Button, DatePicker, Link, TimeInput } from "@nextui-org/react";
 import { DayType, ViewModeTypes } from "@/components/Calendar/utils/types";
 import days from "@/components/Calendar/utils/calendar";
 import { Scheduler } from "@/types/models";

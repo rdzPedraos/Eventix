@@ -4,8 +4,8 @@ import { Menu, MenuItem, Sidebar } from "react-pro-sidebar";
 import { route } from "@ziggyjs";
 
 import { MenuMap } from "./MenuMap";
-import { Link } from "@inertiajs/react";
 import { Logo } from "@/components";
+import { Link } from "@nextui-org/react";
 
 type Props = {
     openSidebar: boolean;

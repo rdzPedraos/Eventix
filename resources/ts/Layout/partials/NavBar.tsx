@@ -1,12 +1,11 @@
 import React from "react";
-import { Link } from "@inertiajs/react";
 
 import {
     Bars3Icon,
     CursorArrowRaysIcon,
     XMarkIcon,
 } from "@heroicons/react/24/solid";
-import { Navbar, NavbarBrand, NavbarContent } from "@nextui-org/react";
+import { Link, Navbar, NavbarBrand, NavbarContent } from "@nextui-org/react";
 
 import { Logo, Profile } from "@/components";
 

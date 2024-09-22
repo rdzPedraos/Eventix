@@ -3,7 +3,7 @@ import "../css/app.css";
 
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { createInertiaApp } from "@inertiajs/react";
+import { createInertiaApp, router } from "@inertiajs/react";
 import { NextUIProvider } from "@nextui-org/react";
 import Layout from "./Layout/AuthLayout";
 import { Toaster } from "react-hot-toast";
@@ -24,7 +24,7 @@ createInertiaApp({
     },
     setup({ el, App, props }) {
         createRoot(el).render(
-            <NextUIProvider>
+            <NextUIProvider navigate={(path) => router.get(path)}>
                 <Toaster />
                 <App {...props} />
             </NextUIProvider>

@@ -3,6 +3,7 @@ import { usePage } from "@inertiajs/react";
 
 import NavBar from "./partials/NavBar";
 import MainSidebar from "./partials/MainSidebar";
+import { Link } from "@nextui-org/react";
 
 export default function AuthLayout({
     children,
@@ -40,13 +41,13 @@ export default function AuthLayout({
 
                     <footer className="p-1 shadow text-center text-sm bg-slate-50 text-gray-500 bottom-0">
                         {name}, 2024 | Creado por
-                        <a
+                        <Link
                             target="_blank"
                             href="https://github.com/rdzPedraos"
-                            className="underline text-primary ml-1"
+                            className="ml-1"
                         >
                             @rdzpedraos
-                        </a>
+                        </Link>
                     </footer>
                 </div>
             </div>

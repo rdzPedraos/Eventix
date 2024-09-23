@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { act, useMemo } from "react";
 import { route } from "@ziggyjs";
 import { usePage } from "@inertiajs/react";
 
@@ -91,10 +91,10 @@ export default function Create() {
             );
         });
 
-    const customEvents = useMemo<EventType[]>(() => {
-        if (activity.isPublished) [];
-        return data.schedulers.map((sch) => buildEvent(data, sch));
-    }, [data]);
+    const customEvents = useMemo(
+        () => data.schedulers.map((sch) => buildEvent(data, sch)),
+        [data]
+    );
 
     return (
         <>
@@ -122,7 +122,10 @@ export default function Create() {
                 />
 
                 <div className="mx-5 rounded-xl overflow-clip shadow">
-                    <LoadCalendar staticEvents={customEvents} />
+                    <LoadCalendar
+                        staticEvents={customEvents}
+                        exceptActivityId={activity.id}
+                    />
                 </div>
             </div>
         </>

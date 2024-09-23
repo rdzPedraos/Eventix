@@ -14,14 +14,20 @@ class EventController extends Controller
         $request->validate([
             'date' => 'date',
             'mode' => 'string|in:week,day',
+            "except" => "nullable|exists:activities,id"
         ]);
 
         $mode = $request->input('mode');
         $date = Carbon::parse(time: $request->input('date'));
 
-        $schedulers = Scheduler::whereHas('activity', function ($query) {
+        $schedulers = Scheduler::whereHas('activity', function ($query) use ($request) {
             $query->published();
+
+            if ($request->has('except')) {
+                $query->where('id', '!=', $request->input('except'));
+            }
         });
+
 
         switch ($mode) {
             case "week":

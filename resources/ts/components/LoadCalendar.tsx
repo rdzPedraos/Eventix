@@ -14,15 +14,19 @@ import { createDay } from "./Calendar/utils/calendar";
 type Props = {
     eventDetail?: eventDetailType;
     staticEvents?: EventType[];
+    exceptActivityId?: number;
 };
 
-export default function LoadCalendar({ staticEvents = [] }: Props) {
+export default function LoadCalendar({
+    staticEvents = [],
+    exceptActivityId,
+}: Props) {
     const [events, setEvents] = useState<EventType[]>([]);
 
     const onSearchEvents = (day: DayType, mode: ViewModeTypes) => {
         axios
             .get(route("api.activities.index"), {
-                params: { day, mode },
+                params: { day, mode, except: exceptActivityId },
             })
             .then(({ data }) => {
                 const dates = data.map(

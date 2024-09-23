@@ -124,7 +124,7 @@ export default function Create() {
                 <div className="mx-5 rounded-xl overflow-clip shadow">
                     <LoadCalendar
                         staticEvents={customEvents}
-                        exceptActivityId={activity.id}
+                        exceptActivityId={activity?.id}
                     />
                 </div>
             </div>

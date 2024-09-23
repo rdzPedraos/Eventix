@@ -10,6 +10,7 @@ import {
 } from "./Calendar/utils/types";
 import { CalendarProvider, Calendar } from "./Calendar";
 import { createDay } from "./Calendar/utils/calendar";
+import { debounce } from "@/utils";
 
 type Props = {
     eventDetail?: eventDetailType;
@@ -44,15 +45,20 @@ export default function LoadCalendar({
             });
     };
 
-    useEffect(() => {
-        setEvents((prevEvents) => {
-            const newEvents = staticEvents.filter(
-                (staticEvent) =>
-                    !prevEvents.some((event) => event.id === staticEvent.id)
-            );
+    const updateStaticEvents = debounce((staticEvents: EventType[]) => {
+        const newEvents = [...events];
 
-            return [...prevEvents, ...newEvents];
-        });
+        for (const event of staticEvents) {
+            const id = events.findIndex((e) => e.id === event.id);
+            if (id >= 0) newEvents[id] = event;
+            else newEvents.push(event);
+        }
+
+        setEvents(newEvents);
+    }, 1000);
+
+    useEffect(() => {
+        updateStaticEvents(staticEvents);
     }, [staticEvents]);
 
     return (

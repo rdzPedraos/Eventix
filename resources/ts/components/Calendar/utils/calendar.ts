@@ -48,8 +48,5 @@ export function updateDate(
     for (const key in options) {
         date = date.set(key as UnitType, options[key]);
     }
-
-    console.log("updateDate", date);
-
     return date;
 }

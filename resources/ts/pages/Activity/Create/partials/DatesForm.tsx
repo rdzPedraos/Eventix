@@ -18,7 +18,7 @@ export default function DatesForm({ schedulers, setSchedulers }: Props) {
         setSchedulers([
             ...schedulers,
             {
-                id: schedulers[schedulers.length - 1]?.id + 1 || 1,
+                id: Math.floor(Math.random() * 10000),
                 start_date: now().toString(),
                 end_date: now().add(1, "hour").toString(),
             } as Scheduler,
@@ -34,6 +34,7 @@ export default function DatesForm({ schedulers, setSchedulers }: Props) {
     const updateScheduler = (index: number) => {
         return (scheduler: Scheduler) => {
             const newSchedulers = [...schedulers];
+
             newSchedulers[index] = scheduler;
             setSchedulers(newSchedulers);
         };

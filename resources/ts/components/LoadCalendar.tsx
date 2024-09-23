@@ -5,6 +5,7 @@ import { route } from "@ziggyjs";
 import {
     DayType,
     eventDetailType,
+    EventType,
     ViewModeTypes,
 } from "./Calendar/utils/types";
 import { CalendarProvider, Calendar } from "./Calendar";
@@ -12,10 +13,11 @@ import { createDay } from "./Calendar/utils/calendar";
 
 type Props = {
     eventDetail?: eventDetailType;
+    staticEvents?: EventType[];
 };
 
-export default function LoadCalendar({}: Props) {
-    const [events, setEvents] = useState([]);
+export default function LoadCalendar({ staticEvents = [] }: Props) {
+    const [events, setEvents] = useState<EventType[]>([]);
 
     const onSearchEvents = (day: DayType, mode: ViewModeTypes) => {
         axios
@@ -39,7 +41,10 @@ export default function LoadCalendar({}: Props) {
     };
 
     return (
-        <CalendarProvider events={events} onChangeEvents={onSearchEvents}>
+        <CalendarProvider
+            events={[...events, ...staticEvents]}
+            onChangeEvents={onSearchEvents}
+        >
             <Calendar />;
         </CalendarProvider>
     );

@@ -28,6 +28,7 @@ export type ActivityResource = {
     id: number;
     name: string;
     description: string | null;
+    isPublished: boolean;
     color: string;
     image: string | null;
     created_at: string | null;

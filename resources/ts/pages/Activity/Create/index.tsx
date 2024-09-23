@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { route } from "@ziggyjs";
 import { usePage } from "@inertiajs/react";
 
@@ -7,12 +7,14 @@ import { Scheduler } from "@/types/models";
 import { ActivityResource } from "@/types/resources";
 
 import useForm from "@/hooks/useForm";
-import { Breadcrumb } from "@/components";
+import { Breadcrumb, LoadCalendar } from "@/components";
 
 import Header from "./partials/Header";
 import BasicForm from "./partials/BasicForm";
 import DatesForm from "./partials/DatesForm";
 import { PastelColors, realisticConfetti, triggerAlert } from "@/utils";
+import { EventType } from "@/components/Calendar/utils/types";
+import { createDay } from "@/components/Calendar/utils/calendar";
 
 function defaultActivity() {
     const activity = {} as ActivityCreateFormFields;
@@ -24,8 +26,22 @@ function defaultActivity() {
     return activity;
 }
 
+function buildEvent(
+    activity: ActivityCreateFormFields,
+    scheduler: Scheduler
+): EventType {
+    return {
+        id: scheduler.id.toString(),
+        title: activity.name,
+        description: activity.description,
+        color: activity.color,
+        startDate: createDay(scheduler.start_date),
+        endDate: createDay(scheduler.end_date),
+        style: "dashed",
+    };
+}
+
 export default function Create() {
-    console.log("load page");
     const { activity } = usePage<{
         activity: ActivityResource;
     }>().props;
@@ -75,6 +91,11 @@ export default function Create() {
             );
         });
 
+    const customEvents = useMemo<EventType[]>(() => {
+        if (activity.isPublished) [];
+        return data.schedulers.map((sch) => buildEvent(data, sch));
+    }, [data]);
+
     return (
         <>
             <Breadcrumb
@@ -87,12 +108,14 @@ export default function Create() {
 
             <div className="flex flex-col gap-4">
                 <Header onPublish={onPublish} onSave={onSave} />
+
                 <BasicForm
                     registerInp={register}
                     errors={errors}
                     data={data}
                     setImage={setImage}
                 />
+
                 <DatesForm
                     schedulers={data.schedulers}
                     setSchedulers={setSchedulers}

@@ -12,6 +12,7 @@ export type EventType = {
     color: string;
     startDate: DayType;
     endDate: DayType;
+    style?: "dashed";
 };
 
 export type eventDetailType = (props: {

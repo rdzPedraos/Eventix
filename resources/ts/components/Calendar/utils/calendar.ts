@@ -1,11 +1,11 @@
 import "dayjs/locale/es";
-import utc from "dayjs/plugin/utc";
-import days, { Dayjs } from "dayjs";
+/*import utc from "dayjs/plugin/utc";*/
+import days, { Dayjs, UnitType } from "dayjs";
 
 days.locale("es");
-days.extend(utc);
+/*days.extend(utc);*/
 
-export const createDay = (date?: days.ConfigType) => days(date).utc(true);
+export const createDay = (date?: days.ConfigType) => days(date);
 
 export const now = (): Dayjs => createDay();
 
@@ -39,4 +39,17 @@ export function getMonthDays(
     });
 
     return daysMatrix;
+}
+
+export function updateDate(
+    date: Dayjs,
+    options: Partial<Record<UnitType, number>>
+) {
+    for (const key in options) {
+        date = date.set(key as UnitType, options[key]);
+    }
+
+    console.log("updateDate", date);
+
+    return date;
 }

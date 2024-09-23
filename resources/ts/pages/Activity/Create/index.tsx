@@ -97,6 +97,10 @@ export default function Create() {
                     schedulers={data.schedulers}
                     setSchedulers={setSchedulers}
                 />
+
+                <div className="mx-5 rounded-xl overflow-clip shadow">
+                    <LoadCalendar staticEvents={customEvents} />
+                </div>
             </div>
         </>
     );

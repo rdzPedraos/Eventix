@@ -1,81 +1,63 @@
-import { createDay } from "@/components/Calendar/utils/calendar";
-import { Scheduler } from "@/types/models";
-import { CalendarDate, Time } from "@internationalized/date";
-import { DatePicker, TimeInput } from "@nextui-org/react";
-import { Dayjs } from "dayjs";
 import React from "react";
+import { DatePicker, TimeInput } from "@nextui-org/react";
+import { CalendarDate, Time } from "@internationalized/date";
+
+import { Scheduler } from "@/types/models";
+import {
+    createDay,
+    now,
+    updateDate,
+} from "@/components/Calendar/utils/calendar";
+import { DayType } from "@/components/Calendar/utils/types";
 
 type Props = {
     scheduler: Scheduler;
     onChange: (scheduler: Scheduler) => void;
 };
 
-function getData(
-    start_date,
-    end_date
-): {
-    start: Dayjs | null;
-    end: Dayjs | null;
-} {
-    if (!start_date) {
-        return {
-            start: null,
-            end: null,
-        };
-    }
-
-    const start = createDay(start_date);
-    const end = createDay(end_date);
+function getData(start_date: string, end_date: string) {
+    const start = start_date ? createDay(start_date) : now();
+    const end = end_date ? createDay(end_date) : now().add(1, "hour");
 
     return { start, end };
 }
 
-function buildDate(date: Dayjs | null, type: "day" | "time"): any {
+function buildDate(date?: DayType, type?: "day" | "time"): any {
     if (!date) return null;
 
-    switch (type) {
-        case "day":
-            return new CalendarDate(date.year(), date.month() + 1, date.date());
-        case "time":
-            return new Time(date.hour(), date.minute());
-    }
+    return type == "day"
+        ? new CalendarDate(date.year(), date.month() + 1, date.date())
+        : new Time(date.hour(), date.minute());
 }
 
 export default function SchedulerInput({ scheduler, onChange }: Props) {
-    const date = getData(scheduler.start_date, scheduler.end_date);
+    const { start, end } = getData(scheduler.start_date, scheduler.end_date);
 
-    const onUpdateDay = (day: CalendarDate) => {
-        const start_date = date.start
-            .set("year", day.year)
-            .set("month", day.month - 1)
-            .set("date", day.day)
-            .toString();
-
-        const end_date = date.end
-            .set("year", day.year)
-            .set("month", day.month - 1)
-            .set("date", day.day)
-            .toString();
-
-        onChange({ ...scheduler, start_date, end_date });
+    const onChangeDay = (day: CalendarDate) => {
+        const updates = { year: day.year, month: day.month - 1, date: day.day };
+        onChange({
+            ...scheduler,
+            start_date: updateDate(start, updates).toString(),
+            end_date: updateDate(end, updates).toString(),
+        });
     };
 
-    const onChangeStart = (time: Time) => {
-        const start_date = date.start
-            .set("hour", time.hour)
-            .set("minute", time.minute)
-            .toString();
+    const onChangeStartTime = (time: Time) => {
+        const updates = { hour: time.hour, minute: time.minute };
 
-        onChange({ ...scheduler, start_date });
+        onChange({
+            ...scheduler,
+            start_date: updateDate(start, updates).toString(),
+        });
     };
 
-    const onChangeEnd = (time: Time) => {
-        const end_date = date.end
-            .set("hour", time.hour)
-            .set("minute", time.minute)
-            .toString();
+    const onChangeEndTime = (time: Time) => {
+        const updates = { hour: time.hour, minute: time.minute };
 
-        onChange({ ...scheduler, end_date });
+        onChange({
+            ...scheduler,
+            end_date: updateDate(end, updates).toString(),
+        });
     };
 
     return (
@@ -85,8 +67,8 @@ export default function SchedulerInput({ scheduler, onChange }: Props) {
                 size="sm"
                 isRequired
                 className="w-36"
-                defaultValue={buildDate(date.start, "day")}
-                onChange={onUpdateDay}
+                defaultValue={buildDate(start, "day")}
+                onChange={onChangeDay}
                 showMonthAndYearPickers
             />
             <TimeInput
@@ -94,16 +76,16 @@ export default function SchedulerInput({ scheduler, onChange }: Props) {
                 size="sm"
                 isRequired
                 className="w-24"
-                defaultValue={buildDate(date.start, "time")}
-                onChange={onChangeStart}
+                defaultValue={buildDate(start, "time")}
+                onChange={onChangeStartTime}
             />
             <TimeInput
                 label="Cierre"
                 size="sm"
                 isRequired
                 className="w-24"
-                defaultValue={buildDate(date.end, "time")}
-                onChange={onChangeEnd}
+                defaultValue={buildDate(end, "time")}
+                onChange={onChangeEndTime}
             />
         </div>
     );

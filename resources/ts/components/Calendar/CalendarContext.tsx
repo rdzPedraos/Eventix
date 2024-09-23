@@ -59,7 +59,6 @@ export default function CalendarProvider({
     }, []);
 
     useEffect(() => {
-        console.log("useffect", { day, mode });
         onChangeEvents(day, mode);
     }, [day, mode]);
 

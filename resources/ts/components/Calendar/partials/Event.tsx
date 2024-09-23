@@ -5,7 +5,7 @@ import { EventType } from "../utils/types";
 const getCustomStyle = (defaultColor: string, style: string) => {
     if (style === "dashed") {
         return {
-            background: `repeating-linear-gradient(45deg, transparent, transparent 10px, ${defaultColor} 10px, ${defaultColor} 20px)`,
+            background: `repeating-linear-gradient(45deg, #fffa, #fff9 10px, ${defaultColor} 10px, ${defaultColor} 20px)`,
         };
     }
 

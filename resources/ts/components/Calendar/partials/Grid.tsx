@@ -17,9 +17,7 @@ type Props = {
 export default function Grid({ day, events }: Props) {
     const daysEvents = events
         .filter(
-            (event) =>
-                event.startDate.isSame(day, "day") ||
-                event.endDate.isSame(day, "day")
+            (event) => event.startDate.isSame(day, "day") //|| event.endDate.isSame(day, "day")
         )
         .sort((a, b) => a.startDate.diff(b.startDate));
 

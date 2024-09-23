@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ActivityStatusEnum;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,6 +24,16 @@ class Activity extends Model
     protected $casts = [
         'status' => ActivityStatusEnum::class,
     ];
+
+    public function isPublished()
+    {
+        return $this->status == ActivityStatusEnum::PUBLISHED;
+    }
+
+    public function scopePublished(Builder $query)
+    {
+        return $query->where("status", ActivityStatusEnum::PUBLISHED);
+    }
 
     /* Relations */
     public function owner()

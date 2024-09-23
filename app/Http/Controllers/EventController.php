@@ -17,20 +17,29 @@ class EventController extends Controller
         ]);
 
         $mode = $request->input('mode');
-        $date = Carbon::parse(time: $request->input('date'),);
+        $date = Carbon::parse(time: $request->input('date'));
 
-        if ($mode === 'week') {
-            $startOfWeek = $date->copy()->startOfWeek(0);
-            $endOfWeek = $startOfWeek->copy()->addDays(7);
+        $schedulers = Scheduler::whereHas('activity', function ($query) {
+            $query->published();
+        });
 
-            $schedulers = Scheduler::whereBetween('start_date', [$startOfWeek, $endOfWeek]);
-        } elseif ($mode === 'dia') {
-            $schedulers = Scheduler::whereDate('start_date', $date);
-        } else {
-            return response()->json(['error' => 'Tipo no válido'], 400);
+        switch ($mode) {
+            case "week":
+                $startOfWeek = $date->copy()->startOfWeek(0);
+                $endOfWeek = $startOfWeek->copy()->addDays(7);
+
+                $schedulers->whereBetween('start_date', [$startOfWeek, $endOfWeek]);
+                break;
+
+            case "day":
+                $schedulers->whereDate('start_date', $date);
+                break;
+
+            default:
+                return response()->json(['message' => 'Invalid mode'], 400);
         }
 
-        $schedulers = SchedulerResource::collection($schedulers->with("activity")->get());
+        $schedulers = SchedulerResource::collection($schedulers->get());
         return response()->json($schedulers);
     }
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { route } from "@ziggyjs";
 
@@ -40,15 +40,23 @@ export default function LoadCalendar({
                     })
                 );
 
-                setEvents(dates);
+                setEvents([...dates, ...staticEvents]);
             });
     };
 
+    useEffect(() => {
+        setEvents((prevEvents) => {
+            const newEvents = staticEvents.filter(
+                (staticEvent) =>
+                    !prevEvents.some((event) => event.id === staticEvent.id)
+            );
+
+            return [...prevEvents, ...newEvents];
+        });
+    }, [staticEvents]);
+
     return (
-        <CalendarProvider
-            events={[...events, ...staticEvents]}
-            onChangeEvents={onSearchEvents}
-        >
+        <CalendarProvider events={events} onChangeEvents={onSearchEvents}>
             <Calendar />;
         </CalendarProvider>
     );

@@ -1,9 +1,9 @@
 import { Scheduler } from "@/types/models";
 
 export type ActivityCreateFormFields = {
-    name: String;
-    description: String;
+    name: string;
+    description: string;
     image: string;
-    color: String;
+    color: string;
     schedulers: Scheduler[];
 };

@@ -9,10 +9,12 @@ import Layout from "./Layout/AuthLayout";
 import { Toaster } from "react-hot-toast";
 
 createInertiaApp({
-    resolve: (name) => {
-        const pages = import.meta.glob("./pages/**/*.tsx", { eager: true });
+    resolve: async (name) => {
+        const pages = import.meta.glob("./pages/**/*.tsx");
+
         let page: any =
-            pages[`./pages/${name}.tsx`] ?? pages[`./pages/${name}/index.tsx`];
+            (await pages[`./pages/${name}.tsx`]()) ??
+            (await pages[`./pages/${name}/index.tsx`]());
 
         if (page.default.layout === undefined) {
             page.default.layout = (page: React.ReactNode) => (

@@ -33,6 +33,7 @@ export default function index<T extends ItemObject>({
 
     return (
         <Table
+            removeWrapper={true}
             {...props}
             topContent={
                 <Header

@@ -16,7 +16,7 @@ export const hours: Dayjs[] = new Array(24)
     .map((_, i) => now().startOf("day").add(i, "hour"));
 
 export function getWeekDays(day: Dayjs): Dayjs[] {
-    const firstDay = day.set("day", -day.day());
+    const firstDay = day.add(-day.day(), "day");
 
     const daysMatrix = new Array(7).fill(0).map((_, i) => {
         return firstDay.add(i, "day");

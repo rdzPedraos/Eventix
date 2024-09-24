@@ -15,7 +15,7 @@ const renderCell = (activity: ActivityListResource, columnKey: string) => {
 
             return (
                 <Chip
-                    className="mx-auto flex capitalize"
+                    className="capitalize"
                     color={status.color}
                     size="sm"
                     variant="flat"
@@ -32,7 +32,7 @@ const renderCell = (activity: ActivityListResource, columnKey: string) => {
                     <Link href={route("activities.edit", { activity })}>
                         <PencilSquareIcon
                             width={18}
-                            className="cursor-pointer text-default-500 mx-auto"
+                            className="cursor-pointer text-default-500"
                         />
                     </Link>
                 </Tooltip>
@@ -70,8 +70,8 @@ export default function List() {
                     columns={[
                         { uid: "name", label: "Titulo" },
                         { uid: "description", label: "Descripción" },
-                        { uid: "status", label: "Estado" },
-                        { uid: "actions", label: "Acciones" },
+                        { uid: "status", label: "Estado", align: "center" },
+                        { uid: "actions", label: "Acciones", align: "center" },
                     ]}
                     renderCell={renderCell}
                     topContent={

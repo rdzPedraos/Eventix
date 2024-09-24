@@ -37,7 +37,7 @@ export default function AuthLayout({
                 )}
 
                 <div className="overflow-y-auto flex-1">
-                    <main className="min-h-[calc(100%-30px)]">{children}</main>
+                    <main className="min-h-[calc(100%-40px)]">{children}</main>
 
                     <footer className="p-1 shadow text-center text-sm bg-slate-50 text-gray-500 bottom-0">
                         {name}, 2024 | Creado por
@@ -45,6 +45,7 @@ export default function AuthLayout({
                             target="_blank"
                             href="https://github.com/rdzPedraos"
                             className="ml-1"
+                            size="sm"
                         >
                             @rdzpedraos
                         </Link>

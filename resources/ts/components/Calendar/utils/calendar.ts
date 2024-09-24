@@ -51,6 +51,5 @@ export function updateDate(
         date = date.set(key as UnitType, options[key]);
     }
 
-    console.log("updateDaet", { date, options });
     return date;
 }

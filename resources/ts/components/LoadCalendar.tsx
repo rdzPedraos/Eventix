@@ -18,7 +18,7 @@ type Props = {
 };
 
 export default function LoadCalendar({
-    staticEvents = [],
+    staticEvents = null,
     exceptActivityId,
 }: Props) {
     const [eventsSearched, setEventsSearched] = useState<EventType[]>([]);
@@ -46,7 +46,7 @@ export default function LoadCalendar({
     };
 
     useEffect(() => {
-        setEvents([...eventsSearched, ...staticEvents]);
+        setEvents([...eventsSearched, ...(staticEvents ?? [])]);
     }, [staticEvents, eventsSearched]);
 
     return (

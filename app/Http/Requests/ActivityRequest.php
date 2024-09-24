@@ -31,7 +31,7 @@ class ActivityRequest extends FormRequest
             "color" => ["required", "string", "regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/"],
             "schedulers" => ["required", "array", "min:1"],
             "schedulers.*.start_date" => ["required", "date"],
-            "schedulers.*.end_date" => ["required", "date"],
+            "schedulers.*.end_date" => ["required", "date", "after:schedulers.*.start_date"],
         ];
     }
 
@@ -46,5 +46,13 @@ class ActivityRequest extends FormRequest
 
             $this->merge(['image' => $filename]);
         }
+    }
+
+    public function attributes()
+    {
+        return [
+            "schedulers.*.start_date" =>  __("validation.attributes.start_date"),
+            "schedulers.*.end_date" => __("validation.attributes.end_date"),
+        ];
     }
 }

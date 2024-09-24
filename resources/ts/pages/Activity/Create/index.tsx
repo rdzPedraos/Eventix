@@ -26,15 +26,12 @@ function defaultActivity() {
     return activity;
 }
 
-function buildEvent(
-    activity: ActivityCreateFormFields,
-    scheduler: Scheduler
-): EventType {
+function buildEvent(scheduler: Scheduler, color: string): EventType {
     return {
         id: scheduler.id.toString(),
-        title: activity.name,
-        description: activity.description,
-        color: activity.color,
+        title: "XXXX",
+        description: "XXXX XX XXXXXX",
+        color: color,
         startDate: createDay(scheduler.start_date),
         endDate: createDay(scheduler.end_date),
         style: "dashed",
@@ -92,8 +89,8 @@ export default function Create() {
         });
 
     const customEvents = useMemo(
-        () => data.schedulers.map((sch) => buildEvent(data, sch)),
-        [data]
+        () => data.schedulers.map((sch) => buildEvent(sch, data.color)),
+        [data.schedulers, data.color]
     );
 
     return (

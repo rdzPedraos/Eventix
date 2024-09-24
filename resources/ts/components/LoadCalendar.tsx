@@ -51,7 +51,7 @@ export default function LoadCalendar({
 
     return (
         <CalendarProvider events={events} onChangeEvents={onSearchEvents}>
-            <Calendar />;
+            <Calendar />
         </CalendarProvider>
     );
 }

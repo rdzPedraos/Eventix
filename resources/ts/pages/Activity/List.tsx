@@ -5,7 +5,7 @@ import { Button, Chip, Link, Tooltip } from "@nextui-org/react";
 import { PencilSquareIcon, PlusIcon } from "@heroicons/react/24/solid";
 import { ActivityListResource } from "@/types/resources";
 
-import { Breadcrumb, Table } from "@/components";
+import { Breadcrumb, Container, Table } from "@/components";
 import { route } from "@ziggyjs";
 
 const renderCell = (activity: ActivityListResource, columnKey: string) => {
@@ -61,7 +61,7 @@ export default function List() {
                 items={[{ to: route("home"), label: "Calendario" }]}
             />
 
-            <div className="mx-4">
+            <Container>
                 <Table
                     aria-label="Actividades"
                     data={data}
@@ -86,7 +86,7 @@ export default function List() {
                         </Button>
                     }
                 />
-            </div>
+            </Container>
         </>
     );
 }

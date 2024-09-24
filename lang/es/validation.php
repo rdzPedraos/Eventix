@@ -217,6 +217,9 @@ return [
         "document_type_code" => "tipo de documento",
         "document_number" => "número de documento",
         "password" => "contraseña",
+
+        "start_date" => "fecha inicio",
+        "end_date" => "fecha fin",
     ],
 
 ];

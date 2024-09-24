@@ -2,11 +2,10 @@ import React from "react";
 
 import { Image, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
 
-import { ActivityCreateFormFields } from "../type";
-import { RegisterType } from "@/hooks/useForm";
 import { PastelColors } from "@/utils/Colors";
 import { Container } from "@/components";
 import UploadFile from "@/components/UploadFile";
+import { useActivityCreateContext } from "../context";
 
 function renderColorItem(color: (typeof PastelColors)[0]) {
     return (
@@ -18,29 +17,19 @@ function renderColorItem(color: (typeof PastelColors)[0]) {
     );
 }
 
-type Props = {
-    registerInp: RegisterType<ActivityCreateFormFields>;
-    errors: Partial<Record<keyof ActivityCreateFormFields, string>>;
-    data: ActivityCreateFormFields;
-    setImage: (image: File) => void;
-};
+export default function BasicForm() {
+    const { register, errors, data, saveImage } = useActivityCreateContext();
 
-export default function BasicForm({
-    registerInp,
-    errors,
-    data,
-    setImage,
-}: Props) {
     const onUpload = (files: FileList) => {
         const file = files[0];
         if (!file) return;
 
-        setImage(file);
+        saveImage(file);
     };
 
     return (
         <Container>
-            <form className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4">
                 {data.image && (
                     <Image
                         isZoomed
@@ -54,7 +43,7 @@ export default function BasicForm({
                     <Select
                         aria-label="Color"
                         className="w-20 h-auto"
-                        {...registerInp("color", "select")}
+                        {...register("color", "select")}
                         renderValue={(selected) => [
                             renderColorItem(selected[0].textValue),
                         ]}
@@ -86,15 +75,15 @@ export default function BasicForm({
                     label="Nombre de la actividad"
                     size="lg"
                     isRequired
-                    {...registerInp("name")}
+                    {...register("name")}
                 />
 
                 <Textarea
                     label="Descripción"
                     size="lg"
-                    {...registerInp("description")}
+                    {...register("description")}
                 />
-            </form>
+            </div>
         </Container>
     );
 }

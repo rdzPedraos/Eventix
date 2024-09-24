@@ -1,19 +1,21 @@
 import React from "react";
 
-import { PlusIcon, TrashIcon } from "@heroicons/react/24/solid";
-import { Button } from "@nextui-org/react";
+import {
+    ExclamationCircleIcon,
+    PlusIcon,
+    TrashIcon,
+} from "@heroicons/react/24/solid";
+import { Button, Tooltip } from "@nextui-org/react";
 
 import { Scheduler } from "@/types/models";
 import { now } from "@/components/Calendar/utils/calendar";
 import { Container } from "@/components";
 import SchedulerInput from "./SchedulerInput";
+import { useActivityCreateContext } from "../context";
 
-type Props = {
-    schedulers: Scheduler[];
-    setSchedulers: (schedulers: Scheduler[]) => void;
-};
+export default function DatesForm() {
+    const { schedulers, setSchedulers, errors } = useActivityCreateContext();
 
-export default function DatesForm({ schedulers, setSchedulers }: Props) {
     const addScheduler = () => {
         setSchedulers([
             ...schedulers,

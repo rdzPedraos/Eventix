@@ -13,6 +13,7 @@ import { DayType } from "@/components/Calendar/utils/types";
 type Props = {
     scheduler: Scheduler;
     onChange: (scheduler: Scheduler) => void;
+    hasError: boolean;
 };
 
 function getData(start_date: string, end_date: string) {
@@ -30,7 +31,11 @@ function buildDate(date?: DayType, type?: "day" | "time"): any {
         : new Time(date.hour(), date.minute());
 }
 
-export default function SchedulerInput({ scheduler, onChange }: Props) {
+export default function SchedulerInput({
+    scheduler,
+    onChange,
+    hasError,
+}: Props) {
     const { start, end } = getData(scheduler.start_date, scheduler.end_date);
 
     const onChangeDay = (day: CalendarDate) => {
@@ -70,6 +75,7 @@ export default function SchedulerInput({ scheduler, onChange }: Props) {
                 defaultValue={buildDate(start, "day")}
                 onChange={onChangeDay}
                 showMonthAndYearPickers
+                color={hasError ? "danger" : "default"}
             />
             <TimeInput
                 label="Inicio"
@@ -78,6 +84,7 @@ export default function SchedulerInput({ scheduler, onChange }: Props) {
                 className="w-24"
                 defaultValue={buildDate(start, "time")}
                 onChange={onChangeStartTime}
+                color={hasError ? "danger" : "default"}
             />
             <TimeInput
                 label="Cierre"
@@ -86,6 +93,7 @@ export default function SchedulerInput({ scheduler, onChange }: Props) {
                 className="w-24"
                 defaultValue={buildDate(end, "time")}
                 onChange={onChangeEndTime}
+                color={hasError ? "danger" : "default"}
             />
         </div>
     );

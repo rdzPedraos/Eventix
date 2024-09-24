@@ -52,6 +52,11 @@ export default function DatesForm() {
 
             <div className="flex flex-col gap-2">
                 {schedulers.map((scheduler, index) => {
+                    const e = [
+                        errors[`schedulers.${index}.start_date`],
+                        errors[`schedulers.${index}.end_date`],
+                    ].filter((e) => e);
+
                     return (
                         <div
                             key={scheduler.id}
@@ -65,9 +70,23 @@ export default function DatesForm() {
                             </button>
 
                             <SchedulerInput
+                                hasError={!!e.length}
                                 scheduler={scheduler}
                                 onChange={updateScheduler(index)}
                             />
+
+                            {!!e.length && (
+                                <Tooltip
+                                    content={e.join("\n")}
+                                    placement="right"
+                                    color="danger"
+                                >
+                                    <ExclamationCircleIcon
+                                        className="text-danger"
+                                        width={20}
+                                    />
+                                </Tooltip>
+                            )}
                         </div>
                     );
                 })}

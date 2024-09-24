@@ -12,9 +12,9 @@ createInertiaApp({
     resolve: async (name) => {
         const pages = import.meta.glob("./pages/**/*.tsx");
 
-        let page: any =
-            (await pages[`./pages/${name}.tsx`]()) ??
-            (await pages[`./pages/${name}/index.tsx`]());
+        const search =
+            pages[`./pages/${name}.tsx`] || pages[`./pages/${name}/index.tsx`];
+        let page: any = await search();
 
         if (page.default.layout === undefined) {
             page.default.layout = (page: React.ReactNode) => (

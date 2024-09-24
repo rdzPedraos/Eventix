@@ -10,7 +10,6 @@ import {
 } from "./Calendar/utils/types";
 import { CalendarProvider, Calendar } from "./Calendar";
 import { createDay } from "./Calendar/utils/calendar";
-import { debounce } from "@/utils";
 
 type Props = {
     eventDetail?: eventDetailType;
@@ -22,6 +21,7 @@ export default function LoadCalendar({
     staticEvents = [],
     exceptActivityId,
 }: Props) {
+    const [eventsSearched, setEventsSearched] = useState<EventType[]>([]);
     const [events, setEvents] = useState<EventType[]>([]);
 
     const onSearchEvents = (day: DayType, mode: ViewModeTypes) => {
@@ -41,25 +41,13 @@ export default function LoadCalendar({
                     })
                 );
 
-                setEvents([...dates, ...staticEvents]);
+                setEventsSearched(dates);
             });
     };
 
-    const updateStaticEvents = debounce((staticEvents: EventType[]) => {
-        const newEvents = [...events];
-
-        for (const event of staticEvents) {
-            const id = events.findIndex((e) => e.id === event.id);
-            if (id >= 0) newEvents[id] = event;
-            else newEvents.push(event);
-        }
-
-        setEvents(newEvents);
-    }, 1000);
-
     useEffect(() => {
-        updateStaticEvents(staticEvents);
-    }, [staticEvents]);
+        setEvents([...eventsSearched, ...staticEvents]);
+    }, [staticEvents, eventsSearched]);
 
     return (
         <CalendarProvider events={events} onChangeEvents={onSearchEvents}>

@@ -6,7 +6,11 @@ export type ItemObject = {
 };
 
 export type TableProps<T> = {
-    columns: { uid: string; label: string }[];
+    columns: {
+        uid: string;
+        label: string;
+        align?: "center" | "end" | "start";
+    }[];
     data: T[];
     renderCell: (item: T, column_uid: string) => JSX.Element;
     pagination: PaginationProps;

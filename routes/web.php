@@ -4,6 +4,7 @@ use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\OtpController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\SitesController;
 use Illuminate\Support\Facades\Route;
 
 Route::get("/", fn() => redirect()->route("home"));
@@ -22,4 +23,5 @@ Route::middleware("auth")->group(function () {
     Route::get("logout", [LoginController::class, "destroy"])->name("logout");
 
     Route::resource("actividades", ActivityController::class)->parameters(["actividades" => "activity"])->names("activities");
+    Route::resource("espacios-academicos", SitesController::class)->parameters(["espacios-academicos" => "site"])->names("sites");
 });

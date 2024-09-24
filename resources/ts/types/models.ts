@@ -27,8 +27,16 @@ export interface Scheduler {
   activity_id: number
   start_date: string
   end_date: string
+  site_id: number
   // relations
   activity: Activity
+}
+
+export interface Sites {
+  // columns
+  id: number
+  name: string
+  address: string
 }
 
 export interface User {

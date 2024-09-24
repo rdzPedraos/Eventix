@@ -26,7 +26,7 @@ export const MenuMap = [
     },
     {
         label: "Espacios académicos",
-        to: "home", //"place.index",
+        to: "sites.index",
         Icon: MapPinIcon,
         permission: "places.edit",
     },

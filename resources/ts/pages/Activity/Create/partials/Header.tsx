@@ -11,7 +11,7 @@ export default function Header() {
 
     return (
         <Container>
-            <h1 className="text-3xl mb-4">Formulario</h1>
+            <h1 className="text-2xl font-bold mb-4">Formulario</h1>
 
             <p className="text-default-600 mb-4">
                 Este es el formulario para gestionar tus actividades 📅. Podrás

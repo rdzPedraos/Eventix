@@ -17,7 +17,7 @@ type Props = {
 export default function Breadcrumb({
     current,
     items,
-    className = "mx-7 my-3",
+    className = "mx-7 my-4",
     ...props
 }: Props) {
     return (

@@ -1,6 +1,7 @@
 import { Breadcrumb, Container, Table } from "@/components";
 import Confirm from "@/components/Confirm";
 import { Sites } from "@/types/models";
+import { SiteResource } from "@/types/resources";
 import {
     PencilSquareIcon,
     PlusIcon,
@@ -53,7 +54,7 @@ export default function List({}: Props) {
     const {
         sites: { data, meta },
     } = usePage<{
-        sites: CollectionProps<Sites>;
+        sites: CollectionProps<SiteResource>;
     }>().props;
 
     return (

@@ -15,10 +15,12 @@ class Survey extends Model
         'description',
         'published_trigger',
         'trigger_date',
+        "questions",
     ];
 
     protected $casts = [
         'trigger_date' => 'date',
         'published_at' => 'datetime',
+        'questions' => 'array',
     ];
 }

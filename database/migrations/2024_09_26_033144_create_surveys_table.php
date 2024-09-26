@@ -13,15 +13,18 @@ return new class extends Migration
     {
         Schema::create('surveys', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger("activity_id");
             $table->string('name');
             $table->string('description')->nullable();
 
             $table->string("published_trigger");
             $table->date("trigger_date")->nullable();
-
+            $table->json("questions")->nullable();
             $table->timestamp("published_at")->nullable();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign("activity_id")->references("id")->on("activities");
         });
     }
 

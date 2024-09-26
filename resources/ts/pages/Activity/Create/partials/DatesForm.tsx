@@ -1,11 +1,7 @@
 import React from "react";
 
-import {
-    ExclamationCircleIcon,
-    PlusIcon,
-    TrashIcon,
-} from "@heroicons/react/24/solid";
-import { Button, Tooltip } from "@nextui-org/react";
+import { PlusIcon, TrashIcon } from "@heroicons/react/24/solid";
+import { Button } from "@nextui-org/react";
 
 import { Scheduler } from "@/types/models";
 import { now } from "@/components/Calendar/utils/calendar";
@@ -14,15 +10,19 @@ import SchedulerInput from "./SchedulerInput";
 import { useActivityCreateContext } from "../context";
 
 export default function DatesForm() {
-    const { schedulers, setSchedulers, errors } = useActivityCreateContext();
+    const { sites, schedulers, setSchedulers, errors } =
+        useActivityCreateContext();
 
     const addScheduler = () => {
+        const site_id = schedulers[schedulers.length - 1]?.site_id;
+
         setSchedulers([
             ...schedulers,
             {
                 id: Math.floor(Math.random() * 10000),
                 start_date: now().toString(),
                 end_date: now().add(1, "hour").toString(),
+                site_id,
             } as Scheduler,
         ]);
     };
@@ -36,7 +36,6 @@ export default function DatesForm() {
     const updateScheduler = (index: number) => {
         return (scheduler: Scheduler) => {
             const newSchedulers = [...schedulers];
-
             newSchedulers[index] = scheduler;
             setSchedulers(newSchedulers);
         };
@@ -50,11 +49,12 @@ export default function DatesForm() {
                 puedes previsualizar tu calendario 📆
             </p>
 
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 overflow-x-auto">
                 {schedulers.map((scheduler, index) => {
                     const e = [
                         errors[`schedulers.${index}.start_date`],
                         errors[`schedulers.${index}.end_date`],
+                        errors[`schedulers.${index}.site_id`],
                     ].filter((e) => e);
 
                     return (
@@ -70,23 +70,11 @@ export default function DatesForm() {
                             </button>
 
                             <SchedulerInput
-                                hasError={!!e.length}
+                                errors={e}
                                 scheduler={scheduler}
                                 onChange={updateScheduler(index)}
+                                sites={sites}
                             />
-
-                            {!!e.length && (
-                                <Tooltip
-                                    content={e.join("\n")}
-                                    placement="right"
-                                    color="danger"
-                                >
-                                    <ExclamationCircleIcon
-                                        className="text-danger"
-                                        width={20}
-                                    />
-                                </Tooltip>
-                            )}
                         </div>
                     );
                 })}

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,6 +15,7 @@ class Scheduler extends Model
         'activity_id',
         'start_date',
         'end_date',
+        "site_id",
     ];
 
     public $casts = [

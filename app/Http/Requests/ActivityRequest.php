@@ -32,6 +32,7 @@ class ActivityRequest extends FormRequest
             "schedulers" => ["required", "array", "min:1"],
             "schedulers.*.start_date" => ["required", "date"],
             "schedulers.*.end_date" => ["required", "date", "after:schedulers.*.start_date"],
+            "schedulers.*.site_id" => ["required", "exists:sites,id,deleted_at,NULL"],
         ];
     }
 
@@ -53,6 +54,7 @@ class ActivityRequest extends FormRequest
         return [
             "schedulers.*.start_date" =>  __("validation.attributes.start_date"),
             "schedulers.*.end_date" => __("validation.attributes.end_date"),
+            "schedulers.*.site_id" => __("validation.attributes.site_id"),
         ];
     }
 }

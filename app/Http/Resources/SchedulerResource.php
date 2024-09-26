@@ -25,6 +25,7 @@ class SchedulerResource extends JsonResource
             ],
             "start_date" => $this->start_date,
             "end_date" => $this->end_date,
+            "site_id" => $this->site_id,
         ];
     }
 }

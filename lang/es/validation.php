@@ -220,6 +220,7 @@ return [
 
         "start_date" => "fecha inicio",
         "end_date" => "fecha fin",
+        "site_id" => "lugar académico",
     ],
 
 ];

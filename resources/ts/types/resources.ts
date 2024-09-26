@@ -36,3 +36,16 @@ export type ActivityResource = {
     created_by: number;
     schedulers: Scheduler[];
 };
+
+export type SchedulerResource = {
+    id: number;
+    start_date: string;
+    end_date: string;
+    site_id: number;
+};
+
+export type SiteResource = {
+    id: number;
+    name: string;
+    address: string;
+};

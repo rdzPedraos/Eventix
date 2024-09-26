@@ -1,11 +1,12 @@
 import React, { createContext, useContext } from "react";
 import { usePage } from "@inertiajs/react";
 
-import { ActivityResource } from "@/types/resources";
+import { ActivityResource, SiteResource } from "@/types/resources";
 import { useHook } from "./hook";
 
 type ActivityCreateContextType = ReturnType<typeof useHook> & {
     activity: ActivityResource;
+    sites: SiteResource[];
 };
 
 const ActivityCreateContext = createContext<ActivityCreateContextType>(
@@ -13,14 +14,15 @@ const ActivityCreateContext = createContext<ActivityCreateContextType>(
 );
 
 export default function ActivityCreateProvider({ children }) {
-    const { activity } = usePage<{
+    const { activity, sites } = usePage<{
         activity: ActivityResource;
+        sites: SiteResource[];
     }>().props;
 
     const data = useHook(activity);
 
     return (
-        <ActivityCreateContext.Provider value={{ activity, ...data }}>
+        <ActivityCreateContext.Provider value={{ sites, activity, ...data }}>
             {children}
         </ActivityCreateContext.Provider>
     );

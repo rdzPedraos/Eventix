@@ -7,7 +7,9 @@ use App\Enums\PermissionEnum;
 use App\Http\Requests\ActivityRequest;
 use App\Http\Resources\ActivityListResource;
 use App\Http\Resources\ActivityResource;
+use App\Http\Resources\SiteResource;
 use App\Models\Activity;
+use App\Models\Sites;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -43,7 +45,8 @@ class ActivityController extends Controller implements HasMiddleware
      */
     public function create()
     {
-        return Inertia::render("Activity/Create");
+        $sites = SiteResource::collection(Sites::all())->toArray(request());
+        return Inertia::render("Activity/Create", compact('sites'));
     }
 
     /**
@@ -91,7 +94,9 @@ class ActivityController extends Controller implements HasMiddleware
     public function edit(Activity $activity)
     {
         $activity = (new ActivityResource($activity))->toArray(request());
-        return Inertia::render("Activity/Create", compact('activity'));
+        $sites = SiteResource::collection(Sites::all())->toArray(request());
+
+        return Inertia::render("Activity/Create", compact('activity', 'sites'));
     }
 
     /**

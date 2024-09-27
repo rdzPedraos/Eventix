@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\OtpController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\SitesController;
+use App\Http\Controllers\SurveyController;
 use Illuminate\Support\Facades\Route;
 
 Route::get("/", fn() => redirect()->route("home"));
@@ -24,4 +25,5 @@ Route::middleware("auth")->group(function () {
 
     Route::resource("actividades", ActivityController::class)->parameters(["actividades" => "activity"])->names("activities");
     Route::resource("espacios-academicos", SitesController::class)->parameters(["espacios-academicos" => "site"])->names("sites");
+    Route::resource("encuestas", SurveyController::class)->parameters(["encuestas" => "survey"])->names("surveys");
 });

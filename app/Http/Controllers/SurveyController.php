@@ -2,17 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SurveyListResource;
 use App\Models\Survey;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class SurveyController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $activities = $request->user()->accesibleActivities()->select("id")->get();
+        $surveys = Survey::whereIn("activity_id", $activities)->paginate($request->input("per_page", 10));
+        $surveys = SurveyListResource::collection($surveys);
+
+        return Inertia::render("Survey/List", compact('surveys'));
     }
 
     /**

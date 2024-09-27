@@ -49,3 +49,11 @@ export type SiteResource = {
     name: string;
     address: string;
 };
+
+export type SurveyListResource = {
+    id: number;
+    name: string;
+    description: string | null;
+    published_trigger: "custom" | "start_at" | "end_at";
+    trigger_date: Date;
+};

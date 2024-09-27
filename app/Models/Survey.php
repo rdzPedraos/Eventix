@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\SurveyTriggerEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -19,6 +20,7 @@ class Survey extends Model
     ];
 
     protected $casts = [
+        "published_trigger" => SurveyTriggerEnum::class,
         'trigger_date' => 'date',
         'published_at' => 'datetime',
         'questions' => 'array',

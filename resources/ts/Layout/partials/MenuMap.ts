@@ -1,6 +1,7 @@
 import {
     AcademicCapIcon,
     CalendarIcon,
+    DocumentChartBarIcon,
     MapPinIcon,
     RectangleStackIcon,
     ShieldCheckIcon,
@@ -17,6 +18,12 @@ export const MenuMap = [
         to: "activities.index",
         Icon: RectangleStackIcon,
         permission: "activity.check",
+    },
+    {
+        label: "Encuestas",
+        to: "surveys.index",
+        Icon: DocumentChartBarIcon,
+        permission: "survey.check",
     },
     {
         label: "Roles académicos",

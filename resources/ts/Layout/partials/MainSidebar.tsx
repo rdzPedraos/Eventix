@@ -27,7 +27,7 @@ export default function MainSidebar({
         [permissions]
     );
 
-    const current = route().current();
+    const current = route().current().split(".")[0];
 
     return (
         <Sidebar
@@ -56,9 +56,11 @@ export default function MainSidebar({
                 }}
             >
                 {sections.map(({ label, Icon, to }) => {
+                    const isActive = current === to.split(".")[0];
+
                     return (
                         <MenuItem
-                            active={current === to}
+                            active={isActive}
                             key={label}
                             component={<Link href={route(to)} />}
                             icon={<Icon width={20} />}

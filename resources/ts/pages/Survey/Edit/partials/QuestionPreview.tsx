@@ -12,6 +12,7 @@ import {
 
 type Props = {
     question: Question;
+    activeModeEdit: (id) => void;
 };
 
 function RenderField({ type, options }: Question) {
@@ -53,13 +54,13 @@ function RenderField({ type, options }: Question) {
     }
 }
 
-export default function QuestionPreview({ question }: Props) {
+export default function QuestionPreview({ question, activeModeEdit }: Props) {
     return (
         <>
             <div className="flex justify-between mb-4">
                 <p className="font-bold text-lg">{question.label}</p>
 
-                <button>
+                <button onClick={() => activeModeEdit(question.id)}>
                     <PencilIcon width={20} />
                 </button>
             </div>

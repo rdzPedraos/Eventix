@@ -31,7 +31,10 @@ export default function ListQuestions({}: Props) {
                             onUpdate={onUpdate(index)}
                         />
                     ) : (
-                        <QuestionPreview question={question} />
+                        <QuestionPreview
+                            question={question}
+                            activeModeEdit={(id) => setModeEdit(id)}
+                        />
                     )}
                 </Container>
             ))}

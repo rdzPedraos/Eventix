@@ -9,9 +9,10 @@ enum QuestionTypesEnum: string
     case RADIO = "radio";
     case CHECKBOX = "checkbox";
     case DATE = "date";
+    case SELECT = "select";
 
     public function label(): string
     {
-        return __("survey.trigger.{$this->value}");
+        return __("survey.question-type.{$this->value}");
     }
 }

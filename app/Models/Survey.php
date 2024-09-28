@@ -23,6 +23,12 @@ class Survey extends Model
         "published_trigger" => SurveyTriggerEnum::class,
         'trigger_date' => 'date',
         'published_at' => 'datetime',
-        'questions' => 'array',
     ];
+
+    /* RELATIONS */
+
+    public function questions()
+    {
+        return $this->hasMany(Question::class);
+    }
 }

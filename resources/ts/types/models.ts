@@ -22,6 +22,19 @@ export interface DocumentType {
   regex: string
 }
 
+export interface Question {
+  // columns
+  id: number
+  survey_id: number
+  label: string
+  type: QuestionTypesEnum
+  is_required: boolean
+  order: number
+  options: string[]|null
+  // relations
+  survey: Survey
+}
+
 export interface Scheduler {
   // columns
   id: number
@@ -49,11 +62,12 @@ export interface Survey {
   description: string|null
   published_trigger: SurveyTriggerEnum
   trigger_date: string|null
-  questions: string[]|null
   published_at: string|null
   created_at: string|null
   updated_at: string|null
   deleted_at: string|null
+  // relations
+  questions: Question[]
 }
 
 export interface User {
@@ -83,6 +97,16 @@ const ActivityStatusEnum = {
 } as const;
 
 export type ActivityStatusEnum = typeof ActivityStatusEnum[keyof typeof ActivityStatusEnum]
+
+const QuestionTypesEnum = {
+  TEXT: 'text',
+  NUMBER: 'number',
+  RADIO: 'radio',
+  CHECKBOX: 'checkbox',
+  DATE: 'date',
+} as const;
+
+export type QuestionTypesEnum = typeof QuestionTypesEnum[keyof typeof QuestionTypesEnum]
 
 const SurveyTriggerEnum = {
   CUSTOM: 'custom',

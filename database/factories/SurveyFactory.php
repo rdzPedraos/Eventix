@@ -28,30 +28,6 @@ class SurveyFactory extends Factory
             "description" => $this->faker->text(),
             "published_trigger" => $published_trigger,
             "trigger_date" => $published_trigger === SurveyTriggerEnum::CUSTOM ? $this->faker->date() : null,
-            "questions" => $this->createQuestions(),
         ];
-    }
-
-    private function createQuestions()
-    {
-        $number = $this->faker->numberBetween(1, 5);
-        $questions = [];
-
-        for ($i = 0; $i < $number; $i++) {
-            $type = $this->faker->randomElement(QuestionTypesEnum::cases());
-
-            $questions[] = [
-                "question" => $this->faker->sentence(),
-                "is_required" => $this->faker->boolean(),
-                "type" => $type,
-                "options" => $type === QuestionTypesEnum::RADIO || $type === QuestionTypesEnum::CHECKBOX ? [
-                    $this->faker->word(),
-                    $this->faker->word(),
-                    $this->faker->word(),
-                ] : null,
-            ];
-        }
-
-        return $questions;
     }
 }

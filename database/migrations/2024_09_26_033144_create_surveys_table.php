@@ -19,7 +19,6 @@ return new class extends Migration
 
             $table->string("published_trigger");
             $table->date("trigger_date")->nullable();
-            $table->json("questions")->nullable();
             $table->timestamp("published_at")->nullable();
             $table->timestamps();
             $table->softDeletes();

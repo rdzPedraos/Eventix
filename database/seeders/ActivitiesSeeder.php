@@ -2,12 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Enums\RoleEnum;
 use App\Models\Activity;
+use App\Models\Question;
 use App\Models\Scheduler;
-use App\Models\Sites;
 use App\Models\Survey;
-use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
 
@@ -24,6 +22,12 @@ class ActivitiesSeeder extends Seeder
 
         Activity::factory(10)->create();
         Scheduler::factory(15)->create();
-        Survey::factory(6)->create();
+
+        $surveys = Survey::factory(6)->create();
+        foreach ($surveys as $survey) {
+            Question::factory(3)->create([
+                'survey_id' => $survey->id
+            ]);
+        }
     }
 }

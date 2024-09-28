@@ -36,10 +36,10 @@ export default function AuthLayout({
                     />
                 )}
 
-                <div className="overflow-y-auto flex-1 flex flex-col gap-2">
+                <div className="flex-1 flex flex-col overflow-y-auto px-4">
                     <main className="flex-1">{children}</main>
 
-                    <footer className="p-1 shadow text-center text-sm bg-slate-50 text-gray-500 bottom-0">
+                    <footer className="px-1 py-2 text-center text-sm text-gray-500 bottom-0">
                         {name}, 2024 | Creado por
                         <Link
                             target="_blank"

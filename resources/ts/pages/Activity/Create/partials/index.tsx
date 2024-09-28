@@ -25,7 +25,7 @@ export default function CreateActivity() {
                 <BasicForm />
                 <DatesForm />
 
-                <div className="mx-5 rounded-xl overflow-clip shadow">
+                <div className="rounded-xl overflow-clip shadow">
                     <LoadCalendar
                         staticEvents={events}
                         exceptActivityId={activity?.id}

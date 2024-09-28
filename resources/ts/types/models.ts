@@ -104,6 +104,7 @@ const QuestionTypesEnum = {
   RADIO: 'radio',
   CHECKBOX: 'checkbox',
   DATE: 'date',
+  SELECT: 'select',
 } as const;
 
 export type QuestionTypesEnum = typeof QuestionTypesEnum[keyof typeof QuestionTypesEnum]

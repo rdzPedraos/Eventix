@@ -50,7 +50,8 @@ class SurveyController extends Controller
      */
     public function edit(Survey $survey)
     {
-        //
+        $survey->load("questions");
+        return Inertia::render("Survey/Edit", compact('survey'));
     }
 
     /**

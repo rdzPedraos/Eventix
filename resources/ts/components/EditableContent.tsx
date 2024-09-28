@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from "react";
 type Props = {
     value: string;
     onChange: (value: string) => void;
-    className: string;
+    className?: string;
 } & Omit<React.HTMLProps<HTMLTextAreaElement>, "ref">;
 
 export default function EditableContent({

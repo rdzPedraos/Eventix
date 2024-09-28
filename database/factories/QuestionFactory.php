@@ -28,7 +28,7 @@ class QuestionFactory extends Factory
 
         return [
             "survey_id" => $survey->id,
-            "label" => $this->faker->sentence(),
+            "label" => $this->faker->sentence(4),
             "type" => $type,
             "is_required" => $this->faker->boolean(),
             "order" => $survey->questions->count() + 1,

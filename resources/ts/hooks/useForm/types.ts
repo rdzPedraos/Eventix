@@ -1,7 +1,12 @@
 import { InertiaFormProps } from "@inertiajs/react/types/useForm";
 import { Method, VisitOptions } from "@inertiajs/core";
 
-export type InputTypes = "text" | "checkbox" | "select" | "otpbox";
+export type InputTypes =
+    | "text"
+    | "checkbox"
+    | "select"
+    | "otpbox"
+    | "editable_content";
 
 export type RegisterType<T extends object> = (
     key: keyof T,

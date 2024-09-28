@@ -59,6 +59,20 @@ const registerInput = <T extends object>(
     };
 };
 
+const registerEditableContent = <T extends object>(
+    form: InertiaFormProps<T>,
+    key: keyof T
+) => {
+    return {
+        value: form.data[key] as string,
+        onChange: (value: string) => {
+            form.clearErrors(key);
+            form.setData(key, value as T[keyof T]);
+        },
+        error: form.errors[key] as string,
+    };
+};
+
 export default function createRegister<T extends object>(
     form: InertiaFormProps<T>
 ): RegisterType<T> {
@@ -70,6 +84,8 @@ export default function createRegister<T extends object>(
                 return registerSelect(form, key);
             case "otpbox":
                 return registerOtpBox(form, key);
+            case "editable_content":
+                return registerEditableContent(form, key);
             default:
                 return registerInput(form, key);
         }

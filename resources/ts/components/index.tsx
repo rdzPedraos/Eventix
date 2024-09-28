@@ -9,3 +9,4 @@ export { default as Breadcrumb } from "./Breadcrumb";
 export { default as Container } from "./Container";
 export { default as UploadFile } from "./UploadFile";
 export { default as LoadCalendar } from "./LoadCalendar";
+export { default as EditableContent } from "./EditableContent";

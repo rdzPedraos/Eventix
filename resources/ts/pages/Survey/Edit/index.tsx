@@ -4,7 +4,7 @@ import { route } from "@ziggyjs";
 import { Breadcrumb } from "@/components";
 import FormCreateProvider from "./context";
 import Header from "./partials/Header";
-import ListQuestions from "./partials/ListQuestions";
+import QuestionList from "./partials/QuestionList";
 
 export default function index() {
     return (
@@ -21,7 +21,7 @@ export default function index() {
             <FormCreateProvider>
                 <div className="flex flex-col gap-4 max-w-lg mx-auto">
                     <Header />
-                    <ListQuestions />
+                    <QuestionList />
                 </div>
             </FormCreateProvider>
         </>

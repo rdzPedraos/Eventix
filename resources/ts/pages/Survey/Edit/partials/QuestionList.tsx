@@ -11,7 +11,7 @@ import { PlusCircleIcon } from "@heroicons/react/24/solid";
 
 type Props = {};
 
-export default function ListQuestions({}: Props) {
+export default function QuestionList({}: Props) {
     const { data, setData } = useFormCreateContext();
     const [modeEdit, setModeEdit] = useState(null);
 

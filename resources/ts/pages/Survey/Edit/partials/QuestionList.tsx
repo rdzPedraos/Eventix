@@ -8,6 +8,7 @@ import QuestionEditor from "./QuestionEditor";
 import QuestionPreview from "./QuestionPreview";
 import { Button } from "@nextui-org/react";
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
+import { Reorder } from "framer-motion";
 
 type Props = {};
 
@@ -59,24 +60,33 @@ export default function QuestionList({}: Props) {
 
     return (
         <>
-            {data.questions.map((question) => (
-                <Container key={question.id}>
-                    {modeEdit === question.id ? (
-                        <div ref={editingRef}>
-                            <QuestionEditor
-                                question={question}
-                                onUpdate={onUpdateQuestion}
-                                onDelete={onDeleteQuestion}
-                            />
-                        </div>
-                    ) : (
-                        <QuestionPreview
-                            question={question}
-                            activeModeEdit={(id) => setModeEdit(id)}
-                        />
-                    )}
-                </Container>
-            ))}
+            <Reorder.Group
+                axis="y"
+                values={data.questions}
+                onReorder={(questions) => setData("questions", questions)}
+                className="space-y-4"
+            >
+                {data.questions.map((question) => (
+                    <Reorder.Item key={question.id} value={question}>
+                        <Container>
+                            {modeEdit === question.id ? (
+                                <div ref={editingRef}>
+                                    <QuestionEditor
+                                        question={question}
+                                        onUpdate={onUpdateQuestion}
+                                        onDelete={onDeleteQuestion}
+                                    />
+                                </div>
+                            ) : (
+                                <QuestionPreview
+                                    question={question}
+                                    activeModeEdit={(id) => setModeEdit(id)}
+                                />
+                            )}
+                        </Container>
+                    </Reorder.Item>
+                ))}
+            </Reorder.Group>
 
             <Button
                 onClick={addQuestion}

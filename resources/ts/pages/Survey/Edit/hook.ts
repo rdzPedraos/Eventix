@@ -1,12 +1,10 @@
 import useForm from "@/hooks/useForm";
 import { Survey } from "@/types/models";
-import { SurveyResource } from "@/types/resources";
 
-export default function useFormBuilder(
-    survey: SurveyResource = {} as SurveyResource
-) {
+export default function useFormBuilder(survey: Survey = {} as Survey) {
     const { data, setData, errors, register } = useForm<Survey>({
         ...survey,
     } as Survey);
+
     return { data, setData, errors, register };
 }

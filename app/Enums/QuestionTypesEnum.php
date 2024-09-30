@@ -2,8 +2,12 @@
 
 namespace App\Enums;
 
+use App\Traits\EnumHelpers;
+
 enum QuestionTypesEnum: string
 {
+    use EnumHelpers;
+
     case TEXT = "text";
     case NUMBER = "number";
     case RADIO = "radio";

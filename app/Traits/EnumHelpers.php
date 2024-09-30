@@ -15,4 +15,10 @@ trait EnumHelpers
         $cases = self::cases();
         return array_map(fn($c): mixed => $c->value, $cases);
     }
+
+    public static function casesKeyLabel()
+    {
+        $cases = self::cases();
+        return array_map(fn($c) => ["key" => $c->value, "value" => $c->label()], $cases);
+    }
 }

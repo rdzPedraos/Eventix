@@ -7,7 +7,7 @@ return [
         "to_end" => "al finalizar"
     ],
 
-    "question-types" => [
+    "question-type" => [
         "text" => "Texto",
         "number" => "Número",
         "radio" => "Selección única",

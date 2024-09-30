@@ -58,7 +58,12 @@ export default function QuestionPreview({ question, activeModeEdit }: Props) {
     return (
         <>
             <div className="flex justify-between mb-4">
-                <p className="font-bold text-lg">{question.label}</p>
+                <p className="font-bold text-lg">
+                    {question.label}
+                    {question.is_required && (
+                        <span className="text-danger">*</span>
+                    )}
+                </p>
 
                 <button onClick={() => activeModeEdit(question.id)}>
                     <PencilIcon width={20} />

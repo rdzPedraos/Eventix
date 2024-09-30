@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\QuestionTypesEnum;
 use App\Http\Resources\SurveyListResource;
 use App\Models\Survey;
 use Illuminate\Http\Request;
@@ -51,7 +52,8 @@ class SurveyController extends Controller
     public function edit(Survey $survey)
     {
         $survey->load("questions");
-        return Inertia::render("Survey/Edit", compact('survey'));
+        $questionTypes = QuestionTypesEnum::casesKeyLabel();
+        return Inertia::render("Survey/Edit", compact('survey', "questionTypes"));
     }
 
     /**

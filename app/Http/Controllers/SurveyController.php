@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\QuestionTypesEnum;
+use App\Enums\SurveyTriggerEnum;
 use App\Http\Resources\SurveyListResource;
 use App\Models\Survey;
 use Illuminate\Http\Request;
@@ -53,7 +54,9 @@ class SurveyController extends Controller
     {
         $survey->load("questions");
         $questionTypes = QuestionTypesEnum::casesKeyLabel();
-        return Inertia::render("Survey/Edit", compact('survey', "questionTypes"));
+        $triggerTypes = SurveyTriggerEnum::casesKeyLabel();
+
+        return Inertia::render("Survey/Edit", compact('survey', "questionTypes", "triggerTypes"));
     }
 
     /**

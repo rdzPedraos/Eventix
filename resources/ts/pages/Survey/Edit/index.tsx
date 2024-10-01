@@ -3,8 +3,10 @@ import { route } from "@ziggyjs";
 
 import { Breadcrumb } from "@/components";
 import FormCreateProvider from "./context";
-import Header from "./partials/Header";
+
+import QuestionHeader from "./partials/QuestionHeader";
 import QuestionList from "./partials/QuestionList";
+import QuestionControls from "./partials/QuestionControls";
 
 export default function index() {
     return (
@@ -19,8 +21,9 @@ export default function index() {
             />
 
             <FormCreateProvider>
-                <div className="flex flex-col gap-4 max-w-lg mx-auto">
-                    <Header />
+                <div className="flex flex-col gap-4 max-w-lg mt-4 mx-auto">
+                    <QuestionControls />
+                    <QuestionHeader />
                     <QuestionList />
                 </div>
             </FormCreateProvider>

@@ -2,9 +2,7 @@ import React from "react";
 import { useFormCreateContext } from "../context";
 import { Container, EditableContent } from "@/components";
 
-type Props = {};
-
-export default function Header({}: Props) {
+export default function QuestionHeader() {
     const { register } = useFormCreateContext();
 
     return (

@@ -2,8 +2,11 @@
 
 namespace App\Enums;
 
+use App\Traits\EnumHelpers;
+
 enum SurveyTriggerEnum: string
 {
+    use EnumHelpers;
 
     case CUSTOM = "custom";
     case TO_START = "to_start";

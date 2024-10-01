@@ -2,9 +2,9 @@
 
 return [
     "trigger" => [
-        "custom" => "personalizado",
-        "to_start" => "al iniciar",
-        "to_end" => "al finalizar"
+        "custom" => "Personalizado",
+        "to_start" => "Al iniciar",
+        "to_end" => "Al finalizar"
     ],
 
     "question-type" => [

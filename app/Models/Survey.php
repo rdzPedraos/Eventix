@@ -22,7 +22,6 @@ class Survey extends Model
     protected $casts = [
         "published_trigger" => SurveyTriggerEnum::class,
         'trigger_date' => 'date',
-        'published_at' => 'datetime',
     ];
 
     /* RELATIONS */

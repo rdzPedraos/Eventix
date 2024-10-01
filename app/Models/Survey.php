@@ -16,7 +16,6 @@ class Survey extends Model
         'description',
         'published_trigger',
         'trigger_date',
-        "questions",
     ];
 
     protected $casts = [

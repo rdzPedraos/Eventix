@@ -1,6 +1,8 @@
 import React, { useMemo } from "react";
 import { CalendarDate } from "@internationalized/date";
-import { DatePicker, Select, SelectItem } from "@nextui-org/react";
+import { ArrowLongLeftIcon } from "@heroicons/react/24/solid";
+import { DatePicker, Link, Select, SelectItem } from "@nextui-org/react";
+import { route } from "@ziggyjs";
 import { createDay } from "@/components/Calendar/utils/calendar";
 
 import { useFormCreateContext } from "../context";
@@ -44,6 +46,17 @@ export default function QuestionHeader() {
             </Container>
 
             <Container>
+                <Link
+                    className="mb-2 text-sm hover:underline"
+                    target="_blank"
+                    href={route("activities.edit", {
+                        activity: data.activity_id,
+                    })}
+                >
+                    <ArrowLongLeftIcon width={20} />
+                    Ver actividad
+                </Link>
+
                 <EditableContent
                     {...register("name", "editable_content")}
                     className="text-2xl font-bold w-full mb-4"

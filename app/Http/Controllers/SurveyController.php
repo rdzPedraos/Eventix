@@ -6,6 +6,7 @@ use App\Enums\QuestionTypesEnum;
 use App\Enums\SurveyTriggerEnum;
 use App\Http\Requests\SurveyRequest;
 use App\Http\Resources\SurveyListResource;
+use App\Models\Activity;
 use App\Models\Survey;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,7 +20,8 @@ class SurveyController extends Controller
      */
     public function index(Request $request)
     {
-        $activities = $request->user()->accesibleActivities()->select("id")->get();
+        $activities = Activity::accesibles()->pluck("id");
+
         $surveys = Survey::whereIn("activity_id", $activities)->paginate($request->input("per_page", 10));
         $surveys = SurveyListResource::collection($surveys);
 

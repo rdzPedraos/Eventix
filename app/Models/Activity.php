@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ActivityStatusEnum;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -33,6 +34,19 @@ class Activity extends Model
     public function scopePublished(Builder $query)
     {
         return $query->where("status", ActivityStatusEnum::PUBLISHED);
+    }
+
+    public function scopeAccesibles(Builder $query)
+    {
+        $user = auth()->user();
+
+        if (!$user) {
+            throw new Exception("Need to be logged in");
+        }
+
+        return $user->isSuperAdmin()
+            ? $query
+            : $query->where("created_by", $user->id);
     }
 
     public function getLimitDates()

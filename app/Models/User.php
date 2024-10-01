@@ -60,13 +60,6 @@ class User extends Authenticatable
         return $this->hasRole(RoleEnum::SUPER_ADMIN);
     }
 
-    public function accesibleActivities(): Builder
-    {
-        return self::isSuperAdmin()
-            ? Activity::query()
-            : $this->activities()->getQuery();
-    }
-
     /* relations */
 
     public function activities()

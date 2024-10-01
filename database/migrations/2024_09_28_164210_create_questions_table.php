@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('label');
             $table->string('type');
             $table->boolean('is_required');
-            $table->integer('order');
             $table->json('options')->nullable();
 
             $table->foreign('survey_id')->references('id')->on('surveys');

@@ -20,7 +20,7 @@ class QuestionFactory extends Factory
     {
         $survey = Survey::inRandomOrder()->first();
         $type = $this->faker->randomElement(QuestionTypesEnum::cases());
-        $options = $type === QuestionTypesEnum::RADIO || $type === QuestionTypesEnum::CHECKBOX ? [
+        $options = in_array($type, [QuestionTypesEnum::RADIO, QuestionTypesEnum::CHECKBOX, QuestionTypesEnum::SELECT]) ? [
             $this->faker->word(),
             $this->faker->word(),
             $this->faker->word(),
@@ -31,7 +31,6 @@ class QuestionFactory extends Factory
             "label" => $this->faker->sentence(4),
             "type" => $type,
             "is_required" => $this->faker->boolean(),
-            "order" => $survey->questions->count() + 1,
             "options" => $options,
         ];
     }

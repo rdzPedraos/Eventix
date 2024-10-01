@@ -17,12 +17,12 @@ class Question extends Model
         'label',
         'type',
         'is_required',
-        'order',
         'options',
     ];
 
     protected $casts = [
         'options' => 'array',
+        "is_required" => "boolean",
         'type' => QuestionTypesEnum::class,
     ];
 

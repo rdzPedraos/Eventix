@@ -35,6 +35,18 @@ class Activity extends Model
         return $query->where("status", ActivityStatusEnum::PUBLISHED);
     }
 
+    public function getLimitDates()
+    {
+        $this->load("schedulers");
+        $start_date = $this->schedulers->min("start_date");
+        $end_date = $this->schedulers->max("end_date");
+
+        return [
+            "start_date" => $start_date,
+            "end_date" => $end_date,
+        ];
+    }
+
     /* Relations */
     public function owner()
     {

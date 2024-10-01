@@ -19,15 +19,18 @@ class SurveyFactory extends Factory
      */
     public function definition(): array
     {
-        $activity_id = Activity::inRandomOrder()->first()->id;
+        $activity = Activity::inRandomOrder()->first();
         $published_trigger = $this->faker->randomElement(SurveyTriggerEnum::cases());
 
+        $dates = $activity->getLimitDates();
+        $trigger_date = $this->faker->dateTimeBetween($dates["start_date"], $dates["end_date"]);
+
         return [
-            "activity_id" => $activity_id,
+            "activity_id" => $activity->id,
             "name" => $this->faker->name(),
             "description" => $this->faker->text(),
             "published_trigger" => $published_trigger,
-            "trigger_date" => $published_trigger === SurveyTriggerEnum::CUSTOM ? $this->faker->date() : null,
+            "trigger_date" => $published_trigger === SurveyTriggerEnum::CUSTOM ? $trigger_date : null,
         ];
     }
 }

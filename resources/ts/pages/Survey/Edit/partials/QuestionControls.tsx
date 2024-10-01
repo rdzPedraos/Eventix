@@ -1,41 +1,32 @@
-import React, { useMemo } from "react";
-import { Container } from "@/components";
-import { DatePicker, Select, SelectItem } from "@nextui-org/react";
+import React from "react";
+import { Button } from "@nextui-org/react";
+import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import { useFormCreateContext } from "../context";
-import { createDay } from "@/components/Calendar/utils/calendar";
-import { CalendarDate } from "@internationalized/date";
+import { route } from "@ziggyjs";
 
 export default function QuestionControls() {
-    const { triggerTypes, data, setData, register } = useFormCreateContext();
+    const { submit, survey } = useFormCreateContext();
 
-    const trigger_date = useMemo(() => {
-        const date = createDay(data.trigger_date);
-        return new CalendarDate(date.year(), date.month() + 1, date.date());
-    }, [data.trigger_date]);
+    const onSave = (params = {}) => {
+        submit("put", route("surveys.update", { survey, ...params }));
+    };
+
+    const onPublish = () => onSave({ publish: true });
 
     return (
-        <Container>
-            <div className="flex gap-4">
-                <Select
-                    label="Tipo de disparador"
-                    {...register("published_trigger", "select")}
-                >
-                    {triggerTypes.map((trigger) => (
-                        <SelectItem key={trigger.key} value={trigger.key}>
-                            {trigger.value}
-                        </SelectItem>
-                    ))}
-                </Select>
+        <div className="flex gap-2 justify-end">
+            <Button variant="flat" color="primary" onClick={() => onSave()}>
+                Guardar
+            </Button>
 
-                <DatePicker
-                    label="Fecha de lanzamiento"
-                    isDisabled={data.published_trigger != "custom"}
-                    defaultValue={trigger_date}
-                    onChange={(date) => {
-                        setData("trigger_date", date.toString());
-                    }}
-                />
-            </div>
-        </Container>
+            <Button
+                variant="ghost"
+                color="primary"
+                onClick={onPublish}
+                endContent={<PaperAirplaneIcon width={20} />}
+            >
+                Publicar
+            </Button>
+        </div>
     );
 }

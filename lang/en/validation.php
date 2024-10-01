@@ -205,4 +205,5 @@ return [
 
     'attributes' => [],
 
+    "throw_exception" => "An unexpected error has occurred. Please, try again.",
 ];

@@ -7,6 +7,7 @@ import useFormBuilder from "./hook";
 type ContextType = ReturnType<typeof useFormBuilder> & {
     questionTypes: { key: string; value: string }[];
     triggerTypes: { key: string; value: string }[];
+    survey: Survey;
 };
 
 const FormCreateContext = createContext<ContextType>({} as ContextType);
@@ -26,7 +27,7 @@ export default function FormCreateProvider({
 
     return (
         <FormCreateContext.Provider
-            value={{ ...data, questionTypes, triggerTypes }}
+            value={{ ...data, questionTypes, triggerTypes, survey }}
         >
             {children}
         </FormCreateContext.Provider>

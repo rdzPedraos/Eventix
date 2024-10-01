@@ -14,5 +14,5 @@ return [
         "checkbox" => "Selección múltiple",
         "date" => "Fecha",
         "select" => "Selección"
-    ]
+    ],
 ];

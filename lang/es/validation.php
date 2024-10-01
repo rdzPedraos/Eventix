@@ -223,4 +223,6 @@ return [
         "site_id" => "lugar académico",
     ],
 
+    /* GENERIC ERRORS */
+    "throw_exception" => "Ha ocurrido un error inesperado. Por favor, inténtalo de nuevo.",
 ];

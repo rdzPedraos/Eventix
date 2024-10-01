@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Enums\QuestionTypesEnum;
 use App\Enums\SurveyTriggerEnum;
+use App\Http\Requests\SurveyRequest;
 use App\Http\Resources\SurveyListResource;
 use App\Models\Survey;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class SurveyController extends Controller
@@ -62,9 +65,23 @@ class SurveyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Survey $survey)
+    public function update(SurveyRequest $request, Survey $survey)
     {
-        //
+        DB::beginTransaction();
+
+        try {
+            $survey->update($request->validated());
+            $survey->questions()->delete();
+            $survey->questions()->createMany($request->questions);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+            return redirect()->back()->withErrors(__("validation.throw_exception"));
+        }
+
+        return redirect()->back();
     }
 
     /**

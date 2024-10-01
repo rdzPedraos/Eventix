@@ -4,7 +4,7 @@ import { useState } from "react";
 
 export default function useFormBuilder(survey: Survey = {} as Survey) {
     const [editMode, setEditMode] = useState(null);
-    const { data, setData, errors, register } = useForm<Survey>({
+    const { data, setData, errors, register, submit } = useForm<Survey>({
         ...survey,
     } as Survey);
 
@@ -57,5 +57,6 @@ export default function useFormBuilder(survey: Survey = {} as Survey) {
         changeEditMode,
 
         onReorderQuestions,
+        submit,
     };
 }

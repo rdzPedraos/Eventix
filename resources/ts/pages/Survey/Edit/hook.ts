@@ -31,7 +31,6 @@ export default function useFormBuilder(survey: Survey = {} as Survey) {
 
     const onUpdateQuestion = (question) => {
         const index = data.questions.findIndex((q) => q.id === question.id);
-        console.log(question, index);
         const newQuestions = [...data.questions];
         newQuestions[index] = question;
         setData("questions", newQuestions);

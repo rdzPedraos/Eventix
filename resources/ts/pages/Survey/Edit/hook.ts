@@ -1,10 +1,62 @@
 import useForm from "@/hooks/useForm";
-import { Survey } from "@/types/models";
+import { Question, Survey } from "@/types/models";
+import { useState } from "react";
 
 export default function useFormBuilder(survey: Survey = {} as Survey) {
+    const [editMode, setEditMode] = useState(null);
     const { data, setData, errors, register } = useForm<Survey>({
         ...survey,
     } as Survey);
 
-    return { data, setData, errors, register };
+    const addQuestion = () => {
+        const size = data.questions.length + 1;
+
+        const newQuestion = {
+            id: Math.floor(Math.random() * 1000),
+            label: "Pregunta " + size,
+            order: size + 1,
+            type: "text",
+        } as Question;
+
+        setData("questions", [...data.questions, newQuestion]);
+        setEditMode(newQuestion.id);
+    };
+
+    const onDeleteQuestion = (question: Question) => {
+        const index = data.questions.findIndex((q) => q.id === question.id);
+        const newQuestions = [...data.questions];
+        newQuestions.splice(index, 1);
+        setData("questions", newQuestions);
+    };
+
+    const onUpdateQuestion = (question) => {
+        const index = data.questions.findIndex((q) => q.id === question.id);
+        console.log(question, index);
+        const newQuestions = [...data.questions];
+        newQuestions[index] = question;
+        setData("questions", newQuestions);
+    };
+
+    const isInEditMode = (question: Question) => editMode === question.id;
+    const changeEditMode = (question?: Question) => setEditMode(question?.id);
+
+    const onReorderQuestions = (questions: Question[]) => {
+        setData("questions", questions);
+    };
+
+    return {
+        data,
+        setData,
+        errors,
+        register,
+
+        addQuestion,
+        onDeleteQuestion,
+        onUpdateQuestion,
+
+        isInEditMode,
+        changeEditMode,
+
+        onReorderQuestions,
+    };
 }

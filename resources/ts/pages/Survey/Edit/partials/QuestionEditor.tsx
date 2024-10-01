@@ -1,27 +1,21 @@
 import React from "react";
+import { TrashIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import { Button, Checkbox, Select, SelectItem } from "@nextui-org/react";
 
-import { useFormCreateContext } from "../context";
 import { Question } from "@/types/models";
-
 import { EditableContent } from "@/components";
-import { TrashIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
+import { useFormCreateContext } from "../context";
 
 type Props = {
     question: Question;
-    onUpdate: (question: Question) => void;
-    onDelete: (question: Question) => void;
 };
 
-export default function QuestionEditor({
-    question,
-    onUpdate,
-    onDelete,
-}: Props) {
-    const { questionTypes } = useFormCreateContext();
+export default function QuestionEditor({ question }: Props) {
+    const { questionTypes, onUpdateQuestion, onDeleteQuestion } =
+        useFormCreateContext();
 
     const updateField = (field: keyof Question, value: any) => {
-        onUpdate({ ...question, [field]: value });
+        onUpdateQuestion({ ...question, [field]: value });
     };
 
     const deleteOption = (index: number) => {
@@ -56,7 +50,7 @@ export default function QuestionEditor({
             <EditableContent
                 value={question.label}
                 onChange={(value) => updateField("label", value)}
-                className="w-full font-semibold text-lg mb-4"
+                className="w-full text-lg font-semibold text-default-700 mb-4"
             />
 
             {["radio", "checkbox", "select"].includes(question.type) && (
@@ -65,7 +59,7 @@ export default function QuestionEditor({
                         <div key={index} className="flex justify-between">
                             <EditableContent
                                 className="w-full mb-4"
-                                placeholder="Opcion..."
+                                placeholder="Opción..."
                                 value={option}
                                 onChange={(value) => {
                                     const newOptions = [...question.options];
@@ -103,7 +97,7 @@ export default function QuestionEditor({
 
                 <button
                     className="hover:text-default-500"
-                    onClick={() => onDelete(question)}
+                    onClick={() => onDeleteQuestion(question)}
                 >
                     <TrashIcon width={20} />
                 </button>

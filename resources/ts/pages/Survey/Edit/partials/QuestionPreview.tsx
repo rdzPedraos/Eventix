@@ -1,6 +1,4 @@
 import React from "react";
-import { Question } from "@/types/models";
-import { PencilIcon } from "@heroicons/react/24/outline";
 import {
     Checkbox,
     Input,
@@ -9,11 +7,10 @@ import {
     Select,
     SelectItem,
 } from "@nextui-org/react";
+import { PencilIcon } from "@heroicons/react/24/outline";
 
-type Props = {
-    question: Question;
-    activeModeEdit: (id) => void;
-};
+import { Question } from "@/types/models";
+import { useFormCreateContext } from "../context";
 
 function RenderField({ type, options }: Question) {
     switch (type) {
@@ -35,7 +32,7 @@ function RenderField({ type, options }: Question) {
             );
         case "checkbox":
             return (
-                <div>
+                <div className="flex flex-col">
                     {options.map((option, index) => (
                         <Checkbox key={index} isDisabled>
                             {option}
@@ -54,7 +51,13 @@ function RenderField({ type, options }: Question) {
     }
 }
 
-export default function QuestionPreview({ question, activeModeEdit }: Props) {
+type Props = {
+    question: Question;
+};
+
+export default function QuestionPreview({ question }: Props) {
+    const { changeEditMode } = useFormCreateContext();
+
     return (
         <>
             <div className="flex justify-between mb-4">
@@ -65,7 +68,7 @@ export default function QuestionPreview({ question, activeModeEdit }: Props) {
                     )}
                 </p>
 
-                <button onClick={() => activeModeEdit(question.id)}>
+                <button onClick={() => changeEditMode(question)}>
                     <PencilIcon width={20} />
                 </button>
             </div>

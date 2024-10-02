@@ -26,7 +26,7 @@ class EventController extends Controller
             if ($request->has('except')) {
                 $query->where('id', '!=', $request->input('except'));
             }
-        });
+        })->with("activity.enrollments");
 
 
         switch ($mode) {

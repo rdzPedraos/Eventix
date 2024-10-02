@@ -24,6 +24,10 @@ class Survey extends Model
     ];
 
     /* RELATIONS */
+    public function activity()
+    {
+        return $this->belongsTo(Activity::class);
+    }
 
     public function questions()
     {

@@ -20,12 +20,20 @@ class SurveyController extends Controller
      */
     public function index(Request $request)
     {
-        $activities = Activity::accesibles()->pluck("id");
+        $activities = Activity::accesibles();
+        $activity_id = $request->input("activity");
 
-        $surveys = Survey::whereIn("activity_id", $activities)->paginate($request->input("per_page", 10));
+        if ($activity_id) {
+            $activities = $activities->where("id", $activity_id);
+        }
+
+        $surveys = Survey::whereIn("activity_id", $activities->pluck("id"))
+            ->with("activity")
+            ->paginate($request->input("per_page", 10));
+
         $surveys = SurveyListResource::collection($surveys);
 
-        return Inertia::render("Survey/List", compact('surveys'));
+        return Inertia::render("Survey/List", compact('surveys', "activity_id"));
     }
 
     /**

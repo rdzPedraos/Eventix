@@ -4,6 +4,7 @@ import { InboxIcon, PaperAirplaneIcon } from "@heroicons/react/24/solid";
 
 import { Container } from "@/components";
 import { useActivityCreateContext } from "../context";
+import MoreActions from "./MoreActions";
 
 export default function Header() {
     const { save, publish, activity } = useActivityCreateContext();
@@ -14,14 +15,16 @@ export default function Header() {
             <div className="flex flex-col-reverse sm:flex-row gap-4 justify-between mb-4">
                 <h1 className="text-2xl font-bold">Formulario</h1>
 
-                <div className="flex justify-end gap-4">
+                <div className="flex justify-end gap-2">
+                    <MoreActions />
+
                     <Button
                         variant="flat"
                         color="primary"
                         onClick={save}
                         endContent={<InboxIcon width={20} />}
                     >
-                        {isPublished ? "Guardar cambios" : "Guardar borrador"}
+                        Guardar
                     </Button>
 
                     {!isPublished && (

@@ -56,4 +56,8 @@ export type SurveyListResource = {
     description: string | null;
     published_trigger: "custom" | "start_at" | "end_at";
     trigger_date: Date;
+    activity: {
+        id: number;
+        name: string;
+    };
 };

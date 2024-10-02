@@ -1,6 +1,8 @@
 import React from "react";
 import { route } from "@ziggyjs";
+import { usePage } from "@inertiajs/react";
 
+import { Survey } from "@/types/models";
 import { Breadcrumb } from "@/components";
 import FormCreateProvider from "./context";
 
@@ -9,6 +11,8 @@ import QuestionList from "./partials/QuestionList";
 import QuestionControls from "./partials/QuestionControls";
 
 export default function index() {
+    const { survey } = usePage<{ survey: Survey }>().props;
+
     return (
         <>
             <Breadcrumb
@@ -16,7 +20,12 @@ export default function index() {
                 items={[
                     { to: route("home"), label: "Calendario" },
                     { to: route("activities.index"), label: "Actividades" },
-                    { to: route("surveys.index"), label: "Encuestas" },
+                    {
+                        to: route("surveys.index", {
+                            activity: survey.activity_id,
+                        }),
+                        label: "Encuestas",
+                    },
                 ]}
             />
 

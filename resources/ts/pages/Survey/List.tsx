@@ -1,9 +1,9 @@
 import React from "react";
 import { route } from "@ziggyjs";
+import { usePage } from "@inertiajs/react";
 import { PencilSquareIcon } from "@heroicons/react/24/solid";
-import { Link, usePage } from "@inertiajs/react";
 
-import { Tooltip } from "@nextui-org/react";
+import { Link, Tooltip } from "@nextui-org/react";
 import { SurveyListResource } from "@/types/resources";
 import { Breadcrumb, Container, Table } from "@/components";
 
@@ -19,6 +19,18 @@ const renderCell = (survey: SurveyListResource, columnKey: string) => {
                         <PencilSquareIcon width={18} />
                     </Link>
                 </Tooltip>
+            );
+
+        case "activity":
+            return (
+                <Link
+                    className="block max-w-28 hover:underline whitespace-nowrap overflow-hidden text-ellipsis"
+                    href={route("activities.edit", {
+                        activity: survey.activity.id,
+                    })}
+                >
+                    {survey.activity.name}
+                </Link>
             );
 
         default:
@@ -52,6 +64,11 @@ export default function List() {
                         { uid: "name", label: "Nombre" },
                         { uid: "description", label: "Descripción" },
                         { uid: "trigger", label: "" },
+                        {
+                            uid: "activity",
+                            label: "Actividad",
+                            align: "center",
+                        },
                         { uid: "actions", label: "Acciones", align: "center" },
                     ]}
                     renderCell={renderCell}

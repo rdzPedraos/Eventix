@@ -20,6 +20,10 @@ class SurveyListResource extends JsonResource
             "description" => $this->description,
             "published_trigger" => $this->published_trigger,
             "trigger_date" => $this->trigger_date,
+            "activity" => [
+                "id" => $this->activity->id,
+                "name" => $this->activity->name
+            ]
         ];
     }
 }

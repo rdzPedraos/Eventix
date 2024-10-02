@@ -28,6 +28,8 @@ type ContexType = {
     eventDetail: eventDetailType;
     selectedEvent: EventType;
     setSelectedEvent: Dispatch<SetStateAction<EventType>>;
+
+    forceUpdate: () => void;
 };
 
 const CalendarContext = createContext<ContexType>({} as ContexType);
@@ -59,8 +61,13 @@ export default function CalendarProvider({
     }, []);
 
     useEffect(() => {
-        onChangeEvents(day, mode);
+        forceUpdate();
     }, [day, mode]);
+
+    const forceUpdate = () => {
+        onChangeEvents(day, mode);
+        setSelectedEvent(undefined);
+    };
 
     return (
         <CalendarContext.Provider
@@ -75,6 +82,8 @@ export default function CalendarProvider({
                 selectedEvent,
                 setSelectedEvent,
                 eventDetail,
+
+                forceUpdate,
             }}
         >
             {children}

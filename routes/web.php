@@ -24,8 +24,11 @@ Route::middleware("guest")->group(function () {
 Route::middleware("auth")->group(function () {
     Route::get("logout", [LoginController::class, "destroy"])->name("logout");
 
-    Route::resource("actividades", ActivityController::class)->parameters(["actividades" => "activity"])->names("activities");
     Route::get("/eventos", [EventController::class, "index"])->name("events.index");
+    Route::post("/eventos/inscribir/{activity}", [EventController::class, "subscribe"])->name("events.subscribe");
+    Route::post("/eventos/desinscribir/{activity}", [EventController::class, "unsubscribe"])->name("events.unsubscribe");
+
+    Route::resource("actividades", ActivityController::class)->parameters(["actividades" => "activity"])->names("activities");
 
     Route::resource("espacios-academicos", SitesController::class)->parameters(["espacios-academicos" => "site"])->names("sites");
     Route::resource("encuestas", SurveyController::class)->parameters(["encuestas" => "survey"])->names("surveys");

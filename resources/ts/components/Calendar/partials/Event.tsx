@@ -22,23 +22,13 @@ type Props = EventType & {
     };
 };
 
-export default function Event({
-    id,
-    title,
-    description,
-    color,
-    startDate,
-    endDate,
-    zIndex,
-    position,
-    style,
-}: Props) {
+export default function Event({ zIndex, position, style, ...event }: Props) {
     const { setSelectedEvent } = useCalendarContext();
+    const { title, color, startDate, endDate } = event;
     const minutes = endDate.diff(startDate, "minute");
     const shortEvent = minutes <= 40;
 
-    const onClick = () =>
-        setSelectedEvent({ id, title, color, startDate, endDate, description });
+    const onClick = () => setSelectedEvent(event);
 
     return (
         <div

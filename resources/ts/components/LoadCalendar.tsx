@@ -31,16 +31,17 @@ export default function LoadCalendar({
                 params: { day, mode, except: exceptActivityId },
             })
             .then(({ data }) => {
-                const dates = data.map(
-                    ({ id, activity, start_date, end_date }) => ({
-                        id: id,
-                        title: activity.name,
-                        description: activity.description,
-                        color: activity.color,
-                        startDate: createDay(start_date),
-                        endDate: createDay(end_date),
-                    })
-                );
+                const dates = data.map(({ activity, ...sc }) => ({
+                    id: sc.id,
+                    title: activity.name,
+                    description: activity.description,
+                    color: activity.color,
+                    startDate: createDay(sc.start_date),
+                    endDate: createDay(sc.end_date),
+
+                    activity_id: activity.id,
+                    alreadyEnrolled: sc.already_enrolled,
+                }));
 
                 setEventsSearched(dates);
             });

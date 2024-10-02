@@ -13,6 +13,9 @@ export type EventType = {
     startDate: DayType;
     endDate: DayType;
     style?: "dashed";
+
+    activity_id?: number;
+    alreadyEnrolled?: boolean;
 };
 
 export type eventDetailType = (props: {

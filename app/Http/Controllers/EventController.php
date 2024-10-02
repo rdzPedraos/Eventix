@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\SchedulerResource;
+use App\Models\Activity;
 use App\Models\Scheduler;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -47,5 +48,21 @@ class EventController extends Controller
 
         $schedulers = SchedulerResource::collection($schedulers->get());
         return response()->json($schedulers);
+    }
+
+    public function subscribe(Request $request, Activity $activity)
+    {
+        $user = $request->user();
+        $activity->enrollments()->attach($user);
+
+        return redirect()->back();
+    }
+
+    public function unsubscribe(Request $request, Activity $activity)
+    {
+        $user = $request->user();
+        $activity->enrollments()->detach($user);
+
+        return redirect()->back();
     }
 }

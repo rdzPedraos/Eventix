@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { LoadCalendar, EventInfo, Head, Logo } from "@/components";
 
 export default function Home() {

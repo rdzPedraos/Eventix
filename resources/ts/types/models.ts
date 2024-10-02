@@ -29,7 +29,6 @@ export interface Question {
   label: string
   type: QuestionTypesEnum
   is_required: boolean
-  order: number
   options: string[]|null
   // relations
   survey: Survey
@@ -62,11 +61,11 @@ export interface Survey {
   description: string|null
   published_trigger: SurveyTriggerEnum
   trigger_date: string|null
-  published_at: string|null
   created_at: string|null
   updated_at: string|null
   deleted_at: string|null
   // relations
+  activity: Activity
   questions: Question[]
 }
 

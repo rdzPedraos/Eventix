@@ -14,8 +14,8 @@ export default function useFormBuilder(survey: Survey = {} as Survey) {
         const newQuestion = {
             id: Math.floor(Math.random() * 1000),
             label: "Pregunta " + size,
-            order: size + 1,
             type: "text",
+            is_required: true,
         } as Question;
 
         setData("questions", [...data.questions, newQuestion]);

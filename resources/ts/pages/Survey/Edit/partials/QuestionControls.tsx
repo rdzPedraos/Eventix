@@ -8,7 +8,14 @@ export default function QuestionControls() {
     const { submit, survey } = useFormCreateContext();
 
     const onSave = (params = {}) => {
-        submit("put", route("surveys.update", { survey, ...params }));
+        if (survey.id) {
+            return submit(
+                "put",
+                route("surveys.update", { survey, ...params })
+            );
+        }
+
+        return submit("post", route("surveys.store", params));
     };
 
     const onPublish = () => onSave({ publish: true });

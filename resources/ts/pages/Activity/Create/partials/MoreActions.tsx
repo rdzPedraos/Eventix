@@ -32,7 +32,14 @@ export default function MoreActions({}: Props) {
                         >
                             Ver encuestas
                         </DropdownItem>
-                        <DropdownItem>Crear encuestas 🎉</DropdownItem>
+
+                        <DropdownItem
+                            href={route("surveys.create", {
+                                activity_id: activity.id,
+                            })}
+                        >
+                            Crear encuesta 🎉
+                        </DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
             )}

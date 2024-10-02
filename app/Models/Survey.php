@@ -13,6 +13,7 @@ class Survey extends Model
 
     protected $fillable = [
         'name',
+        "activity_id",
         'description',
         'published_trigger',
         'trigger_date',

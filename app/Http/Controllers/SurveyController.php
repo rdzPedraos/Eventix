@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\QuestionTypesEnum;
 use App\Enums\SurveyTriggerEnum;
+use App\Http\Requests\CreateSurveyRequest;
 use App\Http\Requests\SurveyRequest;
 use App\Http\Resources\SurveyListResource;
 use App\Models\Activity;
@@ -39,9 +40,14 @@ class SurveyController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(CreateSurveyRequest $request)
     {
-        //
+        $survey = new Survey([
+            "activity_id" => $request->input("activity_id"),
+            "questions" => []
+        ]);
+
+        return $this->edit($survey);
     }
 
     /**
@@ -49,7 +55,25 @@ class SurveyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            ...(new CreateSurveyRequest)->rules(),
+            ...(new SurveyRequest)->rules()
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            $survey = Survey::create($validated);
+            $survey->questions()->createMany($request->questions);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+            return redirect()->back()->withErrors(__("validation.throw_exception"));
+        }
+
+        return redirect()->route("surveys.edit", $survey);
     }
 
     /**

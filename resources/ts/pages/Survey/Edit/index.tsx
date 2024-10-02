@@ -16,7 +16,7 @@ export default function index() {
     return (
         <>
             <Breadcrumb
-                current="Editar encuesta"
+                current={survey.id ? "Editar encuesta" : "Crear encuesta"}
                 items={[
                     { to: route("home"), label: "Calendario" },
                     { to: route("activities.index"), label: "Actividades" },

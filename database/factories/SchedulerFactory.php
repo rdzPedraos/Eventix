@@ -25,7 +25,7 @@ class SchedulerFactory extends Factory
         $lastDay = $lastScheduler->start_date ?? Carbon::now()->startOfWeek(WeekDay::Sunday);
 
         $startDate = Carbon::parse($lastDay)->addDays(rand(0, 6))->addMinutes(15 * rand(0, 4 * 23));
-        $endDate = fake()->dateTimeBetween($startDate, $startDate->copy()->endOfDay()->subMinutes(15));
+        $endDate = fake()->dateTimeBetween($startDate->copy()->addMinutes(30), $startDate->copy()->endOfDay()->subMinutes(15));
 
         $site = Sites::inRandomOrder()->first();
 

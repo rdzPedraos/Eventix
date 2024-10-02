@@ -59,7 +59,7 @@ export default function QuestionHeader() {
 
                 <EditableContent
                     {...register("name", "editable_content")}
-                    className="text-2xl font-bold w-full mb-4"
+                    className="text-2xl font-bold w-full"
                     placeholder="Título del formulario"
                 />
 

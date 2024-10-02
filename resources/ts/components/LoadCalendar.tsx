@@ -18,6 +18,7 @@ type Props = {
 };
 
 export default function LoadCalendar({
+    eventDetail,
     staticEvents = null,
     exceptActivityId,
 }: Props) {
@@ -50,7 +51,11 @@ export default function LoadCalendar({
     }, [staticEvents, eventsSearched]);
 
     return (
-        <CalendarProvider events={events} onChangeEvents={onSearchEvents}>
+        <CalendarProvider
+            eventDetail={eventDetail}
+            events={events}
+            onChangeEvents={onSearchEvents}
+        >
             <Calendar />
         </CalendarProvider>
     );

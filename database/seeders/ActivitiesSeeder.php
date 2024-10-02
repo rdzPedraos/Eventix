@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\ActivityStatusEnum;
 use App\Models\Activity;
 use App\Models\Question;
 use App\Models\Scheduler;
@@ -20,8 +21,17 @@ class ActivitiesSeeder extends Seeder
         $disk = Storage::disk('public');
         $disk->delete(array_filter($disk->allFiles(), fn($path) => $path !== ".gitignore"));
 
-        Activity::factory(10)->create();
+        $activities = Activity::factory(10)->create();
         Scheduler::factory(15)->create();
+
+        /* Avoid activities publsihed with null schedulers */
+        foreach ($activities as $activity) {
+            if ($activity->status === ActivityStatusEnum::PUBLISHED) {
+                Scheduler::factory(1)->create([
+                    'activity_id' => $activity->id
+                ]);
+            }
+        }
 
         $surveys = Survey::factory(6)->create();
         foreach ($surveys as $survey) {

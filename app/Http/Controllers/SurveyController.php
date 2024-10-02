@@ -9,7 +9,9 @@ use App\Http\Requests\SurveyRequest;
 use App\Http\Resources\SurveyListResource;
 use App\Models\Activity;
 use App\Models\Survey;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
@@ -124,5 +126,22 @@ class SurveyController extends Controller
     public function destroy(Survey $survey)
     {
         //
+    }
+
+    public function answer(Request $request)
+    {
+        $token = decrypt($request->token);
+
+        if (!isset($token["user_id"]) || !isset($token["survey_id"])) {
+            return response(null, 404);
+        }
+
+        $user = User::find($token["user_id"]);
+        if ($user != Auth::user()) {
+            return response(null, 401);
+        }
+
+        $survey = Survey::find($token["survey_id"]);
+        return Inertia::render("Survey/Answer", compact('survey', "user"));
     }
 }

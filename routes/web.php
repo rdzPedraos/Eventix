@@ -31,5 +31,7 @@ Route::middleware("auth")->group(function () {
     Route::resource("actividades", ActivityController::class)->parameters(["actividades" => "activity"])->names("activities");
 
     Route::resource("espacios-academicos", SitesController::class)->parameters(["espacios-academicos" => "site"])->names("sites");
-    Route::resource("encuestas", SurveyController::class)->parameters(["encuestas" => "survey"])->names("surveys");
+
+    Route::resource("encuestas", controller: SurveyController::class)->parameters(["encuestas" => "survey"])->names("surveys");
+    Route::get("encuestas/r/{token}", [SurveyController::class, "answer"])->name("surveys.answer");
 });

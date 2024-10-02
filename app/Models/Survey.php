@@ -17,11 +17,13 @@ class Survey extends Model
         'description',
         'published_trigger',
         'trigger_date',
+        "published_at",
     ];
 
     protected $casts = [
         "published_trigger" => SurveyTriggerEnum::class,
         'trigger_date' => 'date',
+        'published_at' => 'date',
     ];
 
     /* RELATIONS */

@@ -1,5 +1,5 @@
 import React from "react";
-import { router } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 
 import {
     Table,
@@ -21,12 +21,11 @@ export default function index<T extends ItemObject>({
     topContent,
     ...props
 }: TableProps<T>) {
-    const { path, per_page, current_page, last_page } = pagination;
+    const { per_page, current_page, last_page } = pagination;
+    const { url } = usePage();
 
     const onSearch: onSearchType = (data) => {
-        router.get(path, {
-            per_page,
-            page: current_page,
+        router.get(url, {
             ...data,
         });
     };

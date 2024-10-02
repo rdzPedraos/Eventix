@@ -76,4 +76,10 @@ class Activity extends Model
     {
         return $this->hasMany(Survey::class);
     }
+
+    public function enrollments()
+    {
+        return $this->belongsToMany(User::class, "inscriptions")
+            ->withPivot("registered_at");
+    }
 }

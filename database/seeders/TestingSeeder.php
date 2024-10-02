@@ -41,6 +41,7 @@ class TestingSeeder extends Seeder
             "email" => "super@test.com"
         ])->assignRole(RoleEnum::SUPER_ADMIN);
 
+        User::factory(10)->create();
         Sites::factory(3)->create();
 
         $this->call([

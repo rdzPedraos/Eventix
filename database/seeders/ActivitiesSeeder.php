@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Enums\ActivityStatusEnum;
 use App\Models\Activity;
+use App\Models\Inscription;
 use App\Models\Question;
 use App\Models\Scheduler;
 use App\Models\Survey;
@@ -30,6 +31,8 @@ class ActivitiesSeeder extends Seeder
                 Scheduler::factory(1)->create([
                     'activity_id' => $activity->id
                 ]);
+
+                Inscription::factory(3)->withActivity($activity->id)->create();
             }
         }
 

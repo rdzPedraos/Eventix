@@ -4,6 +4,7 @@ use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\OtpController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\SitesController;
 use App\Http\Controllers\SurveyController;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,8 @@ Route::middleware("auth")->group(function () {
     Route::get("logout", [LoginController::class, "destroy"])->name("logout");
 
     Route::resource("actividades", ActivityController::class)->parameters(["actividades" => "activity"])->names("activities");
+    Route::get("/eventos", [EventController::class, "index"])->name("events.index");
+
     Route::resource("espacios-academicos", SitesController::class)->parameters(["espacios-academicos" => "site"])->names("sites");
     Route::resource("encuestas", SurveyController::class)->parameters(["encuestas" => "survey"])->names("surveys");
 });

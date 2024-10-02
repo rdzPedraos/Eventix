@@ -26,7 +26,7 @@ export default function LoadCalendar({
 
     const onSearchEvents = (day: DayType, mode: ViewModeTypes) => {
         axios
-            .get(route("api.activities.index"), {
+            .get(route("events.index"), {
                 params: { day, mode, except: exceptActivityId },
             })
             .then(({ data }) => {

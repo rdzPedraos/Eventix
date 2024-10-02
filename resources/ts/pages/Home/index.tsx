@@ -1,5 +1,6 @@
 import React from "react";
-import { LoadCalendar, EventInfo, Head, Logo } from "@/components";
+import { LoadCalendar, Head, Logo } from "@/components";
+import EventInfo from "./partials/EventInfo";
 
 export default function Home() {
     return (

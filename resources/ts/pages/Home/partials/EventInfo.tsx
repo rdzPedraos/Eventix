@@ -1,5 +1,5 @@
 import React from "react";
-import { EventType } from "./Calendar/utils/types";
+import { EventType } from "../../../components/Calendar/utils/types";
 import { Button, ModalBody, ModalFooter, ModalHeader } from "@nextui-org/react";
 
 type Props = {

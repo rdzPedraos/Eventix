@@ -1,6 +1,7 @@
 import React from "react";
 import { LoadCalendar, Head, Logo } from "@/components";
 import EventInfo from "./partials/EventInfo";
+import AuthLayout from "@/Layout/AuthLayout";
 
 export default function Home() {
     return (
@@ -15,3 +16,5 @@ export default function Home() {
         </>
     );
 }
+
+Home.layout = (page) => <AuthLayout paddingX={null}>{page}</AuthLayout>;

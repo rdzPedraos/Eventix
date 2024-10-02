@@ -6,8 +6,10 @@ import MainSidebar from "./partials/MainSidebar";
 import { Link } from "@nextui-org/react";
 
 export default function AuthLayout({
+    paddingX = "px-4",
     children,
 }: {
+    paddingX?: string;
     children: React.ReactNode;
 }) {
     const [openSideBar, setOpenSidebar] = React.useState(false);
@@ -36,7 +38,9 @@ export default function AuthLayout({
                     />
                 )}
 
-                <div className="flex-1 flex flex-col overflow-y-auto px-4">
+                <div
+                    className={`flex-1 flex flex-col overflow-y-auto ${paddingX} `}
+                >
                     <main className="flex-1">{children}</main>
 
                     <footer className="px-1 py-2 text-center text-sm text-gray-500 bottom-0">

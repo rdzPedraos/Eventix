@@ -2,6 +2,7 @@ import { useForm as _useForm } from "@inertiajs/react";
 import { Method, VisitOptions } from "@inertiajs/core";
 import { InputTypes, RegisterType, useFormReturnType } from "./types";
 import createRegister from "./register";
+import { triggerAlert } from "@/utils";
 
 export default function useForm<T extends object>(
     initialState: T
@@ -15,9 +16,16 @@ export default function useForm<T extends object>(
         route: string,
         options?: VisitOptions
     ) => {
-        return (e: React.FormEvent<HTMLFormElement>) => {
-            e.preventDefault();
-            form.submit(method, route, options);
+        return (e?: React.FormEvent<HTMLFormElement>) => {
+            e?.preventDefault();
+
+            triggerAlert((resolve, reject) => {
+                form.submit(method, route, {
+                    ...options,
+                    onSuccess: resolve,
+                    onError: reject,
+                });
+            });
         };
     };
 

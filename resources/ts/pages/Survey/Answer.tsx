@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import { useForm, usePage } from "@inertiajs/react";
 import { Button } from "@nextui-org/react";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
@@ -8,6 +8,7 @@ import SurveyLayout from "@/Layout/SurveyLayout";
 import RenderQuestion from "@/components/Form/RenderQuestion";
 import { route } from "@ziggyjs";
 import { Logo } from "@/components";
+import { triggerAlert } from "@/utils";
 
 type PageProps = {
     survey: Survey;
@@ -30,8 +31,13 @@ export default function index() {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        submit("post", route("answer.store", { token }), {
-            preserveScroll: true,
+
+        triggerAlert((resolve, reject) => {
+            submit("post", route("answer.store", { token }), {
+                preserveScroll: true,
+                onSuccess: resolve,
+                onError: reject,
+            });
         });
     };
 

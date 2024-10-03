@@ -5,17 +5,17 @@ import { useFormCreateContext } from "../context";
 import { route } from "@ziggyjs";
 
 export default function QuestionControls() {
-    const { submit, survey } = useFormCreateContext();
+    const { onSubmit, survey } = useFormCreateContext();
 
     const onSave = (params = {}) => {
         if (survey.id) {
-            return submit(
+            return onSubmit(
                 "put",
                 route("surveys.update", { survey, ...params })
-            );
+            )();
         }
 
-        return submit("post", route("surveys.store", params));
+        return onSubmit("post", route("surveys.store", params))();
     };
 
     const onPublish = () => onSave({ publish: true });

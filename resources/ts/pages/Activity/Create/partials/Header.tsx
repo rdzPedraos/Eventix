@@ -27,7 +27,7 @@ export default function Header() {
                         Guardar
                     </Button>
 
-                    {!isPublished && (
+                    {activity?.id && !isPublished && (
                         <Button
                             variant="ghost"
                             color="success"

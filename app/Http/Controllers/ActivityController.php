@@ -92,6 +92,7 @@ class ActivityController extends Controller implements HasMiddleware
      */
     public function edit(Activity $activity)
     {
+        $activity->load(["schedulers", "owner", "surveys"]);
         $activity = (new ActivityResource($activity))->toArray(request());
         $sites = SiteResource::collection(Sites::all())->toArray(request());
 

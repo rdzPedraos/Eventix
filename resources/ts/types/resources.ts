@@ -35,6 +35,7 @@ export type ActivityResource = {
     updated_at: string | null;
     created_by: number;
     schedulers: Scheduler[];
+    surveys_number: number;
 };
 
 export type SchedulerResource = {

@@ -21,7 +21,7 @@ export default function Header() {
         <Container>
             <div className="flex flex-col-reverse sm:flex-row gap-4 justify-between mb-4">
                 <div className="flex gap-2 items-center">
-                    {activity.id && (
+                    {activity?.id && (
                         <Confirm
                             title="Eliminar actividad"
                             confirmColor="danger"

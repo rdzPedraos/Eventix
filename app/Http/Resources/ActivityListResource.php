@@ -2,8 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Enums\ActivityStatusEnum;
-use App\Enums\RoleEnum;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,28 +14,41 @@ class ActivityListResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $user = auth()->user();
-        $isClosed = $this->status == ActivityStatusEnum::CANCELED;
-
-        $editable = false;
-        if (!$isClosed) {
-            $editable = $user->isSuperAdmin() || $this->status != ActivityStatusEnum::PUBLISHED || $this->owner->id == $user->id;
-        }
+        $isClosed = $this->deleted_at !== null;
 
         return [
             "id" => $this->id,
             "name" => $this->name,
             "description" => $this->description,
-            "status" => [
-                "color" => $this->status->color(),
-                "label" => $this->status->label(),
-                "isClosed" => $isClosed,
-            ],
+            "status" => self::getStatus(),
+            "is_closed" => $isClosed,
             "color" => $this->color,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
             "created_by" => $this->owner->name,
-            "editable" => $editable,
+            "enrollments" => $this->enrollments->count(),
+        ];
+    }
+
+    public function getStatus()
+    {
+        if ($this->deleted_at !== null) {
+            return [
+                "color" => "danger",
+                "label" => "Cerrado",
+            ];
+        }
+
+        if ($this->isPublished) {
+            return [
+                "color" => "success",
+                "label" => "Publicado",
+            ];
+        }
+
+        return [
+            "color" => "default",
+            "label" => "Borrador",
         ];
     }
 }

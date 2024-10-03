@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Enums\ActivityStatusEnum;
 use App\Models\Activity;
 use App\Models\Inscription;
 use App\Models\Question;
@@ -27,7 +26,7 @@ class ActivitiesSeeder extends Seeder
 
         /* Avoid activities publsihed with null schedulers */
         foreach ($activities as $activity) {
-            if ($activity->status === ActivityStatusEnum::PUBLISHED) {
+            if ($activity->isPublished) {
                 Scheduler::factory(1)->create([
                     'activity_id' => $activity->id
                 ]);

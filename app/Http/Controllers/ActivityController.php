@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\ActivityStatusEnum;
 use App\Http\Requests\ActivityRequest;
 use App\Http\Resources\ActivityListResource;
 use App\Http\Resources\ActivityResource;
@@ -22,9 +21,12 @@ class ActivityController extends Controller
      */
     public function index(Request $request)
     {
-        $activities = Activity::accesibles()->orderBy("updated_at", "DESC")->paginate($request->per_page ?? 10);
-        $activities = ActivityListResource::collection($activities);
+        $activities = Activity::withTrashed()
+            ->accesibles()
+            ->orderBy("updated_at", "DESC")
+            ->paginate($request->per_page ?? 10);
 
+        $activities = ActivityListResource::collection($activities);
         return Inertia::render("Activity/List", compact('activities'));
     }
 
@@ -106,12 +108,13 @@ class ActivityController extends Controller
 
         DB::beginTransaction();
         try {
-            if ($request->action == "publish") {
-                $activity->status = ActivityStatusEnum::PUBLISHED;
-            }
             $activity->update($validated);
             $activity->schedulers()->delete();
             $activity->schedulers()->createMany($validated["schedulers"]);
+
+            if ($request->action == "publish") {
+                $activity->published();
+            }
 
             DB::commit();
         } catch (\Exception $e) {

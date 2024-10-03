@@ -19,6 +19,7 @@ const renderCell = (activity: ActivityListResource, columnKey: string) => {
 
             return (
                 <Chip
+                    isDisabled={activity.is_closed}
                     className="capitalize"
                     color={status.color}
                     size="sm"
@@ -33,7 +34,7 @@ const renderCell = (activity: ActivityListResource, columnKey: string) => {
                 <>
                     <Tooltip content="Revisar actividad">
                         <Link
-                            isDisabled={!activity.editable}
+                            isDisabled={activity.is_closed}
                             href={route("activities.edit", { activity })}
                             className="cursor-pointer text-default-500 inline-block mr-2"
                         >
@@ -65,7 +66,7 @@ export default function List() {
     }>().props;
 
     const disabledKeys = data
-        .filter((activity) => activity.status.isClosed)
+        .filter((activity) => activity.is_closed)
         .map((activity) => activity.id.toString());
 
     return (
@@ -84,6 +85,11 @@ export default function List() {
                     columns={[
                         { uid: "name", label: "Titulo" },
                         { uid: "description", label: "Descripción" },
+                        {
+                            uid: "enrollments",
+                            label: "Inscritos",
+                            align: "center",
+                        },
                         { uid: "status", label: "Estado", align: "center" },
                         { uid: "actions", label: "Acciones", align: "center" },
                     ]}

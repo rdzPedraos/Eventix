@@ -4,24 +4,17 @@ export type ActivityListResource = {
     id: number;
     name: string;
     description: string | null;
+    is_closed: boolean;
     status: {
-        color:
-            | "success"
-            | "danger"
-            | "warning"
-            | "default"
-            | "primary"
-            | "secondary";
+        color: "success" | "danger" | "default";
         label: string;
-        isClosed: boolean;
-        isPublished: boolean;
     };
     color: string;
     created_at: string | null;
     updated_at: string | null;
     created_by: number;
     image: string | null;
-    editable: boolean;
+    enrollments: number;
 };
 
 export type ActivityResource = {

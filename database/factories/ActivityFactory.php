@@ -2,9 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Enums\ActivityStatusEnum;
 use App\Enums\PermissionEnum;
-use App\Enums\RoleEnum;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Storage;
@@ -32,7 +30,7 @@ class ActivityFactory extends Factory
             "name" => fake()->text(25),
             "description" => fake()->text(255),
             "image" => $image_path,
-            "status" => fake()->randomElement(ActivityStatusEnum::cases()),
+            "published_at" => fake()->randomElement([null, fake()->dateTimeBetween("-1 week", "now")]),
             "color" => fake()->randomElement([
                 "#daeafe",
                 "#dcfce7",

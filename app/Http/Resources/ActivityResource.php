@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Enums\ActivityStatusEnum;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
@@ -31,7 +30,7 @@ class ActivityResource extends JsonResource
             "name" => $this->name,
             "description" => $this->description,
             #"status" => $this->status->label(),
-            "isPublished" => $this->isPublished(),
+            "isPublished" => $this->isPublished,
             "color" => $this->color,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,

@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Enums\ActivityStatusEnum;
 use App\Jobs\SendSurveyLink;
 use App\Mail\SendSurveyMail;
 use App\Models\Survey;
@@ -31,7 +30,7 @@ class PublishSurvey extends Command
     public function handle()
     {
         $this->info('Getting surveys...');
-        $surveys = Survey::whereHas("activity", fn($q) => $q->where("status", ActivityStatusEnum::PUBLISHED))
+        $surveys = Survey::whereHas("activity", fn($q) => $q->where("published_at", "!=", null))
             ->where('published_at', null)
             ->where("trigger_date", "<=", now())
             ->get();

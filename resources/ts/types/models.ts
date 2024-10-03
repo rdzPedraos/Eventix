@@ -4,15 +4,27 @@ export interface Activity {
   name: string
   description: string|null
   image: string|null
-  status: ActivityStatusEnum
   color: string
+  published_at: string|null
   created_by: number
   created_at: string|null
   updated_at: string|null
+  deleted_at: string|null
+  // mutators
+  is_published: unknown
   // relations
   owner: User
   schedulers: Scheduler[]
   surveys: Survey[]
+  enrollments: User[]
+}
+
+export interface Answer {
+  // columns
+  survey_id: number
+  user_id: number
+  answers: string[]
+  filled_at: string
 }
 
 export interface DocumentType {
@@ -22,9 +34,16 @@ export interface DocumentType {
   regex: string
 }
 
+export interface Inscription {
+  // columns
+  activity_id: number
+  user_id: number
+  registered_at: string
+}
+
 export interface Question {
   // columns
-  id: number
+  id: string
   survey_id: number
   label: string
   type: QuestionTypesEnum
@@ -32,6 +51,18 @@ export interface Question {
   options: string[]|null
   // relations
   survey: Survey
+}
+
+export interface Role {
+  // columns
+  id: number
+  name: string
+  guard_name: string
+  created_at: string|null
+  updated_at: string|null
+  // relations
+  permissions: Permission[]
+  users: User[]
 }
 
 export interface Scheduler {
@@ -61,12 +92,14 @@ export interface Survey {
   description: string|null
   published_trigger: SurveyTriggerEnum
   trigger_date: string|null
+  published_at: string|null
   created_at: string|null
   updated_at: string|null
   deleted_at: string|null
   // relations
   activity: Activity
   questions: Question[]
+  answers: Answer[]
 }
 
 export interface User {
@@ -84,25 +117,19 @@ export interface User {
   updated_at: string|null
   // relations
   activities: Activity[]
+  enrolled_activities: Activity[]
+  surveys: Survey[]
   notifications: DatabaseNotification[]
   roles: Role[]
   permissions: Permission[]
 }
 
-const ActivityStatusEnum = {
-  EDITING: 'editing',
-  PUBLISHED: 'published',
-  CANCELED: 'canceled',
-} as const;
-
-export type ActivityStatusEnum = typeof ActivityStatusEnum[keyof typeof ActivityStatusEnum]
-
 const QuestionTypesEnum = {
   TEXT: 'text',
   NUMBER: 'number',
+  DATE: 'date',
   RADIO: 'radio',
   CHECKBOX: 'checkbox',
-  DATE: 'date',
   SELECT: 'select',
 } as const;
 

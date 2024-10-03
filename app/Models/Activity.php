@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\ActivityStatusEnum;
 use App\Enums\PermissionEnum;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,24 +17,30 @@ class Activity extends Model
         'name',
         'description',
         'image',
-        "status",
         'color',
         'created_by',
     ];
 
-    //castea la columna status con el enum ActivityStatusEnum para que use el label, si uso directamente ActivityStatusEnum::class parece que no lo toma.
     protected $casts = [
-        'status' => ActivityStatusEnum::class,
+        'published_at' => "date",
     ];
 
-    public function isPublished()
+    public function getIsPublishedAttribute()
     {
-        return $this->status == ActivityStatusEnum::PUBLISHED;
+        return $this->published_at !== null && $this->published() <= now();
+    }
+
+    public function published()
+    {
+        if (!$this->published_at) {
+            $this->published_at = now();
+            $this->save();
+        }
     }
 
     public function scopePublished(Builder $query)
     {
-        return $query->where("status", ActivityStatusEnum::PUBLISHED);
+        return $query->where("published_at", "!=", null);
     }
 
     public function scopeAccesibles(Builder $query)

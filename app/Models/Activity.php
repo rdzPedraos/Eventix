@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ActivityStatusEnum;
+use App\Enums\PermissionEnum;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -44,7 +45,7 @@ class Activity extends Model
             throw new Exception("Need to be logged in");
         }
 
-        return $user->isSuperAdmin()
+        return $user->hasPermissionTo(PermissionEnum::ACTIVITY_CHECK_ALL)
             ? $query
             : $query->where("created_by", $user->id);
     }

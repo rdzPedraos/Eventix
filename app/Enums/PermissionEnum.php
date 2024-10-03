@@ -8,6 +8,7 @@ enum PermissionEnum: string
 {
     use EnumHelpers;
     case ACTIVITY_CHECK = 'activity.check';
+    case ACTIVITY_CHECK_ALL = 'activity.check_all';
     case ACTIVITY_CREATE = 'activity.create';
         #case ACTIVITY_ADD_EDITOR = 'activity.add_editor';
     case ACTIVITY_EDIT = 'activity.edit';

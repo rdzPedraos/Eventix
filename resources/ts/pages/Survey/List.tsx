@@ -3,9 +3,10 @@ import { route } from "@ziggyjs";
 import { usePage } from "@inertiajs/react";
 import { DocumentArrowDownIcon, PencilIcon } from "@heroicons/react/24/solid";
 
-import { Link, Tooltip } from "@nextui-org/react";
+import { Chip, Link, Tooltip } from "@nextui-org/react";
 import { SurveyListResource } from "@/types/resources";
 import { Breadcrumb, Container, Table } from "@/components";
+import Badge from "@/components/Badge";
 
 const renderCell = (survey: SurveyListResource, columnKey: string) => {
     switch (columnKey) {
@@ -32,10 +33,32 @@ const renderCell = (survey: SurveyListResource, columnKey: string) => {
                 </>
             );
 
+        case "trigger":
+            return <Badge>{survey.trigger.label}</Badge>;
+
+        case "trigger_at":
+            return survey.trigger.date || "-";
+
+        case "answer_count":
+            return survey.answers_count.toString();
+
+        case "status":
+            return (
+                <Chip
+                    isDisabled={survey.is_closed}
+                    className="capitalize"
+                    color={survey.status.color}
+                    size="sm"
+                    variant="flat"
+                >
+                    {survey.status.label}
+                </Chip>
+            );
+
         case "activity":
             return (
                 <Link
-                    className="block max-w-28 text-sm hover:underline  truncate"
+                    className="block max-w-28 text-sm hover:underline"
                     href={route("activities.edit", {
                         activity: survey.activity.id,
                     })}
@@ -56,6 +79,10 @@ export default function List() {
         surveys: CollectionProps<SurveyListResource>;
     }>().props;
 
+    const disabledKeys = data
+        .filter((surveys) => surveys.is_closed)
+        .map((survey) => survey.id.toString());
+
     return (
         <>
             <Breadcrumb
@@ -71,15 +98,30 @@ export default function List() {
                     aria-label="Lugares académicos"
                     data={data}
                     pagination={meta}
+                    disabledKeys={disabledKeys}
                     columns={[
-                        { uid: "name", label: "Nombre" },
-                        { uid: "description", label: "Descripción" },
-                        { uid: "trigger", label: "" },
                         {
                             uid: "activity",
                             label: "Actividad",
                             align: "center",
                         },
+                        { uid: "name", label: "Nombre" },
+                        { uid: "description", label: "Descripción" },
+                        {
+                            uid: "trigger",
+                            label: "Disparador",
+                        },
+                        {
+                            uid: "trigger_at",
+                            label: "Fecha",
+                            align: "center",
+                        },
+                        {
+                            uid: "answer_count",
+                            label: "Respuestas",
+                            align: "center",
+                        },
+                        { uid: "status", label: "Estado", align: "center" },
                         { uid: "actions", label: "Acciones", align: "center" },
                     ]}
                     renderCell={renderCell}

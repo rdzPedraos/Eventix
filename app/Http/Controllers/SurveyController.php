@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Enums\QuestionTypesEnum;
 use App\Enums\SurveyTriggerEnum;
 use App\Http\Requests\CreateSurveyRequest;
-use App\Http\Requests\SurveyAnswerRequest;
-use App\Http\Requests\SurveyAnswerStoreRequest;
 use App\Http\Requests\SurveyRequest;
 use App\Http\Resources\SurveyListResource;
 use App\Models\Activity;
@@ -15,6 +13,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
@@ -25,15 +24,19 @@ class SurveyController extends Controller
      */
     public function index(Request $request)
     {
-        $activities = Activity::accesibles();
-        $activity_id = $request->input("activity");
+        Gate::authorize("viewAny", Survey::class);
 
+        $activities = Activity::accesibles();
+
+        $activity_id = $request->input("activity");
         if ($activity_id) {
             $activities = $activities->where("id", $activity_id);
         }
 
-        $surveys = Survey::whereIn("activity_id", $activities->pluck("id"))
+        $surveys = Survey::withTrashed()
+            ->whereIn("activity_id", $activities->pluck("id"))
             ->with("activity")
+            ->orderBy("created_at", "desc")
             ->paginate($request->input("per_page", 10));
 
         $surveys = SurveyListResource::collection($surveys);
@@ -46,6 +49,8 @@ class SurveyController extends Controller
      */
     public function create(CreateSurveyRequest $request)
     {
+        Gate::authorize("create", Survey::class);
+
         $survey = new Survey([
             "activity_id" => $request->input("activity_id"),
             "questions" => []
@@ -59,6 +64,8 @@ class SurveyController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize("create", Survey::class);
+
         $validated = $request->validate([
             ...(new CreateSurveyRequest)->rules(),
             ...(new SurveyRequest)->rules()
@@ -93,6 +100,11 @@ class SurveyController extends Controller
      */
     public function edit(Survey $survey)
     {
+        Gate::authorize("update", $survey);
+        if ($survey->isPublished) {
+            return redirect()->route("surveys.index");
+        }
+
         $survey->load("questions");
         $questionTypes = QuestionTypesEnum::casesKeyLabel();
         $triggerTypes = SurveyTriggerEnum::casesKeyLabel();
@@ -105,12 +117,18 @@ class SurveyController extends Controller
      */
     public function update(SurveyRequest $request, Survey $survey)
     {
+        Gate::authorize("update", $survey);
+
         DB::beginTransaction();
 
         try {
             $survey->update($request->validated());
             $survey->questions()->delete();
             $survey->questions()->createMany($request->questions);
+
+            if ($request->input("publish")) {
+                $survey->publish();
+            }
 
             DB::commit();
         } catch (\Exception $e) {
@@ -127,6 +145,8 @@ class SurveyController extends Controller
      */
     public function destroy(Survey $survey)
     {
-        //
+        Gate::authorize("delete", $survey);
+        $survey->delete();
+        return redirect()->route("surveys.index");
     }
 }

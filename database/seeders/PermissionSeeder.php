@@ -22,7 +22,6 @@ class PermissionSeeder extends Seeder
             PermissionEnum::SURVEY_EDIT,
             PermissionEnum::SURVEY_REMOVE,
             PermissionEnum::SURVEY_PUBLISH,
-            PermissionEnum::ATTENDANCE_CHECK,
             PermissionEnum::ATTENDANCE_REPORT,
         ],
 
@@ -37,7 +36,6 @@ class PermissionSeeder extends Seeder
             PermissionEnum::SURVEY_EDIT,
             PermissionEnum::SURVEY_REMOVE,
             PermissionEnum::SURVEY_PUBLISH,
-            PermissionEnum::ATTENDANCE_CHECK,
             PermissionEnum::ATTENDANCE_REPORT,
             PermissionEnum::PLACES_EDIT,
             PermissionEnum::PLACES_DELETE,

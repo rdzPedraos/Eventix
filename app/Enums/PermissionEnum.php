@@ -18,6 +18,7 @@ enum PermissionEnum: string
     case ACTIVITY_PUBLISH = 'activity.publish';
 
     case SURVEY_CHECK = 'survey.check';
+    case SURVEY_CHECK_ALL = 'survey.check_all';
     case SURVEY_CREATE = 'survey.create';
     case SURVEY_EDIT = 'survey.edit';
     case SURVEY_EDIT_ALL = 'survey.edit_all';
@@ -25,7 +26,6 @@ enum PermissionEnum: string
     case SURVEY_REMOVE_ALL = 'survey.remove_all';
     case SURVEY_PUBLISH = 'survey.publish';
 
-    case ATTENDANCE_CHECK = 'attendance.check';
     case ATTENDANCE_REPORT = 'attendance.report';
 
     case PLACES_CREATE = 'places.create';

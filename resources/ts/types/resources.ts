@@ -48,8 +48,16 @@ export type SurveyListResource = {
     id: number;
     name: string;
     description: string | null;
-    published_trigger: "custom" | "start_at" | "end_at";
-    trigger_date: Date;
+    answers_count: number;
+    trigger: {
+        label: string;
+        date: string;
+    };
+    status: {
+        color: "success" | "danger" | "default";
+        label: string;
+    };
+    is_closed: boolean;
     activity: {
         id: number;
         name: string;

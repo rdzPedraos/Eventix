@@ -14,7 +14,11 @@ class ActivityPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo(PermissionEnum::ACTIVITY_CHECK) || $user->hasPermissionTo(PermissionEnum::ACTIVITY_CHECK_ALL);
+        if ($user->hasPermissionTo(PermissionEnum::ACTIVITY_CHECK_ALL)) {
+            return true;
+        }
+
+        return $user->hasPermissionTo(PermissionEnum::ACTIVITY_CHECK);
     }
 
     /**
@@ -22,12 +26,12 @@ class ActivityPolicy
      */
     public function view(User $user, Activity $activity): bool
     {
-        return true;
-        if ($user->id === $activity->owner->id) {
-            return $user->hasPermissionTo(PermissionEnum::ACTIVITY_CHECK);
+        if ($user->hasPermissionTo(PermissionEnum::ACTIVITY_CHECK_ALL)) {
+            return true;
         }
 
-        return $user->hasPermissionTo(PermissionEnum::ACTIVITY_CHECK_ALL);
+        return $user->id === $activity->owner->id
+            && $user->hasPermissionTo(PermissionEnum::ACTIVITY_CHECK);
     }
 
     /**
@@ -43,11 +47,12 @@ class ActivityPolicy
      */
     public function update(User $user, Activity $activity): bool
     {
-        if ($user->id === $activity->owner->id) {
-            return $user->hasPermissionTo(PermissionEnum::ACTIVITY_EDIT);
+        if ($user->hasPermissionTo(PermissionEnum::ACTIVITY_EDIT_ALL)) {
+            return true;
         }
 
-        return $user->hasPermissionTo(PermissionEnum::ACTIVITY_EDIT_ALL);
+        return $user->id === $activity->owner->id
+            && $user->hasPermissionTo(PermissionEnum::ACTIVITY_EDIT);
     }
 
     /**
@@ -55,11 +60,12 @@ class ActivityPolicy
      */
     public function delete(User $user, Activity $activity): bool
     {
-        if ($user->id === $activity->owner->id) {
-            return $user->hasPermissionTo(PermissionEnum::ACTIVITY_REMOVE);
+        if ($user->hasPermissionTo(PermissionEnum::ACTIVITY_REMOVE_ALL)) {
+            return true;
         }
 
-        return $user->hasPermissionTo(PermissionEnum::ACTIVITY_REMOVE_ALL);
+        return $user->id === $activity->owner->id
+            && $user->hasPermissionTo(PermissionEnum::ACTIVITY_REMOVE);
     }
 
     /**
@@ -67,11 +73,12 @@ class ActivityPolicy
      */
     public function restore(User $user, Activity $activity): bool
     {
-        if ($user->id === $activity->owner->id) {
-            return $user->hasPermissionTo(PermissionEnum::ACTIVITY_REMOVE);
+        if ($user->hasPermissionTo(PermissionEnum::ACTIVITY_REMOVE_ALL)) {
+            return true;
         }
 
-        return $user->hasPermissionTo(PermissionEnum::ACTIVITY_REMOVE_ALL);
+        return $user->id === $activity->owner->id
+            && $user->hasPermissionTo(PermissionEnum::ACTIVITY_REMOVE);
     }
 
     /**
@@ -84,14 +91,11 @@ class ActivityPolicy
 
     public function downloadReport(User $user, Activity $activity): bool
     {
-        if (!$user->hasPermissionTo(PermissionEnum::ATTENDANCE_REPORT)) {
-            return false;
-        }
-
-        if ($user->id === $activity->owner->id) {
+        if ($user->hasPermissionTo(PermissionEnum::ACTIVITY_CHECK_ALL)) {
             return true;
         }
 
-        return $user->hasPermissionTo(PermissionEnum::ACTIVITY_CHECK_ALL);
+        return $user->id === $activity->owner->id
+            && $user->hasPermissionTo(PermissionEnum::ATTENDANCE_REPORT);
     }
 }

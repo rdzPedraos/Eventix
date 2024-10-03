@@ -7,6 +7,7 @@ use App\Http\Requests\AnswerStoreRequest;
 use App\Library\DownloadCSV;
 use App\Models\Survey;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class AnswerController extends Controller
@@ -35,6 +36,8 @@ class AnswerController extends Controller
 
     public function download(Survey $survey)
     {
+        Gate::authorize("downloadReport", $survey);
+
         $name = str_replace(" ", "-", strtolower($survey->name));
         $questions = $survey->questions->pluck("label", "id");
         $answers = $survey->answers->pluck("answers");

@@ -17,7 +17,6 @@ class Survey extends Model
         'description',
         'published_trigger',
         'trigger_date',
-        "published_at",
     ];
 
     protected $casts = [
@@ -25,6 +24,22 @@ class Survey extends Model
         'trigger_date' => 'date',
         'published_at' => 'date',
     ];
+
+    protected $dates = [
+        'trigger_date',
+        'published_at',
+    ];
+
+    public function getIsPublishedAttribute()
+    {
+        return $this->published_at !== null;
+    }
+
+    public function publish()
+    {
+        $this->published_at = now();
+        $this->save();
+    }
 
     /* RELATIONS */
     public function activity()

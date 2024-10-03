@@ -18,7 +18,7 @@ export type useFormReturnType<T extends object> = InertiaFormProps<T> & {
         method: Method,
         route: string,
         options?: VisitOptions
-    ) => (e: any) => void;
+    ) => (e?: any) => void;
 
     setErrors: (
         errors: Partial<Record<keyof T, string>>,

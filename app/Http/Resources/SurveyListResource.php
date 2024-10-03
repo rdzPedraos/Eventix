@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Enums\SurveyTriggerEnum;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,13 +18,46 @@ class SurveyListResource extends JsonResource
         return [
             "id" => $this->id,
             "name" => $this->name,
+            "status" => self::getStatus(),
+            "is_closed" => $this->deleted_at !== null,
             "description" => $this->description,
-            "published_trigger" => $this->published_trigger,
-            "trigger_date" => $this->trigger_date,
+            "trigger" => self::getTypeTrigger(),
+            "answers_count" => $this->answers->count(),
             "activity" => [
                 "id" => $this->activity->id,
                 "name" => $this->activity->name
             ]
+        ];
+    }
+
+    protected function getTypeTrigger()
+    {
+        $trigger = $this->published_trigger;
+        return [
+            "label" => $trigger->label(),
+            "date" => $this->trigger_date?->format("Y/m/d"),
+        ];
+    }
+
+    protected function getStatus()
+    {
+        if ($this->deleted_at !== null) {
+            return [
+                "color" => "danger",
+                "label" => "Cerrado",
+            ];
+        }
+
+        if ($this->isPublished) {
+            return [
+                "color" => "success",
+                "label" => "Publicado",
+            ];
+        }
+
+        return [
+            "color" => "default",
+            "label" => "Borrador",
         ];
     }
 }

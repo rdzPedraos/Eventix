@@ -16,7 +16,7 @@ export default function useFormBuilder(survey: Survey = {} as Survey) {
             label: "Pregunta " + size,
             type: "text",
             is_required: true,
-        } as Question;
+        } as unknown as Question;
 
         setData("questions", [...data.questions, newQuestion]);
         setEditMode(newQuestion.id);

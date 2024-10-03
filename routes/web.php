@@ -14,22 +14,22 @@ use Illuminate\Support\Facades\Route;
 
 Route::get("/", fn() => redirect()->route("home"));
 Route::inertia("/home", "Home")->name("home");
-Route::get("/eventos", [EventController::class, "index"])->name("events.index");
 
-Route::resource("register", RegisterController::class)->only(["index", "store"]);
+Route::resource("login", LoginController::class)->only(["index", "store"])->name("index", "login")->middleware("guest");
+
+Route::get("register", [RegisterController::class, "index"])->name("register.index")->middleware("guest");
+Route::post("register", [RegisterController::class, "store"])->name("register.store");
 Route::post("register/pre-validate", [RegisterController::class, "validateData"])->name("register.validate");
+
 Route::post("otp/send", [OtpController::class, "create"])->name("otp.send");
 Route::post("otp/verify", [OtpController::class, "verify"])->name("otp.verify");
 
-Route::middleware("guest")->group(function () {
-    Route::resource("login", LoginController::class)->only(["index", "store"])->name("index", "login");
+Route::get("/olvide-mi-clave", [PasswordController::class, "request"])->name("password.request")->middleware("guest");
+Route::post("/olvide-mi-clave", [PasswordController::class, "sendEmail"]);
+Route::get("/recuperar-clave/{token}", [PasswordController::class, "reset"])->name("password.reset");
+Route::post("/recuperar-clave", [PasswordController::class, "update"])->name("password.update");
 
-    Route::get("/olvide-mi-clave", [PasswordController::class, "request"])->name("password.request");
-    Route::post("/olvide-mi-clave", [PasswordController::class, "sendEmail"]);
-    Route::get("/recuperar-clave/{token}", [PasswordController::class, "reset"])->name("password.reset");
-    Route::post("/recuperar-clave", [PasswordController::class, "update"])->name("password.update");
-});
-
+Route::get("/eventos", [EventController::class, "index"])->name("events.index");
 
 Route::middleware("auth")->group(function () {
     Route::get("logout", [LoginController::class, "destroy"])->name("logout");

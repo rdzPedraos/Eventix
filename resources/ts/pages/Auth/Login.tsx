@@ -56,7 +56,7 @@ export default function Login({}: Props) {
                             </Checkbox>
 
                             <Link
-                                href="#"
+                                href={route("password.request")}
                                 className="text-primary hover:underline"
                             >
                                 ¿Olvidaste tu contraseña?

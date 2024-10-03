@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\OtpController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\SitesController;
 use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\UserController;
@@ -22,6 +23,11 @@ Route::post("otp/verify", [OtpController::class, "verify"])->name("otp.verify");
 
 Route::middleware("guest")->group(function () {
     Route::resource("login", LoginController::class)->only(["index", "store"])->name("index", "login");
+
+    Route::get("/olvide-mi-clave", [PasswordController::class, "request"])->name("password.request");
+    Route::post("/olvide-mi-clave", [PasswordController::class, "sendEmail"]);
+    Route::get("/recuperar-clave/{token}", [PasswordController::class, "reset"])->name("password.reset");
+    Route::post("/recuperar-clave", [PasswordController::class, "update"])->name("password.update");
 });
 
 

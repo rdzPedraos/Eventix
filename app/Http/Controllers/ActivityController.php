@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ActivityStatusEnum;
-use App\Enums\PermissionEnum;
 use App\Http\Requests\ActivityRequest;
 use App\Http\Resources\ActivityListResource;
 use App\Http\Resources\ActivityResource;
@@ -11,28 +10,18 @@ use App\Http\Resources\SiteResource;
 use App\Models\Activity;
 use App\Models\Sites;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
-class ActivityController extends Controller implements HasMiddleware
+class ActivityController extends Controller
 {
-    public static function middleware()
-    {
-        return [
-            new Middleware("permission:" . PermissionEnum::ACTIVITY_CHECK->value, ["index"]),
-            new Middleware("permission:" . PermissionEnum::ACTIVITY_CREATE->value, ["create", "store", "edit", "update"]),
-        ];
-    }
-
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-
         $activities = Activity::accesibles()->orderBy("updated_at", "DESC")->paginate($request->per_page ?? 10);
         $activities = ActivityListResource::collection($activities);
 
@@ -44,7 +33,9 @@ class ActivityController extends Controller implements HasMiddleware
      */
     public function create()
     {
+        Gate::authorize("create", Activity::class);
         $sites = SiteResource::collection(Sites::all())->toArray(request());
+
         return Inertia::render("Activity/Create", compact('sites'));
     }
 
@@ -53,6 +44,8 @@ class ActivityController extends Controller implements HasMiddleware
      */
     public function store(ActivityRequest $request)
     {
+        Gate::authorize("create", arguments: Activity::class);
+
         $validated = [
             ...$request->validated(),
             "image" => $request->image,
@@ -60,11 +53,9 @@ class ActivityController extends Controller implements HasMiddleware
         ];
 
         $activity = new Activity($validated);
-        if ($request->action == "publish") {
-            $activity->status = ActivityStatusEnum::PUBLISHED;
-        }
 
         DB::beginTransaction();
+
         try {
             $activity->save();
             $activity->schedulers()->createMany($validated["schedulers"]);
@@ -75,7 +66,6 @@ class ActivityController extends Controller implements HasMiddleware
             throw $e;
         }
 
-        if ($request->action == "publish") return redirect()->route("activities.index");
         return redirect()->route("activities.edit", $activity);
     }
 
@@ -92,6 +82,8 @@ class ActivityController extends Controller implements HasMiddleware
      */
     public function edit(Activity $activity)
     {
+        Gate::authorize("update", $activity);
+
         $activity->load(["schedulers", "owner", "surveys"]);
         $activity = (new ActivityResource($activity))->toArray(request());
         $sites = SiteResource::collection(Sites::all())->toArray(request());
@@ -104,6 +96,8 @@ class ActivityController extends Controller implements HasMiddleware
      */
     public function update(ActivityRequest $request, Activity $activity)
     {
+        Gate::authorize("update", $activity);
+
         $validated = [
             ...$request->validated(),
             "image" => $request->image,
@@ -126,6 +120,7 @@ class ActivityController extends Controller implements HasMiddleware
         }
 
         if ($request->action == "publish") return redirect()->route("activities.index");
+        return redirect()->back();
     }
 
     /**

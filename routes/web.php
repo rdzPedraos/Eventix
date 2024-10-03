@@ -33,18 +33,18 @@ Route::post("/recuperar-clave", [PasswordController::class, "update"])->name("pa
 Route::get("/eventos", [EventController::class, "index"])->name("events.index");
 
 Route::middleware("auth")->group(function () {
-    Route::post("/eventos/inscribir/{activity}", [EventController::class, "subscribe"])->name("events.subscribe");
-    Route::post("/eventos/desinscribir/{activity}", [EventController::class, "unsubscribe"])->name("events.unsubscribe");
-
     Route::resource("actividades", ActivityController::class)->parameters(["actividades" => "activity"])->names("activities");
-    Route::get("encuestas/reporte/{activity}", [EventController::class, "download"])->name("events.report");
 
-    Route::resource("espacios-academicos", SitesController::class)->parameters(["espacios-academicos" => "site"])->names("sites");
+    Route::post("/eventos/{activity}/inscribir", [EventController::class, "subscribe"])->name("events.subscribe");
+    Route::post("/eventos/{activity}/desinscribir", [EventController::class, "unsubscribe"])->name("events.unsubscribe");
+    Route::get("/eventos/{activity}/reporte", [EventController::class, "download"])->name("events.report");
 
     Route::resource("encuestas", controller: SurveyController::class)->parameters(["encuestas" => "survey"])->names("surveys");
-    Route::get("encuestas/r/{token}", [AnswerController::class, "show"])->name("answer.show");
-    Route::post("encuestas/r/{token}", [AnswerController::class, "store"])->name("answer.store");
-    Route::get("encuestas/reporte/{survey}", [AnswerController::class, "download"])->name("answer.report");
+    Route::get("/s/{token}", [AnswerController::class, "show"])->name("answer.show");
+    Route::post("/s/{token}", [AnswerController::class, "store"])->name("answer.store");
+    Route::get("/encuestas/reporte/{survey}", [AnswerController::class, "download"])->name("answer.report");
+
+    Route::resource("espacios-academicos", SitesController::class)->parameters(["espacios-academicos" => "site"])->names("sites");
 
     Route::resource("usuario", UserController::class)->parameters(["usuario" => "user"])->names("users");
     Route::put("usuario/{user}/roles", [UserController::class, "updateRoles"])->name("users.update_roles");

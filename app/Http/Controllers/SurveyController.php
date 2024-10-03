@@ -133,12 +133,12 @@ class SurveyController extends Controller
         $token = decrypt($request->token);
 
         if (!isset($token["user_id"]) || !isset($token["survey_id"])) {
-            return response(null, 404);
+            abort(404);
         }
 
         $user = User::find($token["user_id"]);
         if ($user != Auth::user()) {
-            return response(null, 401);
+            abort(401);
         }
 
         $survey = Survey::find($token["survey_id"]);

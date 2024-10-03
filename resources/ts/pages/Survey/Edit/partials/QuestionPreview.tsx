@@ -23,7 +23,7 @@ function RenderField({ type, options }: Question) {
         case "radio":
             return (
                 <RadioGroup>
-                    {options.map((option, index) => (
+                    {options?.map((option, index) => (
                         <Radio key={index} isDisabled value="">
                             {option}
                         </Radio>
@@ -33,7 +33,7 @@ function RenderField({ type, options }: Question) {
         case "checkbox":
             return (
                 <div className="flex flex-col">
-                    {options.map((option, index) => (
+                    {options?.map((option, index) => (
                         <Checkbox key={index} isDisabled>
                             {option}
                         </Checkbox>
@@ -42,7 +42,7 @@ function RenderField({ type, options }: Question) {
             );
         case "select":
             return (
-                <Select disabled label="Selecciona una opción">
+                <Select isDisabled label="Selecciona una opción">
                     <SelectItem key="1" value="1">
                         Opción 1
                     </SelectItem>

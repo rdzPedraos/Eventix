@@ -10,9 +10,9 @@ enum QuestionTypesEnum: string
 
     case TEXT = "text";
     case NUMBER = "number";
+    case DATE = "date";
     case RADIO = "radio";
     case CHECKBOX = "checkbox";
-    case DATE = "date";
     case SELECT = "select";
 
     public function label(): string

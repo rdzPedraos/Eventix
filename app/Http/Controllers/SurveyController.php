@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Enums\QuestionTypesEnum;
 use App\Enums\SurveyTriggerEnum;
 use App\Http\Requests\CreateSurveyRequest;
+use App\Http\Requests\SurveyAnswerRequest;
+use App\Http\Requests\SurveyAnswerStoreRequest;
 use App\Http\Requests\SurveyRequest;
 use App\Http\Resources\SurveyListResource;
 use App\Models\Activity;
@@ -128,20 +130,16 @@ class SurveyController extends Controller
         //
     }
 
-    public function answer(Request $request)
+    public function answer(SurveyAnswerRequest $request)
     {
-        $token = decrypt($request->token);
+        $survey = Survey::findOrFail($request->survey_id)->load("questions");
+        $token = $request->route("token");
 
-        if (!isset($token["user_id"]) || !isset($token["survey_id"])) {
-            abort(404);
-        }
+        return Inertia::render("Survey/Answer", compact('survey', "token"));
+    }
 
-        $user = User::find($token["user_id"]);
-        if ($user != Auth::user()) {
-            abort(401);
-        }
-
-        $survey = Survey::find($token["survey_id"]);
-        return Inertia::render("Survey/Answer", compact('survey', "user"));
+    public function storeAnswer(SurveyAnswerStoreRequest $request)
+    {
+        return redirect()->route("home");
     }
 }

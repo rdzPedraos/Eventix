@@ -19,9 +19,11 @@ export default function Header({}: Props) {
 
     const goToToday = () => setFilter("day", now);
 
-    const changeWeek = (direction: "left" | "right") => {
+    const changeDay = (direction: "left" | "right") => {
         const add = direction === "left" ? -1 : 1;
-        setFilter("day", filters.day.add(add, "week"));
+        const type = filters.mode === "day" ? "day" : "week";
+
+        setFilter("day", filters.day.add(add, type));
     };
 
     const onChangeMode = (option) => {
@@ -54,22 +56,24 @@ export default function Header({}: Props) {
                 <div className="flex">
                     <Button
                         variant="light"
-                        onClick={() => changeWeek("left")}
+                        onClick={() => changeDay("left")}
                         size="sm"
                     >
                         <ChevronLeftIcon className="h-4 w-4" />
                     </Button>
                     <Button
                         variant="light"
-                        onClick={() => changeWeek("right")}
+                        onClick={() => changeDay("right")}
                         size="sm"
                     >
                         <ChevronRightIcon className="h-4 w-4" />
                     </Button>
                 </div>
 
-                <h2 className="text-xl font-semibold">
-                    {filters.day.format("MMMM [de] YYYY")}
+                <h2 className="text-xl font-semibold first-letter:uppercase">
+                    {filters.mode === "week"
+                        ? filters.day.format("MMMM [de] YYYY")
+                        : filters.day.format("DD [de] MMMM [de] YYYY")}
                 </h2>
             </div>
 

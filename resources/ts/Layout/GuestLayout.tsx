@@ -13,7 +13,7 @@ export default function GuestLayout({ children }: Props) {
                 {children}
             </div>
 
-            <div className="hidden lg:flex h-full bg-gradient-to-tr from-green-700 to-primary-800 place-items-center">
+            <div className="hidden lg:flex justify-center h-full bg-gradient-to-tr from-green-700 to-primary-800 place-items-center">
                 <Image
                     src="img/login.svg"
                     width={600}

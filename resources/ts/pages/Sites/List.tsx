@@ -70,7 +70,7 @@ export default function List({}: Props) {
                     data={data}
                     pagination={meta}
                     columns={[
-                        { uid: "name", label: "Titulo" },
+                        { uid: "name", label: "Etiqueta" },
                         { uid: "address", label: "Dirección" },
                         { uid: "actions", label: "Acciones", align: "center" },
                     ]}

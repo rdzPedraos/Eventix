@@ -1,7 +1,12 @@
 import React from "react";
 
 import { Button, Select, SelectItem } from "@nextui-org/react";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
+import {
+    Bars3Icon,
+    ChevronLeftIcon,
+    ChevronRightIcon,
+    XMarkIcon,
+} from "@heroicons/react/24/solid";
 
 import { DayType, ViewModeTypes } from "../utils/types";
 import { useCalendarContext } from "../";
@@ -9,7 +14,16 @@ import { useCalendarContext } from "../";
 type Props = {};
 
 export default function Header({}: Props) {
-    const { now, day, setDay, mode, setMode } = useCalendarContext();
+    const {
+        now,
+        day,
+        setDay,
+        mode,
+        setMode,
+        sideBar,
+        openSidebar,
+        toggleSideBar,
+    } = useCalendarContext();
 
     const goToToday = () => setDay(now);
 
@@ -26,6 +40,16 @@ export default function Header({}: Props) {
     return (
         <div className="sticky top-0 flex justify-between items-center p-3 bg-white z-50 shadow">
             <div className="flex items-center space-x-4">
+                {sideBar && (
+                    <button onClick={() => toggleSideBar((s) => !s)}>
+                        {openSidebar ? (
+                            <XMarkIcon width={30} />
+                        ) : (
+                            <Bars3Icon width={30} />
+                        )}
+                    </button>
+                )}
+
                 <Button
                     variant="flat"
                     size="sm"

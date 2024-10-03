@@ -30,15 +30,26 @@ type ContexType = {
     setSelectedEvent: Dispatch<SetStateAction<EventType>>;
 
     forceUpdate: () => void;
+
+    sideBar?: React.ReactNode;
+    openSidebar: boolean;
+    toggleSideBar: Dispatch<SetStateAction<boolean>>;
 };
 
 const CalendarContext = createContext<ContexType>({} as ContexType);
+
+type onChangeEventsType = (
+    day: DayType,
+    mode: ViewModeTypes,
+    filters?: object
+) => void;
 
 type CalendarProviderProps = {
     children: ReactNode;
     eventDetail?: eventDetailType;
     events: EventType[];
-    onChangeEvents: (day: DayType, mode: ViewModeTypes) => void;
+    onChangeEvents: onChangeEventsType;
+    sideBar?: React.ReactNode;
 };
 
 export default function CalendarProvider({
@@ -46,11 +57,13 @@ export default function CalendarProvider({
     eventDetail,
     events,
     onChangeEvents,
+    sideBar,
 }: CalendarProviderProps) {
     const [mode, setMode] = useState<ViewModeTypes>("week");
     const [current, setCurrent] = useState<DayType>(now());
     const [day, setDay] = useState<DayType>(current);
     const [selectedEvent, setSelectedEvent] = useState<EventType>();
+    const [openSidebar, toggleSideBar] = useState<boolean>(true);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -84,6 +97,10 @@ export default function CalendarProvider({
                 eventDetail,
 
                 forceUpdate,
+
+                sideBar,
+                openSidebar,
+                toggleSideBar,
             }}
         >
             {children}

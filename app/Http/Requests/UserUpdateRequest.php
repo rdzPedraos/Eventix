@@ -5,10 +5,9 @@ namespace App\Http\Requests;
 use App\Models\DocumentType;
 use App\Rules\PhoneValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Validation\Validator;
 
-class RegisterRequest extends FormRequest
+class UserUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,25 +24,15 @@ class RegisterRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules = [
+        $user = $this->route("user");
+
+        return [
             "document_type_code" => ["required", "exists:document_types,code"],
-            "document_number" => ["required", "string", "unique:users,document_number"],
-            "email" => ["required", "email", "max:255", "unique:users,email"],
+            "document_number" => ["required", "string", "unique:users,document_number,$user->id"],
             "phone" => ["required", new PhoneValidationRule],
             "name" => ["required", "string", "min:2", "max:25", "regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/"],
             "last_name" => ["required", "string", "min:2", "max:25", "regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/"],
         ];
-
-        if ($this->route()->getName() == "register.store") {
-            $rules = [
-                ...$rules,
-                "verify_otp" => ["required", "string"],
-                "otp" => ["required", "string", "size:5"],
-                "password" => ["required", "string", "min:8"],
-            ];
-        }
-
-        return $rules;
     }
 
     public function after()
@@ -57,17 +46,6 @@ class RegisterRequest extends FormRequest
                         !preg_match("/$regex/", $this->document_number),
                         "document_number",
                         __("validation.regex", ["attribute" => __("validation.attributes.document_number")])
-                    );
-                }
-
-                if ($this->verify_otp) {
-                    $verify_otp = Crypt::decrypt($this->input("verify_otp"));
-                    $otp = $this->input("otp");
-
-                    $validator->errors()->addIf(
-                        $verify_otp != $otp,
-                        "otp",
-                        __("validation.code.invalid", ["attribute" => __("validation.attributes.otp")])
                     );
                 }
             }

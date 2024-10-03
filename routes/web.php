@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\SitesController;
 use App\Http\Controllers\SurveyController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get("/", fn() => redirect()->route("home"));
@@ -39,4 +40,6 @@ Route::middleware("auth")->group(function () {
     Route::get("encuestas/r/{token}", [AnswerController::class, "show"])->name("answer.show");
     Route::post("encuestas/r/{token}", [AnswerController::class, "store"])->name("answer.store");
     Route::get("encuestas/reporte/{survey}", [AnswerController::class, "download"])->name("answer.report");
+
+    Route::resource("usuario", UserController::class)->parameters(["usuario" => "user"])->names("users");
 });

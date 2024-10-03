@@ -2,14 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { route } from "@ziggyjs";
 
-import {
-    DayType,
-    eventDetailType,
-    EventType,
-    ViewModeTypes,
-} from "./Calendar/utils/types";
-import { CalendarProvider, Calendar } from "./Calendar";
+import { eventDetailType, EventType } from "./Calendar/utils/types";
+
+import useForm from "@/hooks/useForm";
 import { createDay } from "./Calendar/utils/calendar";
+import { CalendarProvider, Calendar } from "./Calendar";
+import CalendarSideBar, { FilterProps } from "./CalendarSideBar";
 
 type Props = {
     eventDetail?: eventDetailType;
@@ -24,11 +22,16 @@ export default function LoadCalendar({
 }: Props) {
     const [eventsSearched, setEventsSearched] = useState<EventType[]>([]);
     const [events, setEvents] = useState<EventType[]>([]);
+    const filterForm = useForm<FilterProps>({} as FilterProps);
 
-    const onSearchEvents = (day: DayType, mode: ViewModeTypes) => {
+    const onSearchEvents = (filters: object) => {
         axios
             .get(route("events.index"), {
-                params: { day, mode, except: exceptActivityId },
+                params: {
+                    except: exceptActivityId,
+                    ...filters,
+                    ...filterForm.data,
+                },
             })
             .then(({ data }) => {
                 const dates = data.map(({ activity, ...sc }) => ({
@@ -56,6 +59,7 @@ export default function LoadCalendar({
             eventDetail={eventDetail}
             events={events}
             onChangeEvents={onSearchEvents}
+            sideBar={<CalendarSideBar form={filterForm} />}
         >
             <Calendar />
         </CalendarProvider>

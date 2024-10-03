@@ -6,6 +6,7 @@ use App\Http\Resources\SchedulerResource;
 use App\Library\DownloadCSV;
 use App\Models\Activity;
 use App\Models\Scheduler;
+use App\Models\Sites;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -13,23 +14,23 @@ class EventController extends Controller
 {
     public function index(Request $request)
     {
-        $request->validate([
-            'date' => 'date',
-            'mode' => 'string|in:week,day',
-            "except" => "nullable|exists:activities,id"
+        $filters = $request->validate([
+            'day' => ["required", 'date'],
+            'mode' => ["required", 'in:week,day'],
+            "activity_name" => ["nullable", "string"],
+            "site" => ["nullable", "exists:sites,id"],
+            "except" => ["nullable", "exists:activities,id"]
         ]);
 
-        $mode = $request->input('mode');
-        $date = Carbon::parse(time: $request->input('date'));
+        $mode = $filters['mode'];
+        $date = Carbon::parse(time: $filters['day']);
 
-        $schedulers = Scheduler::whereHas('activity', function ($query) use ($request) {
-            $query->published();
-
-            if ($request->has('except')) {
-                $query->where('id', '!=', $request->input('except'));
-            }
-        })->with("activity.enrollments");
-
+        $schedulers = Scheduler::with(["activity", "activity.enrollments"])
+            ->search(
+                $request->input("activity_name"),
+                $request->input("site"),
+                $request->input("except")
+            );
 
         switch ($mode) {
             case "week":
@@ -85,5 +86,12 @@ class EventController extends Controller
             ->addBodyRows($users);
 
         return response()->download($document->build())->deleteFileAfterSend(true);
+    }
+
+    public function getSites()
+    {
+        $sites = Sites::all();
+
+        return response()->json($sites);
     }
 }

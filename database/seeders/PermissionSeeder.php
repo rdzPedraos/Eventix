@@ -14,7 +14,6 @@ class PermissionSeeder extends Seeder
         RoleEnum::ADMIN->value => [
             PermissionEnum::ACTIVITY_CHECK,
             PermissionEnum::ACTIVITY_CREATE,
-            PermissionEnum::ACTIVITY_ADD_EDITOR,
             PermissionEnum::ACTIVITY_EDIT,
             PermissionEnum::ACTIVITY_REMOVE,
             PermissionEnum::ACTIVITY_PUBLISH,
@@ -30,7 +29,6 @@ class PermissionSeeder extends Seeder
         RoleEnum::BIENESTAR->value => [
             PermissionEnum::ACTIVITY_CHECK,
             PermissionEnum::ACTIVITY_CREATE,
-            PermissionEnum::ACTIVITY_ADD_EDITOR,
             PermissionEnum::ACTIVITY_EDIT,
             PermissionEnum::ACTIVITY_REMOVE,
             PermissionEnum::ACTIVITY_PUBLISH,
@@ -43,9 +41,6 @@ class PermissionSeeder extends Seeder
             PermissionEnum::ATTENDANCE_REPORT,
             PermissionEnum::PLACES_EDIT,
             PermissionEnum::PLACES_DELETE,
-            PermissionEnum::ACADEMIC_ROLES_CHECK,
-            PermissionEnum::ACADEMIC_ROLES_LIST_REQUEST,
-            PermissionEnum::ACADEMIC_ROLES_APPROVE,
         ],
     ];
 

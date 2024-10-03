@@ -9,7 +9,6 @@ return [
 
     'activity.check' => "Revisar actividad",
     'activity.create' => "Crear actividad",
-    'activity.add_editor' => "Agregar editor",
     'activity.edit' => "Editar actividad",
     'activity.edit_all' => "Editar todas las actividades",
     'activity.remove' => "Remover actividad",
@@ -27,13 +26,12 @@ return [
     'attendance.check' => "Revisar asistencia",
     'attendance.report' => "Generar reporte de asistencia",
 
+    'places.create' => "Crear espacio académico",
     'places.edit' => "Editar espacio académico",
     'places.delete' => "Eliminar espacio académico",
 
-    'academic_roles.list_request' => "Listar solicitudes de roles académicos",
-    'academic_roles.approve' => "Aprobar roles académicos",
-
-    'system_roles.list' => "Listar roles de sistema",
-    'system_roles.create' => "Crear roles de sistema",
-    'system_roles.edit' => "Editar roles de sistema",
+    'users.list' => "Listar usuarios",
+    'users.edit' => "Editar usuario",
+    'users.set_roles' => "Establecer roles al usuario",
+    'users.delete' => "Eliminar usuario",
 ];

@@ -25,12 +25,12 @@ export const MenuMap = [
         Icon: DocumentChartBarIcon,
         permission: "survey.check",
     },
-    {
+    /*{
         label: "Roles académicos",
         to: "home", //"academic-role.index",
         Icon: AcademicCapIcon,
         permission: "academic_roles.check",
-    },
+    },*/
     {
         label: "Espacios académicos",
         to: "sites.index",
@@ -38,9 +38,9 @@ export const MenuMap = [
         permission: "places.edit",
     },
     {
-        label: "Roles de sistema",
-        to: "home", //"system-role.index",
+        label: "Gestion de usuarios",
+        to: "users.index",
         Icon: ShieldCheckIcon,
-        permission: "system_roles.list",
+        permission: "users.list",
     },
 ];

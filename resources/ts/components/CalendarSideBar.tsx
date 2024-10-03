@@ -54,6 +54,7 @@ export default function CalendarSideBar({ form }: Props) {
 
             <div className="flex flex-col gap-4">
                 <DatePicker
+                    color="primary"
                     label="Buscar fecha"
                     value={day}
                     onChange={onChangeDay}
@@ -61,12 +62,14 @@ export default function CalendarSideBar({ form }: Props) {
                 />
 
                 <Input
+                    color="primary"
                     label="Nombre del evento"
                     isClearable
                     {...register("activity_name")}
                 />
 
                 <Select
+                    color="primary"
                     label="Espacios académicos"
                     {...register("site", "select")}
                 >

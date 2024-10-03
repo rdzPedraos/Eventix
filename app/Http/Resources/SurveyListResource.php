@@ -50,8 +50,15 @@ class SurveyListResource extends JsonResource
 
         if ($this->isPublished) {
             return [
-                "color" => "success",
+                "color" => "primary",
                 "label" => "Publicado",
+            ];
+        }
+
+        if ($this->blocked) {
+            return [
+                "color" => "warning",
+                "label" => "Por publicar",
             ];
         }
 

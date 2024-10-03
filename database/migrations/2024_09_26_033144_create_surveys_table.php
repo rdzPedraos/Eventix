@@ -19,6 +19,7 @@ return new class extends Migration
 
             $table->string("published_trigger");
             $table->date("trigger_date")->nullable();
+            $table->timestamp("finished_at")->nullable();
             $table->date("published_at")->nullable();
             $table->timestamps();
             $table->softDeletes();

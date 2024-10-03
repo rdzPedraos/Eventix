@@ -48,7 +48,7 @@ export default function QuestionControls() {
             {survey?.id && (
                 <Confirm
                     title="Publicar encuesta"
-                    text="Una vez publicado, la encuesta quedará programada y no permitiá nuevos ajustes, sólo podrá cancelarla en el futuro."
+                    text="Una vez finalizado, la encuesta quedará programada y no permitiá nuevos ajustes, sólo podrá cancelarla en el futuro."
                 >
                     <Button
                         variant="ghost"
@@ -56,7 +56,7 @@ export default function QuestionControls() {
                         onClick={onPublish}
                         endContent={<PaperAirplaneIcon width={20} />}
                     >
-                        Publicar
+                        Subir encuesta
                     </Button>
                 </Confirm>
             )}

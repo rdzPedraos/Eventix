@@ -101,7 +101,7 @@ class SurveyController extends Controller
     public function edit(Survey $survey)
     {
         Gate::authorize("update", $survey);
-        if ($survey->isPublished) {
+        if ($survey->blocked) {
             return redirect()->route("surveys.index");
         }
 
@@ -127,7 +127,7 @@ class SurveyController extends Controller
             $survey->questions()->createMany($request->questions);
 
             if ($request->input("publish")) {
-                $survey->publish();
+                $survey->finish();
             }
 
             DB::commit();

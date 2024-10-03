@@ -48,4 +48,5 @@ Route::middleware("auth")->group(function () {
     Route::get("encuestas/reporte/{survey}", [AnswerController::class, "download"])->name("answer.report");
 
     Route::resource("usuario", UserController::class)->parameters(["usuario" => "user"])->names("users");
+    Route::put("usuario/{user}/roles", [UserController::class, "updateRoles"])->name("users.update_roles");
 });

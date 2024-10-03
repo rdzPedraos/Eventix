@@ -62,3 +62,14 @@ export type SurveyListResource = {
         name: string;
     };
 };
+
+export type UserResource = {
+    id: number;
+    name: string;
+    email: string;
+    document: string;
+    document_type: string;
+    phone: string;
+    address: string;
+    roles: string[];
+};

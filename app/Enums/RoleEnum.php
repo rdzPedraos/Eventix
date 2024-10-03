@@ -2,8 +2,12 @@
 
 namespace App\Enums;
 
+use App\Traits\EnumHelpers;
+
 enum RoleEnum: string
 {
+    use EnumHelpers;
+
     case SUPER_ADMIN = 'super-admin';
     case ADMIN = 'admin';
     case BIENESTAR = 'bienestar';

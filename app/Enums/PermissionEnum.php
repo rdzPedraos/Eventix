@@ -2,8 +2,11 @@
 
 namespace App\Enums;
 
+use App\Traits\EnumHelpers;
+
 enum PermissionEnum: string
 {
+    use EnumHelpers;
     case ACTIVITY_CHECK = 'activity.check';
     case ACTIVITY_CREATE = 'activity.create';
         #case ACTIVITY_ADD_EDITOR = 'activity.add_editor';

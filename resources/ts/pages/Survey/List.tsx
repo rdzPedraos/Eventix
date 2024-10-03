@@ -24,7 +24,7 @@ const renderCell = (survey: SurveyListResource, columnKey: string) => {
                     <Tooltip content="Generar reporte" as={Link}>
                         <a
                             href={route("answer.report", { survey })}
-                            className="cursor-pointer text-primary-500 inline-block"
+                            className="cursor-pointer text-primary-700 inline-block"
                         >
                             <DocumentArrowDownIcon width={18} />
                         </a>

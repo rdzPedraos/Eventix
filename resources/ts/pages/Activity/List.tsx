@@ -1,12 +1,16 @@
 import React from "react";
+import { route } from "@ziggyjs";
 import { usePage } from "@inertiajs/react";
 import { Button, Chip, Link, Tooltip } from "@nextui-org/react";
 
-import { PencilSquareIcon, PlusIcon } from "@heroicons/react/24/solid";
+import {
+    DocumentArrowDownIcon,
+    PencilSquareIcon,
+    PlusIcon,
+} from "@heroicons/react/24/solid";
 import { ActivityListResource } from "@/types/resources";
 
 import { Breadcrumb, Container, Table } from "@/components";
-import { route } from "@ziggyjs";
 
 const renderCell = (activity: ActivityListResource, columnKey: string) => {
     switch (columnKey) {
@@ -25,17 +29,27 @@ const renderCell = (activity: ActivityListResource, columnKey: string) => {
             );
 
         case "actions":
-            if (!activity.editable) return null;
-
             return (
-                <Tooltip content="Revisar actividad">
-                    <Link href={route("activities.edit", { activity })}>
-                        <PencilSquareIcon
-                            width={18}
-                            className="cursor-pointer text-default-500"
-                        />
-                    </Link>
-                </Tooltip>
+                <>
+                    <Tooltip content="Revisar actividad">
+                        <Link
+                            isDisabled={!activity.editable}
+                            href={route("activities.edit", { activity })}
+                            className="cursor-pointer text-default-500 inline-block mr-2"
+                        >
+                            <PencilSquareIcon width={18} />
+                        </Link>
+                    </Tooltip>
+
+                    <Tooltip content="Reporte de asistencia">
+                        <a
+                            href={route("events.report", { activity })}
+                            className="cursor-pointer text-primary-700 inline-block"
+                        >
+                            <DocumentArrowDownIcon width={18} />
+                        </a>
+                    </Tooltip>
+                </>
             );
 
         default:

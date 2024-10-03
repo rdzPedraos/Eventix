@@ -60,7 +60,7 @@ class DownloadCSV
         foreach ($this->body as $row) {
             $csvRow = [];
             foreach ($this->headers->keys() as $key) {
-                $csvRow[] = $row[$key] ?? '';
+                $csvRow[] = data_get($row, $key);
             }
             fputcsv($file, $csvRow);
         }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\SchedulerResource;
+use App\Library\DownloadCSV;
 use App\Models\Activity;
 use App\Models\Scheduler;
 use Carbon\Carbon;
@@ -64,5 +65,25 @@ class EventController extends Controller
         $activity->enrollments()->detach($user);
 
         return redirect()->back();
+    }
+
+    public function download(Activity $activity)
+    {
+        $headers = [
+            "pivot.registered_at" => "Fecha de registro",
+            "name" => "Nombres",
+            "last_name" => "Apellidos",
+            "email" => "Correo",
+            "phone" => "Teléfono",
+        ];
+
+        $users = $activity->enrollments->toArray();
+
+        $document = (new DownloadCSV())
+            ->setFilename("reporte-asistencia-{$activity->name}")
+            ->addHeaders($headers)
+            ->addBodyRows($users);
+
+        return response()->download($document->build())->deleteFileAfterSend(true);
     }
 }

@@ -31,6 +31,7 @@ Route::middleware("auth")->group(function () {
     Route::post("/eventos/desinscribir/{activity}", [EventController::class, "unsubscribe"])->name("events.unsubscribe");
 
     Route::resource("actividades", ActivityController::class)->parameters(["actividades" => "activity"])->names("activities");
+    Route::get("encuestas/reporte/{activity}", [EventController::class, "download"])->name("events.report");
 
     Route::resource("espacios-academicos", SitesController::class)->parameters(["espacios-academicos" => "site"])->names("sites");
 

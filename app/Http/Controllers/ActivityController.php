@@ -128,6 +128,9 @@ class ActivityController extends Controller
      */
     public function destroy(Activity $activity)
     {
-        //
+        Gate::authorize("delete", $activity);
+        $activity->delete();
+
+        return redirect()->route("activities.index");
     }
 }

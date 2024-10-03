@@ -1,9 +1,16 @@
 import React from "react";
 import { Button } from "@nextui-org/react";
-import { InboxIcon, PaperAirplaneIcon } from "@heroicons/react/24/solid";
+import { router } from "@inertiajs/react";
+import { route } from "@ziggyjs";
+import {
+    TrashIcon,
+    InboxIcon,
+    PaperAirplaneIcon,
+} from "@heroicons/react/24/solid";
 
-import { Container } from "@/components";
 import { useActivityCreateContext } from "../context";
+import Confirm from "@/components/Confirm";
+import { Container } from "@/components";
 import MoreActions from "./MoreActions";
 
 export default function Header() {
@@ -13,7 +20,28 @@ export default function Header() {
     return (
         <Container>
             <div className="flex flex-col-reverse sm:flex-row gap-4 justify-between mb-4">
-                <h1 className="text-2xl font-bold">Formulario</h1>
+                <div className="flex gap-2 items-center">
+                    {activity.id && (
+                        <Confirm
+                            title="Eliminar actividad"
+                            confirmColor="danger"
+                        >
+                            <button
+                                className="text-danger"
+                                onClick={() =>
+                                    router.delete(
+                                        route("activities.destroy", {
+                                            activity,
+                                        })
+                                    )
+                                }
+                            >
+                                <TrashIcon width={20} />
+                            </button>
+                        </Confirm>
+                    )}
+                    <h1 className="text-2xl font-bold">Formulario</h1>
+                </div>
 
                 <div className="flex justify-end gap-2">
                     <MoreActions />

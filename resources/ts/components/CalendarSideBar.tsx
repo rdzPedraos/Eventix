@@ -62,6 +62,7 @@ export default function CalendarSideBar({ form }: Props) {
 
                 <Input
                     label="Nombre del evento"
+                    isClearable
                     {...register("activity_name")}
                 />
 

@@ -34,7 +34,7 @@ function buildEvent(scheduler: Scheduler, color: string): EventType {
 }
 
 export function useHook(activity: ActivityResource) {
-    const { register, submit, data, setData, errors } =
+    const { register, submit, data, setData, errors, clearErrors } =
         useForm<ActivityCreateFormFields>(activity || emptyActivity());
 
     const setSchedulers = (schedulers: Scheduler[]) => {
@@ -88,6 +88,7 @@ export function useHook(activity: ActivityResource) {
         register,
         data,
         setData,
+        clearErrors,
         errors,
         events,
 

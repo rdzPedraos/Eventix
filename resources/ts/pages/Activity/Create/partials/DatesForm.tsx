@@ -1,16 +1,16 @@
 import React from "react";
-
 import { PlusIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { Button } from "@nextui-org/react";
 
-import { Scheduler } from "@/types/models";
 import { now } from "@/components/Calendar/utils/calendar";
+import { Scheduler } from "@/types/models";
+import { ActivityCreateFormFields } from "../type";
+import { useActivityCreateContext } from "../context";
 import { Container } from "@/components";
 import SchedulerInput from "./SchedulerInput";
-import { useActivityCreateContext } from "../context";
 
 export default function DatesForm() {
-    const { sites, schedulers, setSchedulers, errors } =
+    const { sites, schedulers, setSchedulers, errors, clearErrors } =
         useActivityCreateContext();
 
     const addScheduler = () => {
@@ -38,7 +38,20 @@ export default function DatesForm() {
             const newSchedulers = [...schedulers];
             newSchedulers[index] = scheduler;
             setSchedulers(newSchedulers);
+            removeErrors(index);
         };
+    };
+
+    const removeErrors = (index: number) => {
+        clearErrors(
+            `schedulers.${index}.start_date` as keyof ActivityCreateFormFields
+        );
+        clearErrors(
+            `schedulers.${index}.end_date` as keyof ActivityCreateFormFields
+        );
+        clearErrors(
+            `schedulers.${index}.site_id` as keyof ActivityCreateFormFields
+        );
     };
 
     return (

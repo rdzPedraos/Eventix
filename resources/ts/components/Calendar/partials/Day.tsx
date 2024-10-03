@@ -7,7 +7,8 @@ import CurrentMoment from "./CurrentMoment";
 type Props = {};
 
 export default function Day({}: Props) {
-    const { now, day, events } = useCalendarContext();
+    const { now, filters, events } = useCalendarContext();
+    const day = filters.day;
     const currentDay = day.isSame(now, "day");
 
     return (

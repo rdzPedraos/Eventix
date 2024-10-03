@@ -1,13 +1,6 @@
 import React from "react";
 
-import {
-    Button,
-    Modal as ModalComponent,
-    ModalBody,
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
-} from "@nextui-org/react";
+import { Modal as ModalComponent, ModalContent } from "@nextui-org/react";
 import { useCalendarContext } from "../";
 
 type Props = {};

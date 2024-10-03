@@ -10,8 +10,8 @@ import CurrentMoment from "./CurrentMoment";
 type Props = {};
 
 export default function Week({}: Props) {
-    const { now, day, events } = useCalendarContext();
-    const weekDays = useMemo(() => getWeekDays(day), [day]);
+    const { now, filters, events } = useCalendarContext();
+    const weekDays = useMemo(() => getWeekDays(filters.day), [filters.day]);
 
     return (
         <div className="flex-grow flex flex-col overflow-hidden border border-gray-200 rounded-lg">

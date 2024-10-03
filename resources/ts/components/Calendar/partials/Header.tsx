@@ -14,27 +14,19 @@ import { useCalendarContext } from "../";
 type Props = {};
 
 export default function Header({}: Props) {
-    const {
-        now,
-        day,
-        setDay,
-        mode,
-        setMode,
-        sideBar,
-        openSidebar,
-        toggleSideBar,
-    } = useCalendarContext();
+    const { filters, setFilter, now, sideBar, openSidebar, toggleSideBar } =
+        useCalendarContext();
 
-    const goToToday = () => setDay(now);
+    const goToToday = () => setFilter("day", now);
 
     const changeWeek = (direction: "left" | "right") => {
         const add = direction === "left" ? -1 : 1;
-        setDay((day: DayType) => day.add(add, "week"));
+        setFilter("day", filters.day.add(add, "week"));
     };
 
     const onChangeMode = (option) => {
         const mode = option.target.value as ViewModeTypes;
-        setMode(mode);
+        setFilter("mode", mode);
     };
 
     return (
@@ -77,7 +69,7 @@ export default function Header({}: Props) {
                 </div>
 
                 <h2 className="text-xl font-semibold">
-                    {day.format("MMMM [de] YYYY")}
+                    {filters.day.format("MMMM [de] YYYY")}
                 </h2>
             </div>
 
@@ -86,7 +78,7 @@ export default function Header({}: Props) {
                 aria-label="Tipo de vista"
                 variant="flat"
                 color="primary"
-                defaultSelectedKeys={[mode]}
+                defaultSelectedKeys={[filters.mode]}
                 onChange={onChangeMode}
             >
                 <SelectItem key="week">Semana</SelectItem>

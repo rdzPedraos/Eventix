@@ -14,16 +14,19 @@ import {
     DayType,
     eventDetailType,
     EventType,
-    ViewModeTypes,
+    FilterProps,
+    onChangeEventsType,
 } from "./utils/types";
 
 type ContexType = {
     now: DayType;
-    day: DayType;
-    setDay: Dispatch<SetStateAction<DayType>>;
-    mode: ViewModeTypes;
-    setMode: Dispatch<SetStateAction<ViewModeTypes>>;
     events: EventType[];
+
+    filters: FilterProps;
+    setFilter: (
+        filter: keyof FilterProps,
+        value: FilterProps[keyof FilterProps]
+    ) => void;
 
     eventDetail: eventDetailType;
     selectedEvent: EventType;
@@ -37,12 +40,6 @@ type ContexType = {
 };
 
 const CalendarContext = createContext<ContexType>({} as ContexType);
-
-type onChangeEventsType = (
-    day: DayType,
-    mode: ViewModeTypes,
-    filters?: object
-) => void;
 
 type CalendarProviderProps = {
     children: ReactNode;
@@ -59,11 +56,30 @@ export default function CalendarProvider({
     onChangeEvents,
     sideBar,
 }: CalendarProviderProps) {
-    const [mode, setMode] = useState<ViewModeTypes>("week");
     const [current, setCurrent] = useState<DayType>(now());
-    const [day, setDay] = useState<DayType>(current);
     const [selectedEvent, setSelectedEvent] = useState<EventType>();
     const [openSidebar, toggleSideBar] = useState<boolean>(true);
+
+    const [filters, setFilters] = useState({
+        day: current,
+        mode: "week",
+    } as FilterProps);
+
+    const setFilter = (
+        filter: keyof FilterProps,
+        value: FilterProps[keyof FilterProps]
+    ) => {
+        setFilters((prev) => ({ ...prev, [filter]: value }));
+    };
+
+    const forceUpdate = () => {
+        onChangeEvents(filters);
+        setSelectedEvent(undefined);
+    };
+
+    useEffect(() => {
+        forceUpdate();
+    }, [filters]);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -73,24 +89,14 @@ export default function CalendarProvider({
         return () => clearInterval(interval);
     }, []);
 
-    useEffect(() => {
-        forceUpdate();
-    }, [day, mode]);
-
-    const forceUpdate = () => {
-        onChangeEvents(day, mode);
-        setSelectedEvent(undefined);
-    };
-
     return (
         <CalendarContext.Provider
             value={{
-                day,
-                setDay,
-                mode,
-                setMode,
                 events,
                 now: current,
+
+                filters,
+                setFilter,
 
                 selectedEvent,
                 setSelectedEvent,

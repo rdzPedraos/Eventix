@@ -33,10 +33,13 @@ const isCurrent = (current: DayType, day: DayType, mode: ViewModeTypes) => {
 };
 
 export default function CurrentMoment({}: Props) {
-    const { now, day, mode } = useCalendarContext();
-    const position = useMemo(() => getPosition(now, mode), [now, mode]);
+    const { now, filters } = useCalendarContext();
+    const position = useMemo(
+        () => getPosition(now, filters.mode),
+        [now, filters.mode]
+    );
 
-    if (!isCurrent(now, day, mode)) {
+    if (!isCurrent(now, filters.day, filters.mode)) {
         return;
     }
 

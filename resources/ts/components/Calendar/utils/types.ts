@@ -21,4 +21,12 @@ export type EventType = {
 export type eventDetailType = (props: {
     event: EventType;
     onClose: () => void;
+    forceUpdate: () => void;
 }) => ReactElement;
+
+export type FilterProps = {
+    day: DayType;
+    mode: ViewModeTypes;
+};
+
+export type onChangeEventsType = (filters: FilterProps) => void;

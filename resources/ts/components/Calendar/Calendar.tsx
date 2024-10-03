@@ -8,9 +8,9 @@ import Modal from "./partials/Modal";
 import { Sidebar } from "react-pro-sidebar";
 
 function render() {
-    const { mode } = useCalendarContext();
+    const { filters } = useCalendarContext();
 
-    switch (mode) {
+    switch (filters.mode) {
         case "week":
             return <Week />;
 

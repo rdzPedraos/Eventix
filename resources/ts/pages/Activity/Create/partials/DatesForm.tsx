@@ -14,6 +14,7 @@ export default function DatesForm() {
         useActivityCreateContext();
 
     const addScheduler = () => {
+        clearErrors("schedulers");
         const site_id = schedulers[schedulers.length - 1]?.site_id;
 
         setSchedulers([
@@ -43,15 +44,11 @@ export default function DatesForm() {
     };
 
     const removeErrors = (index: number) => {
-        clearErrors(
-            `schedulers.${index}.start_date` as keyof ActivityCreateFormFields
-        );
-        clearErrors(
-            `schedulers.${index}.end_date` as keyof ActivityCreateFormFields
-        );
-        clearErrors(
-            `schedulers.${index}.site_id` as keyof ActivityCreateFormFields
-        );
+        [
+            `schedulers.${index}.start_date`,
+            `schedulers.${index}.end_date`,
+            `schedulers.${index}.site_id`,
+        ].forEach((key) => clearErrors(key as keyof ActivityCreateFormFields));
     };
 
     return (
@@ -61,6 +58,8 @@ export default function DatesForm() {
                 Aqui puedes agregar todas las reuniones que desees 😉! Además,
                 puedes previsualizar tu calendario 📆
             </p>
+
+            <span className="text-sm text-danger">{errors.schedulers}</span>
 
             <div className="flex flex-col gap-2 overflow-x-auto">
                 {schedulers.map((scheduler, index) => {

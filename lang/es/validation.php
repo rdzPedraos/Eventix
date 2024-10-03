@@ -221,6 +221,7 @@ return [
         "document_number" => "número de documento",
         "password" => "contraseña",
 
+        "schedulers" => "horarios",
         "start_date" => "fecha inicio",
         "end_date" => "fecha cierre",
         "site_id" => "lugar académico",

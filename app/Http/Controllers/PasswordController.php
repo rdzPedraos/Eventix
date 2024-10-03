@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
 use Inertia\Inertia;
 
@@ -52,6 +53,7 @@ class PasswordController extends Controller
         );
 
         if ($status == Password::PASSWORD_RESET) {
+            Auth::logout();
             return redirect()->route("login");
         }
 

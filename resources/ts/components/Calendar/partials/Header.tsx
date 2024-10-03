@@ -78,6 +78,7 @@ export default function Header({}: Props) {
             </div>
 
             <Select
+                disallowEmptySelection
                 className="max-w-32"
                 aria-label="Tipo de vista"
                 variant="flat"

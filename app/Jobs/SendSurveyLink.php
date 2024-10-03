@@ -33,7 +33,7 @@ class SendSurveyLink implements ShouldQueue
 
         foreach ($this->users as $user) {
             $crypted = encrypt(["user_id" => $user->id, "survey_id" => $survey->id]);
-            $link = route("surveys.answer", ["token" => $crypted]);
+            $link = route("answer.show", ["token" => $crypted]);
 
             Mail::to($user->email)->send(new SendSurveyMail($survey, $link));
         }

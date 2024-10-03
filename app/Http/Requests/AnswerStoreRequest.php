@@ -12,7 +12,7 @@ use App\Rules\Fields\TextRule;
 use App\Rules\Fields\UniqueSelectRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class SurveyAnswerStoreRequest extends SurveyAnswerRequest
+class AnswerStoreRequest extends AnswerRequest
 {
     /**
      * Determine if the user is authorized to make this request.

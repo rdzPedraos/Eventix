@@ -72,4 +72,9 @@ class User extends Authenticatable
         return $this->belongsToMany(Activity::class, "inscriptions")
             ->withPivot('registered_at');
     }
+
+    public function surveys()
+    {
+        return $this->hasMany(Survey::class);
+    }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\OtpController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -34,6 +35,6 @@ Route::middleware("auth")->group(function () {
     Route::resource("espacios-academicos", SitesController::class)->parameters(["espacios-academicos" => "site"])->names("sites");
 
     Route::resource("encuestas", controller: SurveyController::class)->parameters(["encuestas" => "survey"])->names("surveys");
-    Route::get("encuestas/r/{token}", [SurveyController::class, "answer"])->name("surveys.answer");
-    Route::post("encuestas/r/{token}", [SurveyController::class, "storeAnswer"])->name("surveys.answer.store");
+    Route::get("encuestas/r/{token}", [AnswerController::class, "show"])->name("answer.show");
+    Route::post("encuestas/r/{token}", [AnswerController::class, "store"])->name("answer.store");
 });

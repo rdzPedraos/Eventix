@@ -129,17 +129,4 @@ class SurveyController extends Controller
     {
         //
     }
-
-    public function answer(SurveyAnswerRequest $request)
-    {
-        $survey = Survey::findOrFail($request->survey_id)->load("questions");
-        $token = $request->route("token");
-
-        return Inertia::render("Survey/Answer", compact('survey', "token"));
-    }
-
-    public function storeAnswer(SurveyAnswerStoreRequest $request)
-    {
-        return redirect()->route("home");
-    }
 }

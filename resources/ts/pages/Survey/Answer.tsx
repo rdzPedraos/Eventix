@@ -30,7 +30,7 @@ export default function index() {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        submit("post", route("surveys.answer.store", { token }), {
+        submit("post", route("answer.store", { token }), {
             preserveScroll: true,
         });
     };

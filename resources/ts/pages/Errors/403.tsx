@@ -8,14 +8,14 @@ type Props = {};
 export default function index({}: Props) {
     return (
         <div className="max-w-sm">
-            <h1 className="font-bold text-7xl mb-2 text-primary">401</h1>
+            <h1 className="font-bold text-7xl mb-2 text-primary">403</h1>
             <h3 className="text-xl uppercase mb-4">
-                Oops! No estás autenticado!!
+                Oops! No estás autorizado para ver esta ruta
             </h3>
             <p className="mb-4">
-                La página a la que intentas acceder requiere que estés
-                autenticado primero. Por favor inicia sesión o contacta al
-                administrador del sistema.
+                La página a la que intentas acceder requiere de unos privilegios
+                que no posees. Por favor inicia sesión con un usuario
+                privilegiado o contacta al administrador del sistema.
             </p>
 
             <Link href="/" className="font-bold">

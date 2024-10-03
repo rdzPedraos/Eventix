@@ -49,7 +49,7 @@ export default function CalendarSideBar({ form }: Props) {
     };
 
     return (
-        <div className="h-full min-w-56 p-4 bg-white">
+        <div className="h-full min-w-56 p-4 bg-[#fcfcfc]">
             <h1 className="font-bold text-xl mb-4">Filtros</h1>
 
             <div className="flex flex-col gap-4">

@@ -81,4 +81,17 @@ class ActivityPolicy
     {
         //
     }*/
+
+    public function downloadReport(User $user, Activity $activity): bool
+    {
+        if (!$user->hasPermissionTo(PermissionEnum::ATTENDANCE_REPORT)) {
+            return false;
+        }
+
+        if ($user->id === $activity->owner->id) {
+            return true;
+        }
+
+        return $user->hasPermissionTo(PermissionEnum::ACTIVITY_CHECK_ALL);
+    }
 }

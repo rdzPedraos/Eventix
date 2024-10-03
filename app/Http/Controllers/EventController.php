@@ -9,6 +9,7 @@ use App\Models\Scheduler;
 use App\Models\Sites;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class EventController extends Controller
 {
@@ -70,6 +71,8 @@ class EventController extends Controller
 
     public function download(Activity $activity)
     {
+        Gate::authorize("downloadReport", $activity);
+
         $headers = [
             "pivot.registered_at" => "Fecha de registro",
             "name" => "Nombres",

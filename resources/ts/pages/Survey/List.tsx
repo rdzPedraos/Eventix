@@ -13,9 +13,14 @@ const renderCell = (survey: SurveyListResource, columnKey: string) => {
         case "actions":
             return (
                 <>
-                    <Tooltip content="Editar encuesta" as={Link}>
+                    <Tooltip
+                        isDisabled={survey.is_closed}
+                        content="Editar encuesta"
+                        as={Link}
+                    >
                         <Link
                             href={route("surveys.edit", { survey })}
+                            isDisabled={survey.is_closed}
                             className="cursor-pointer text-default-500 inline-block mr-2"
                         >
                             <PencilIcon width={18} />
@@ -34,7 +39,11 @@ const renderCell = (survey: SurveyListResource, columnKey: string) => {
             );
 
         case "trigger":
-            return <Badge>{survey.trigger.label}</Badge>;
+            return (
+                <Badge className={survey.is_closed ? "opacity-50" : ""}>
+                    {survey.trigger.label}
+                </Badge>
+            );
 
         case "trigger_at":
             return survey.trigger.date || "-";
@@ -110,6 +119,7 @@ export default function List() {
                         {
                             uid: "trigger",
                             label: "Disparador",
+                            align: "center",
                         },
                         {
                             uid: "trigger_at",

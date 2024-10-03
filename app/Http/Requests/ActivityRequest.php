@@ -3,9 +3,11 @@
 namespace App\Http\Requests;
 
 use App\Rules\Base64Image;
+use Carbon\Carbon;
 use Faker\Provider\Base;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Validator;
 
 class ActivityRequest extends FormRequest
 {
@@ -33,6 +35,32 @@ class ActivityRequest extends FormRequest
             "schedulers.*.start_date" => ["required", "date"],
             "schedulers.*.end_date" => ["required", "date", "after:schedulers.*.start_date"],
             "schedulers.*.site_id" => ["required", "exists:sites,id,deleted_at,NULL"],
+        ];
+    }
+
+    public function after()
+    {
+        return [
+            function (Validator $validator) {
+                //crea una matriz de [key=>$key, value=>$scheduler]
+                $schedulers = collect($this->get('schedulers'))
+                    ->sort(function ($a, $b) {
+                        return $a['start_date'] <=> $b['start_date'];
+                    });
+
+                $schedulers->each(function ($scheduler, $key) use ($schedulers, $validator) {
+                    if ($key === 0) return;
+
+                    $previous = new Carbon($schedulers->get($key - 1)["end_date"]);
+                    $current = new Carbon($scheduler["start_date"]);
+
+                    $validator->errors()->addIf(
+                        $previous->gt($current),
+                        "schedulers.$key.start_date",
+                        __("validation.custom.scheduler.start_date")
+                    );
+                });
+            }
         ];
     }
 

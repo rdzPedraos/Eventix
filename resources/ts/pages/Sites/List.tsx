@@ -28,7 +28,7 @@ const renderCell = (site: Sites, columnKey: string) => {
                         </Link>
                     </Tooltip>
 
-                    <Confirm>
+                    <Confirm confirmColor="danger">
                         <Tooltip content="Eliminar lugar">
                             <button
                                 className="cursor-pointer ms-4 text-danger"

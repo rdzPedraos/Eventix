@@ -12,12 +12,14 @@ import {
 interface ConfirmWrapperProps {
     title?: string;
     text?: string;
+    confirmColor?: "default" | "primary" | "success" | "warning" | "danger";
     children: React.ReactElement;
 }
 
 export default function Confirm({
     title = "Confirmación",
     text = "¿Estás seguro de realizar esta acción?",
+    confirmColor = "primary",
     children,
 }: ConfirmWrapperProps) {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -63,14 +65,17 @@ export default function Confirm({
                             </ModalBody>
                             <ModalFooter>
                                 <Button
-                                    color="danger"
+                                    color="default"
                                     variant="light"
                                     onPress={onClose}
                                 >
                                     Cancelar
                                 </Button>
 
-                                <Button color="primary" onPress={handleConfirm}>
+                                <Button
+                                    color={confirmColor}
+                                    onPress={handleConfirm}
+                                >
                                     Confirmar
                                 </Button>
                             </ModalFooter>

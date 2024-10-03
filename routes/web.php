@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get("/", fn() => redirect()->route("home"));
 Route::inertia("/home", "Home")->name("home");
+Route::get("/eventos", [EventController::class, "index"])->name("events.index");
 
 Route::resource("register", RegisterController::class)->only(["index", "store"]);
 Route::post("register/pre-validate", [RegisterController::class, "validateData"])->name("register.validate");
@@ -21,10 +22,10 @@ Route::middleware("guest")->group(function () {
     Route::resource("login", LoginController::class)->only(["index", "store"])->name("index", "login");
 });
 
+
 Route::middleware("auth")->group(function () {
     Route::get("logout", [LoginController::class, "destroy"])->name("logout");
 
-    Route::get("/eventos", [EventController::class, "index"])->name("events.index");
     Route::post("/eventos/inscribir/{activity}", [EventController::class, "subscribe"])->name("events.subscribe");
     Route::post("/eventos/desinscribir/{activity}", [EventController::class, "unsubscribe"])->name("events.unsubscribe");
 

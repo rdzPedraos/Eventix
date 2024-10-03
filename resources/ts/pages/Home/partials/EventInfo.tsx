@@ -2,7 +2,7 @@ import React from "react";
 import { EventType } from "@/components/Calendar/utils/types";
 import { Button, ModalBody, ModalFooter, ModalHeader } from "@nextui-org/react";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
-import { router } from "@inertiajs/react";
+import { Link, router, usePage } from "@inertiajs/react";
 import { route } from "@ziggyjs";
 import { triggerAlert, triggerConfetti } from "@/utils";
 
@@ -13,6 +13,7 @@ type Props = {
 };
 
 export default function EventInfo({ event, forceUpdate }: Props) {
+    const { auth } = usePage<PageProps>().props;
     const {
         title,
         description,
@@ -60,22 +61,33 @@ export default function EventInfo({ event, forceUpdate }: Props) {
             </ModalBody>
 
             <ModalFooter>
-                {alreadyEnrolled ? (
-                    <Button
-                        variant="ghost"
-                        color="danger"
-                        onClick={onUnsubscribe}
-                    >
-                        Cancelar inscripción
-                    </Button>
+                {auth.user ? (
+                    alreadyEnrolled ? (
+                        <Button
+                            variant="ghost"
+                            color="danger"
+                            onClick={onUnsubscribe}
+                        >
+                            Cancelar inscripción
+                        </Button>
+                    ) : (
+                        <Button
+                            variant="shadow"
+                            color="primary"
+                            onClick={onSubscribe}
+                            endContent={<PaperAirplaneIcon width={20} />}
+                        >
+                            Inscribirme
+                        </Button>
+                    )
                 ) : (
                     <Button
-                        variant="shadow"
+                        as={Link}
+                        href={route("login")}
                         color="primary"
-                        onClick={onSubscribe}
-                        endContent={<PaperAirplaneIcon width={20} />}
+                        variant="flat"
                     >
-                        Inscribirme
+                        Inicia sesión para inscribirte
                     </Button>
                 )}
             </ModalFooter>

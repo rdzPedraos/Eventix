@@ -15,9 +15,10 @@ class SchedulerResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $already_enrolled = Auth::id() ? $this->activity->enrollments->contains("id", Auth::id()) : false;
         return [
             'id' => $this->id,
-            "already_enrolled" => $this->activity->enrollments->contains("id", Auth::id()),
+            "already_enrolled" => $already_enrolled,
             "activity" => [
                 "id" => $this->activity->id,
                 "name" => $this->activity->name,

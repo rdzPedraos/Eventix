@@ -64,7 +64,7 @@ export default function Grid({ day, events }: Props) {
             {hours.map((hour) => (
                 <div
                     key={hour.valueOf()}
-                    className="h-16 border-b border-gray-200 relative"
+                    className="h-12 border-b border-gray-200 relative"
                 ></div>
             ))}
 

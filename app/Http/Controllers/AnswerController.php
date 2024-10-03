@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AnswerRequest;
 use App\Http\Requests\AnswerStoreRequest;
+use App\Library\DownloadCSV;
 use App\Models\Survey;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -30,5 +31,19 @@ class AnswerController extends Controller
         ]);
 
         return redirect()->route("home");
+    }
+
+    public function download(Survey $survey)
+    {
+        $name = str_replace(" ", "-", strtolower($survey->name));
+        $questions = $survey->questions->pluck("label", "id");
+        $answers = $survey->answers->pluck("answers");
+
+        $document = (new DownloadCSV())
+            ->setFilename("reporte-{$name}")
+            ->addHeaders($questions)
+            ->addBodyRows($answers);
+
+        return response()->download($document->build())->deleteFileAfterSend(true);
     }
 }

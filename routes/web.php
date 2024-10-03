@@ -37,4 +37,5 @@ Route::middleware("auth")->group(function () {
     Route::resource("encuestas", controller: SurveyController::class)->parameters(["encuestas" => "survey"])->names("surveys");
     Route::get("encuestas/r/{token}", [AnswerController::class, "show"])->name("answer.show");
     Route::post("encuestas/r/{token}", [AnswerController::class, "store"])->name("answer.store");
+    Route::get("encuestas/reporte/{survey}", [AnswerController::class, "download"])->name("answer.report");
 });

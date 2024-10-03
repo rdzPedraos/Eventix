@@ -162,7 +162,17 @@ return [
     'ulid' => 'El campo :attribute debe ser un ULID válido.',
     'uuid' => 'El campo :attribute debe ser un UUID válido.',
 
-    /* CUSTOM VALIDATIONS */
+    /*
+    |--------------------------------------------------------------------------
+    | Custom Validation Language Lines
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify custom validation messages for attributes using the
+    | convention "attribute.rule" to name the lines. This makes it quick to
+    | specify a specific custom language line for a given attribute rule.
+    |
+    */
+
     "code" => [
         "expired" => "El código :attribute no ha sido creado o ha expirado. Por favor, crea otro.",
         "invalid" => "El código :attribute no coincide con el registrado.",
@@ -176,20 +186,13 @@ return [
         "invalid" => "El campo :attribute no es un número de teléfono válido.",
     ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Custom Validation Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | Here you may specify custom validation messages for attributes using the
-    | convention "attribute.rule" to name the lines. This makes it quick to
-    | specify a specific custom language line for a given attribute rule.
-    |
-    */
-
     'custom' => [
         'attribute-name' => [
             'rule-name' => 'custom-message',
+        ],
+
+        "scheduler" => [
+            "start_date" => "La fecha inicio del horario debe ser mayor a la fecha cierre del horario anterior.",
         ],
     ],
 
@@ -219,7 +222,7 @@ return [
         "password" => "contraseña",
 
         "start_date" => "fecha inicio",
-        "end_date" => "fecha fin",
+        "end_date" => "fecha cierre",
         "site_id" => "lugar académico",
     ],
 

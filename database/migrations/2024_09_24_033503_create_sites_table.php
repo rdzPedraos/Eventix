@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('sites', function (Blueprint $table) {
-            $table->unsignedSmallInteger("id", true);
+            $table->unsignedSmallInteger("id", true)->primary();
             $table->string("name", 100);
             $table->string("address", 255);
             $table->softDeletes();

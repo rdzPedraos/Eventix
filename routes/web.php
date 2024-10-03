@@ -16,6 +16,7 @@ Route::get("/", fn() => redirect()->route("home"));
 Route::inertia("/home", "Home")->name("home");
 
 Route::resource("login", LoginController::class)->only(["index", "store"])->name("index", "login")->middleware("guest");
+Route::get("logout", [LoginController::class, "destroy"])->name("logout");
 
 Route::get("register", [RegisterController::class, "index"])->name("register.index")->middleware("guest");
 Route::post("register", [RegisterController::class, "store"])->name("register.store");
@@ -32,8 +33,6 @@ Route::post("/recuperar-clave", [PasswordController::class, "update"])->name("pa
 Route::get("/eventos", [EventController::class, "index"])->name("events.index");
 
 Route::middleware("auth")->group(function () {
-    Route::get("logout", [LoginController::class, "destroy"])->name("logout");
-
     Route::post("/eventos/inscribir/{activity}", [EventController::class, "subscribe"])->name("events.subscribe");
     Route::post("/eventos/desinscribir/{activity}", [EventController::class, "unsubscribe"])->name("events.unsubscribe");
 

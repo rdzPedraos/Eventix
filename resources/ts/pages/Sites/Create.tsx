@@ -10,13 +10,11 @@ import { Breadcrumb, Container } from "@/components";
 
 export default function index() {
     const { site } = usePage<{ site: Sites }>().props;
-    const { register, submit } = useForm<Sites>(site || ({} as Sites));
+    const { register, onSubmit } = useForm<Sites>(site || ({} as Sites));
 
-    const onSubmit = (e) => {
-        e.preventDefault();
-
-        if (site) submit("put", route("sites.update", { site }));
-        else submit("post", route("sites.store"));
+    const submit = () => {
+        if (site) return onSubmit("put", route("sites.update", { site }))();
+        onSubmit("post", route("sites.store"))();
     };
 
     return (
@@ -30,9 +28,20 @@ export default function index() {
             />
 
             <Container>
-                <h1 className="text-2xl font-bold text-default-900 mb-4">
-                    Formulario
-                </h1>
+                <div className="flex justify-between">
+                    <h1 className="text-2xl font-bold text-default-900 mb-4">
+                        Formulario
+                    </h1>
+
+                    <Button
+                        variant="flat"
+                        color="primary"
+                        onClick={submit}
+                        endContent={<BookmarkIcon width={20} />}
+                    >
+                        Guardar
+                    </Button>
+                </div>
 
                 <p className="mb-4">
                     La información que ingreses aquí será visible para todos los
@@ -40,10 +49,7 @@ export default function index() {
                     actividades que crees en el calendario 📆.
                 </p>
 
-                <form
-                    onSubmit={onSubmit}
-                    className="flex flex-col sm:flex-row gap-4 max-w-7xl"
-                >
+                <form className="flex flex-col sm:flex-row gap-4 max-w-7xl">
                     <Input
                         {...register("name")}
                         label="Nombre"
@@ -57,16 +63,6 @@ export default function index() {
                         size="lg"
                         isRequired
                     />
-
-                    <Button
-                        variant="flat"
-                        color="primary"
-                        type="submit"
-                        className="absolute top-5 right-5"
-                        endContent={<BookmarkIcon width={20} />}
-                    >
-                        Guardar
-                    </Button>
                 </form>
             </Container>
         </>

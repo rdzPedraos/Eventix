@@ -30,9 +30,11 @@ class PublishSurvey extends Command
     public function handle()
     {
         $this->info('Getting surveys...');
-        $surveys = Survey::whereHas("activity", fn($q) => $q->where("published_at", "!=", null))
-            ->where('published_at', null)
+
+        $surveys = Survey::where("published_at", null)
+            ->where("finished_at", "!=", null)
             ->where("trigger_date", "<=", now())
+            ->whereHas("activity", fn($q) => $q->where("published_at", "!=", null))
             ->get();
 
         $this->info("Founded {$surveys->count()} surveys to publish.");
@@ -43,6 +45,7 @@ class PublishSurvey extends Command
 
             $this->info("send to job {$users->count()} users for create links and send emails.");
             SendSurveyLink::dispatch($survey, $users->all());
+            $survey->publish();
         }
     }
 }

@@ -47,6 +47,12 @@ class Survey extends Model
         $this->save();
     }
 
+    public function publish()
+    {
+        $this->published_at = now();
+        $this->save();
+    }
+
     /* RELATIONS */
     public function activity()
     {

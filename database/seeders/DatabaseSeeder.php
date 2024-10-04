@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Enums\RoleEnum;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -17,6 +20,11 @@ class DatabaseSeeder extends Seeder
             DocumentTypesSeeder::class,
             PermissionSeeder::class,
         ]);
+
+        User::factory()->create([
+            'name' => 'Super Admin',
+            "email" => "super@test.com"
+        ])->assignRole(RoleEnum::SUPER_ADMIN);
 
         if (!app()->environment('production')) {
             $this->call(TestingSeeder::class);

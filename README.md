@@ -62,9 +62,9 @@ npm run build
 
 ## Manuales de usuario
 
-[Registro de usuarios](documentation/user_register.md)
-[Inscripción a actividades](documentation/activity_inscription.md)
-[Gestión de roles y usuarios](documentation/user_management.md)
-[Gestión de actividades](documentation/activity_management.md)
-[Gestión de encuestas](documentation/survey_management.md)
-[Generación de reportes](documentation/report_generate.md.md)
+-   [Registro de usuarios](documentation/user_register.md)
+-   [Inscripción a actividades](documentation/activity_inscription.md)
+-   [Gestión de roles y usuarios](documentation/user_management.md)
+-   [Gestión de actividades](documentation/activity_management.md)
+-   [Gestión de encuestas](documentation/survey_management.md)
+-   [Generación de reportes](documentation/report_generate.md.md)

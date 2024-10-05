@@ -6,8 +6,6 @@ import { DayType, ViewModeTypes } from "../utils/types";
 type Props = {};
 
 const getPosition = (current: DayType, mode: ViewModeTypes) => {
-    console.log({ hour: current.get("hour"), minutes: current.get("minutes") });
-
     switch (mode) {
         case "week":
             return {

@@ -34,10 +34,10 @@ Route::get("/eventos", [EventController::class, "index"])->name("events.index");
 
 Route::middleware("auth")->group(function () {
     Route::resource("actividades", ActivityController::class)->parameters(["actividades" => "activity"])->names("activities");
+    Route::get("/actividades/{activity}/reporte", [ActivityController::class, "download"])->name("events.report");
 
     Route::post("/eventos/{activity}/inscribir", [EventController::class, "subscribe"])->name("events.subscribe");
     Route::post("/eventos/{activity}/desinscribir", [EventController::class, "unsubscribe"])->name("events.unsubscribe");
-    Route::get("/eventos/{activity}/reporte", [EventController::class, "download"])->name("events.report");
 
     Route::resource("encuestas", controller: SurveyController::class)->parameters(["encuestas" => "survey"])->names("surveys");
     Route::get("/s/{token}", [AnswerController::class, "show"])->name("answer.show");

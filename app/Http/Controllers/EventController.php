@@ -71,26 +71,4 @@ class EventController extends Controller
 
         return redirect()->back();
     }
-
-    public function download(Activity $activity)
-    {
-        Gate::authorize("downloadReport", $activity);
-
-        $headers = [
-            "pivot.registered_at" => "Fecha de registro",
-            "name" => "Nombres",
-            "last_name" => "Apellidos",
-            "email" => "Correo",
-            "phone" => "Teléfono",
-        ];
-
-        $users = $activity->enrollments->toArray();
-
-        $document = (new DownloadCSV())
-            ->setFilename("reporte-asistencia-{$activity->name}")
-            ->addHeaders($headers)
-            ->addBodyRows($users);
-
-        return response()->download($document->build())->deleteFileAfterSend(true);
-    }
 }

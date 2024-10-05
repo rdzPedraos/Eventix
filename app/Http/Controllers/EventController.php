@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\SchedulerResource;
 use App\Library\DownloadCSV;
 use App\Models\Activity;
+use App\Models\Inscription;
 use App\Models\Scheduler;
 use App\Models\Sites;
 use Carbon\Carbon;
@@ -55,8 +56,10 @@ class EventController extends Controller
 
     public function subscribe(Request $request, Activity $activity)
     {
-        $user = $request->user();
-        $activity->enrollments()->attach($user);
+        Inscription::create([
+            "activity_id" => $activity->id,
+            "user_id" => $request->user()->id,
+        ]);
 
         return redirect()->back();
     }

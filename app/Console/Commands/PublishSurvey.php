@@ -2,11 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\SendSurveyLink;
-use App\Mail\SendSurveyMail;
+use App\Library\SurveyLink;
 use App\Models\Survey;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Mail;
 
 class PublishSurvey extends Command
 {
@@ -29,22 +27,22 @@ class PublishSurvey extends Command
      */
     public function handle()
     {
-        $this->info('Getting surveys...');
-
-        $surveys = Survey::where("editable", false)
-            ->where("published_at", null)
-            ->where("trigger_date", "<=", now())
-            ->whereHas("activity", fn($q) => $q->where("published_at", "!=", null))
+        $surveys = Survey::alreadyForPublish()
+            ->whereHas("activity", fn($q) => $q->published())
             ->get();
 
         $this->info("Founded {$surveys->count()} surveys to publish.");
 
         foreach ($surveys as $survey) {
-            $this->info("Getting users survey with id: {$survey->id}...");
+            $this->info("Send job for create links and send emails {survey id: {$survey->id}.");
             $users = $survey->activity->enrollments;
 
-            $this->info("send to job {$users->count()} users for create links and send emails.");
-            SendSurveyLink::dispatch($survey, $users->all());
+            dispatch(function () use ($users, $survey) {
+                foreach ($users as $user) {
+                    SurveyLink::send($user, $survey);
+                }
+            });
+
             $survey->publish();
         }
     }

@@ -65,6 +65,20 @@ class Survey extends Model
         return !$this->editable;
     }
 
+    /* SCOPES */
+
+    public function scopeAlreadyForPublish($query)
+    {
+        return $query->where("editable", false)
+            ->where("published_at", null)
+            ->where("trigger_date", "<=", now());
+    }
+
+    public function scopePublished($query)
+    {
+        return $query->where("published_at", "!=", null);
+    }
+
     /* RELATIONS */
     public function activity()
     {

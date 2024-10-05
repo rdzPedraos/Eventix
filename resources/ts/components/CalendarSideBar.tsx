@@ -2,7 +2,13 @@ import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { route } from "@ziggyjs";
 import { CalendarDate } from "@internationalized/date";
-import { DatePicker, Input, Select, SelectItem } from "@nextui-org/react";
+import {
+    Checkbox,
+    DatePicker,
+    Input,
+    Select,
+    SelectItem,
+} from "@nextui-org/react";
 
 import { Sites } from "@/types/models";
 import { useFormReturnType } from "@/hooks/useForm";
@@ -11,8 +17,9 @@ import { useCalendarContext } from "./Calendar/CalendarContext";
 import { updateDate } from "./Calendar/utils/calendar";
 
 export type FilterProps = {
-    activity_name: string;
+    search: string;
     site: string;
+    enrolled: boolean;
 };
 
 type Props = {
@@ -32,8 +39,6 @@ export default function CalendarSideBar({ form }: Props) {
         });
     }, []);
 
-    useDebouncedEffect(forceUpdate, 300, [form.data]);
-
     const day = useMemo(() => {
         const date = filters.day;
         return new CalendarDate(date.year(), date.month() + 1, date.date());
@@ -48,11 +53,17 @@ export default function CalendarSideBar({ form }: Props) {
         setFilter("day", newDay);
     };
 
+    useDebouncedEffect(forceUpdate, 300, [form.data]);
+
     return (
         <div className="h-full min-w-56 p-4 bg-[#fcfcfc]">
             <h1 className="font-bold text-xl mb-4">Filtros</h1>
 
             <div className="flex flex-col gap-4">
+                <Checkbox {...register("enrolled", "checkbox")}>
+                    Inscritos
+                </Checkbox>
+
                 <DatePicker
                     color="primary"
                     label="Buscar fecha"
@@ -65,7 +76,7 @@ export default function CalendarSideBar({ form }: Props) {
                     color="primary"
                     label="Nombre del evento"
                     isClearable
-                    {...register("activity_name")}
+                    {...register("search")}
                 />
 
                 <Select

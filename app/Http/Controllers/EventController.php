@@ -19,20 +19,22 @@ class EventController extends Controller
         $filters = $request->validate([
             'day' => ["required", 'date'],
             'mode' => ["required", 'in:week,day'],
-            "activity_name" => ["nullable", "string"],
+            "search" => ["nullable", "string"],
             "site" => ["nullable", "exists:sites,id"],
+            "enrolled" => ["nullable"],
             "except" => ["nullable", "exists:activities,id"]
         ]);
 
-        $mode = $filters['mode'];
-        $date = Carbon::parse(time: $filters['day']);
-
         $schedulers = Scheduler::with(["activity", "activity.enrollments"])
             ->search(
-                $request->input("activity_name"),
+                $request->input("search"),
+                $request->input("enrolled") === "true",
                 $request->input("site"),
                 $request->input("except")
             );
+
+        $mode = $filters['mode'];
+        $date = Carbon::parse(time: $filters['day']);
 
         switch ($mode) {
             case "week":

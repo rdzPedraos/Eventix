@@ -126,9 +126,7 @@ class SurveyController extends Controller
             $survey->questions()->delete();
             $survey->questions()->createMany($request->questions);
 
-            if ($request->input("publish")) {
-                $survey->finish();
-            }
+            if ($request->input("publish")) $survey->block();
 
             DB::commit();
         } catch (\Exception $e) {

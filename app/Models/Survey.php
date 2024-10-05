@@ -23,7 +23,7 @@ class Survey extends Model
         "published_trigger" => SurveyTriggerEnum::class,
         'trigger_date' => 'date',
         'published_at' => 'date',
-        'finished_at' => 'datetime',
+        'editable' => 'boolean',
     ];
 
     protected $dates = [
@@ -38,12 +38,12 @@ class Survey extends Model
 
     public function getBlockedAttribute()
     {
-        return $this->finished_at !== null;
+        return !$this->editable;
     }
 
-    public function finish()
+    public function block()
     {
-        $this->finished_at = now();
+        $this->editable = false;
         $this->save();
     }
 

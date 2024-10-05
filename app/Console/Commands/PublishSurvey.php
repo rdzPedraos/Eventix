@@ -31,8 +31,8 @@ class PublishSurvey extends Command
     {
         $this->info('Getting surveys...');
 
-        $surveys = Survey::where("published_at", null)
-            ->where("finished_at", "!=", null)
+        $surveys = Survey::where("editable", false)
+            ->where("published_at", null)
             ->where("trigger_date", "<=", now())
             ->whereHas("activity", fn($q) => $q->where("published_at", "!=", null))
             ->get();

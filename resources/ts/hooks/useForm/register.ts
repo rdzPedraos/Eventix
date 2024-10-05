@@ -6,7 +6,7 @@ const registerCheckbox = <T extends object>(
     key: keyof T
 ) => {
     return {
-        checked: form.data[key] as boolean,
+        defaultSelected: form.data[key] as boolean,
         onValueChange: (value: boolean) => {
             form.clearErrors(key);
             form.setData(key, value as T[keyof T]);

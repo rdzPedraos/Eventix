@@ -55,4 +55,10 @@ class SitesController extends Controller
         $site->delete();
         return redirect()->back();
     }
+
+    public function getByapi()
+    {
+        $sites = Sites::all();
+        return response()->json($sites);
+    }
 }

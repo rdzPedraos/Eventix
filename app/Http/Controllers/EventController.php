@@ -90,11 +90,4 @@ class EventController extends Controller
 
         return response()->download($document->build())->deleteFileAfterSend(true);
     }
-
-    public function getSites()
-    {
-        $sites = Sites::all();
-
-        return response()->json($sites);
-    }
 }

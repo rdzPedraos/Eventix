@@ -27,10 +27,10 @@ class Activity extends Model
 
     public function getIsPublishedAttribute()
     {
-        return $this->published_at !== null && $this->published() <= now();
+        return $this->published_at !== null;
     }
 
-    public function published()
+    public function publish()
     {
         if (!$this->published_at) {
             $this->published_at = now();
@@ -59,12 +59,10 @@ class Activity extends Model
     public function getLimitDates()
     {
         $this->load("schedulers");
-        $start_date = $this->schedulers->min("start_date");
-        $end_date = $this->schedulers->max("end_date");
 
         return [
-            "start_date" => $start_date,
-            "end_date" => $end_date,
+            "start" => $this->schedulers->min("start_date"),
+            "end" => $this->schedulers->max("end_date"),
         ];
     }
 

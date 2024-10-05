@@ -3,8 +3,8 @@
 return [
     "trigger" => [
         "custom" => "Personalizado",
-        "to_start" => "Al iniciar",
-        "to_end" => "Al finalizar"
+        "to_start" => "Al iniciar una actividad",
+        "to_end" => "Al finalizar actividad"
     ],
 
     "question-type" => [

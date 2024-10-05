@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ActivityScheduleUpdate;
 use App\Http\Requests\ActivityRequest;
 use App\Http\Resources\ActivityListResource;
 use App\Http\Resources\ActivityResource;
@@ -105,17 +106,15 @@ class ActivityController extends Controller
             "image" => $request->image,
         ];
 
-
         DB::beginTransaction();
         try {
             $activity->update($validated);
+
             $activity->schedulers()->delete();
             $activity->schedulers()->createMany($validated["schedulers"]);
+            ActivityScheduleUpdate::dispatch($activity);
 
-            if ($request->action == "publish") {
-                $activity->published();
-            }
-
+            if ($request->action == "publish") $activity->publish();
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();

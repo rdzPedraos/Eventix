@@ -31,7 +31,10 @@ class ActivitiesSeeder extends Seeder
                     'activity_id' => $activity->id
                 ]);
 
-                Inscription::factory(3)->withActivity($activity->id)->create();
+                # Not use factory(n) because it will create n new inscriptions without checking if the user is already enrolled 
+                Inscription::factory()->withActivity($activity->id)->create();
+                Inscription::factory()->withActivity($activity->id)->create();
+                Inscription::factory()->withActivity($activity->id)->create();
             }
         }
 

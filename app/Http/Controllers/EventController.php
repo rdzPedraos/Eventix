@@ -56,7 +56,7 @@ class EventController extends Controller
 
     public function subscribe(Request $request, Activity $activity)
     {
-        Inscription::create([
+        Inscription::firstOrCreate([
             "activity_id" => $activity->id,
             "user_id" => $request->user()->id,
         ]);
@@ -67,7 +67,11 @@ class EventController extends Controller
     public function unsubscribe(Request $request, Activity $activity)
     {
         $user = $request->user();
-        $activity->enrollments()->detach($user);
+
+        Inscription::where([
+            "activity_id" => $activity->id,
+            "user_id" => $user->id,
+        ])->delete();
 
         return redirect()->back();
     }

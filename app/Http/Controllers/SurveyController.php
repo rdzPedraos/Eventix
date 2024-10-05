@@ -53,10 +53,12 @@ class SurveyController extends Controller
 
         $survey = new Survey([
             "activity_id" => $request->input("activity_id"),
-            "questions" => []
         ]);
 
-        return $this->edit($survey);
+        $questionTypes = QuestionTypesEnum::casesKeyLabel();
+        $triggerTypes = SurveyTriggerEnum::casesKeyLabel();
+
+        return Inertia::render("Survey/Edit", compact('survey', "questionTypes", "triggerTypes"));
     }
 
     /**
@@ -101,6 +103,7 @@ class SurveyController extends Controller
     public function edit(Survey $survey)
     {
         Gate::authorize("update", $survey);
+
         if ($survey->blocked) {
             return redirect()->route("surveys.index");
         }

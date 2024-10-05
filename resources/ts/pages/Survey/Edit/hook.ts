@@ -9,7 +9,8 @@ export default function useFormBuilder(survey: Survey = {} as Survey) {
     } as Survey);
 
     const addQuestion = () => {
-        const size = data.questions.length + 1;
+        const questions = [...(data?.questions ?? [])];
+        const size = questions.length + 1;
 
         const newQuestion = {
             id: Math.floor(Math.random() * 1000),
@@ -18,7 +19,8 @@ export default function useFormBuilder(survey: Survey = {} as Survey) {
             is_required: true,
         } as unknown as Question;
 
-        setData("questions", [...data.questions, newQuestion]);
+        questions.push(newQuestion);
+        setData("questions", questions);
         setEditMode(newQuestion.id);
     };
 

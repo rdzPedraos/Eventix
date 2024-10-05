@@ -3,7 +3,6 @@ import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import { Reorder } from "framer-motion";
 import { Button } from "@nextui-org/react";
 
-import { Question } from "@/types/models";
 import { useFormCreateContext } from "../context";
 import { Container } from "@/components";
 import QuestionEditor from "./QuestionEditor";
@@ -35,34 +34,40 @@ export default function QuestionList() {
 
     return (
         <>
-            <Reorder.Group
-                axis="y"
-                className="space-y-4"
-                values={data.questions}
-                onReorder={onReorderQuestions}
-            >
-                {data.questions.map((question) => {
-                    const editMode = isInEditMode(question);
+            {data.questions && (
+                <Reorder.Group
+                    axis="y"
+                    className="space-y-4"
+                    values={data.questions}
+                    onReorder={onReorderQuestions}
+                >
+                    {data.questions.map((question) => {
+                        const editMode = isInEditMode(question);
 
-                    return (
-                        <Reorder.Item key={question.id} value={question}>
-                            <Container
-                                className={
-                                    editMode ? "ring-2 ring-primary-300" : ""
-                                }
-                            >
-                                {editMode ? (
-                                    <div ref={editingRef}>
-                                        <QuestionEditor question={question} />
-                                    </div>
-                                ) : (
-                                    <QuestionPreview question={question} />
-                                )}
-                            </Container>
-                        </Reorder.Item>
-                    );
-                })}
-            </Reorder.Group>
+                        return (
+                            <Reorder.Item key={question.id} value={question}>
+                                <Container
+                                    className={
+                                        editMode
+                                            ? "ring-2 ring-primary-300"
+                                            : ""
+                                    }
+                                >
+                                    {editMode ? (
+                                        <div ref={editingRef}>
+                                            <QuestionEditor
+                                                question={question}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <QuestionPreview question={question} />
+                                    )}
+                                </Container>
+                            </Reorder.Item>
+                        );
+                    })}
+                </Reorder.Group>
+            )}
 
             <Button
                 onClick={addQuestion}

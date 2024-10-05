@@ -8,7 +8,6 @@ import useForm from "@/hooks/useForm";
 import { createDay } from "./Calendar/utils/calendar";
 import { CalendarProvider, Calendar } from "./Calendar";
 import CalendarSideBar, { FilterProps } from "./CalendarSideBar";
-import { useDebouncedEffect } from "@/hooks/useDebouncedEffect";
 
 type Props = {
     eventDetail?: eventDetailType;
@@ -51,11 +50,9 @@ export default function LoadCalendar({
             });
     };
 
-    useDebouncedEffect(
-        () => setEvents([...eventsSearched, ...(staticEvents ?? [])]),
-        500,
-        [staticEvents, eventsSearched]
-    );
+    useEffect(() => {
+        setEvents([...eventsSearched, ...(staticEvents ?? [])]);
+    }, [staticEvents, eventsSearched]);
 
     return (
         <CalendarProvider

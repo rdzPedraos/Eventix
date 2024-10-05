@@ -6,7 +6,7 @@ import { DatePicker, Input, Select, SelectItem } from "@nextui-org/react";
 
 import { Sites } from "@/types/models";
 import { useFormReturnType } from "@/hooks/useForm";
-import { useDebouncedEffect } from "@/hooks/useDebouncedEffect";
+import useDebouncedEffect from "@/hooks/useDebouncedEffect";
 import { useCalendarContext } from "./Calendar/CalendarContext";
 import { updateDate } from "./Calendar/utils/calendar";
 

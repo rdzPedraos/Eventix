@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 
-export function useDebouncedEffect(
+export default function useDebouncedEffect(
     effect: () => void,
     delay: number,
     deps: any[]

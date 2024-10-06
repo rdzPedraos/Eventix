@@ -1,15 +1,24 @@
 import React from "react";
 import { route } from "@ziggyjs";
-import { usePage } from "@inertiajs/react";
-import { Link } from "@nextui-org/react";
-import { ArrowLongLeftIcon } from "@heroicons/react/24/solid";
+import { router, usePage } from "@inertiajs/react";
+import { Button, Link } from "@nextui-org/react";
+import { ArrowLongLeftIcon, TrashIcon } from "@heroicons/react/24/solid";
 
 import { Survey } from "@/types/models";
 import { Breadcrumb, Container } from "@/components";
 import RenderQuestion from "@/components/Form/RenderQuestion";
+import Confirm from "@/components/Confirm";
 
 export default function index() {
     const { survey } = usePage<{ survey: Survey }>().props;
+
+    const onDelete = () => {
+        router.delete(
+            route("surveys.destroy", {
+                survey,
+            })
+        );
+    };
 
     return (
         <>
@@ -28,6 +37,24 @@ export default function index() {
             />
 
             <div className="flex flex-col gap-4 max-w-lg mt-4 mx-auto">
+                <div className="flex justify-end">
+                    {!survey.deleted_at && (
+                        <Confirm
+                            title="Eliminar actividad"
+                            text="Al realizar esta acción, la actividad será eliminada permanentemente y perderá su visibilidad."
+                            confirmColor="danger"
+                        >
+                            <Button
+                                color="danger"
+                                variant="flat"
+                                onClick={onDelete}
+                            >
+                                <TrashIcon width={20} />
+                            </Button>
+                        </Confirm>
+                    )}
+                </div>
+
                 <Container>
                     <Link
                         className="mb-2 text-sm hover:underline"

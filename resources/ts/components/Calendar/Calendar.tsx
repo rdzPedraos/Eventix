@@ -34,7 +34,7 @@ function renderSideBar() {
             collapsed={!openSidebar}
             collapsedWidth="0"
             onBackdropClick={() => toggleSideBar(false)}
-            className="h-full"
+            className="bg-[#fcfcfc]"
         >
             {sideBar}
         </Sidebar>
@@ -43,7 +43,7 @@ function renderSideBar() {
 
 export default function Calendar() {
     return (
-        <div className="h-full w-full bg-white flex flex-col">
+        <div className="w-full bg-white flex flex-col">
             <Header />
 
             <div className="flex">

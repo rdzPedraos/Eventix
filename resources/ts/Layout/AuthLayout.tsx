@@ -38,10 +38,8 @@ export default function AuthLayout({
                     />
                 )}
 
-                <div
-                    className={`flex-1 flex flex-col overflow-y-auto ${paddingX} `}
-                >
-                    <main className="flex-1">{children}</main>
+                <div className={`flex-1 overflow-y-auto ${paddingX} `}>
+                    <main>{children}</main>
 
                     <footer className="px-1 py-2 text-center text-sm text-gray-500 bottom-0">
                         {name}, 2024 | Creado por

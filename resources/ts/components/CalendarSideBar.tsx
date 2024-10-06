@@ -56,7 +56,7 @@ export default function CalendarSideBar({ form }: Props) {
     useDebouncedEffect(forceUpdate, 300, [form.data]);
 
     return (
-        <div className="h-full min-w-56 p-4 bg-[#fcfcfc]">
+        <div className="min-w-56 p-4">
             <h1 className="font-bold text-xl mb-4">Filtros</h1>
 
             <div className="flex flex-col gap-4">

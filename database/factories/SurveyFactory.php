@@ -23,7 +23,7 @@ class SurveyFactory extends Factory
         $published_trigger = $this->faker->randomElement(SurveyTriggerEnum::cases());
 
         $dates = $activity->getLimitDates();
-        $trigger_date = $this->faker->dateTimeBetween($dates["start_date"], $dates["end_date"]);
+        $trigger_date = $this->faker->dateTimeBetween($dates["start"], $dates["end"]);
 
         return [
             "activity_id" => $activity->id,

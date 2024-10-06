@@ -1,8 +1,8 @@
 import React from "react";
 import { route } from "@ziggyjs";
 import { usePage } from "@inertiajs/react";
-import { PencilSquareIcon } from "@heroicons/react/24/solid";
-import { Link, Tooltip } from "@nextui-org/react";
+import { PencilSquareIcon, PlusIcon } from "@heroicons/react/24/solid";
+import { Button, Link, Tooltip } from "@nextui-org/react";
 
 import { Role } from "@/types/models";
 import { Breadcrumb, Container, Table } from "@/components";
@@ -68,6 +68,17 @@ export default function List({}: Props) {
                         },
                     ]}
                     renderCell={renderCell}
+                    topContent={
+                        <Button
+                            as={Link}
+                            href={route("roles.create")}
+                            color="primary"
+                            variant="flat"
+                            startContent={<PlusIcon width={20} />}
+                        >
+                            Crear rol
+                        </Button>
+                    }
                 />
             </Container>
         </>

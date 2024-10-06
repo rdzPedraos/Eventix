@@ -1,7 +1,7 @@
 import React from "react";
 import { route } from "@ziggyjs";
 import { usePage } from "@inertiajs/react";
-import { Button, Checkbox, CheckboxGroup } from "@nextui-org/react";
+import { Button, Checkbox, CheckboxGroup, Input } from "@nextui-org/react";
 
 import { Role } from "@/types/models";
 import useForm from "@/hooks/useForm";
@@ -14,8 +14,13 @@ export default function Edit() {
     }>().props;
 
     const { register, onSubmit } = useForm({
+        name: role.name,
         permissions: role.permissions.map((permission) => permission.name),
     });
+
+    const submit = role.id
+        ? onSubmit("put", route("roles.update", { role }))
+        : onSubmit("post", route("roles.store"));
 
     return (
         <>
@@ -27,42 +32,50 @@ export default function Edit() {
                 ]}
             />
 
-            <Container>
-                <div className="flex justify-between">
-                    <div>
-                        <h1 className="text-2xl font-semibold">
-                            Editar Rol {role.label}
-                        </h1>
-                        <p className="text-default-600 mb-4">
-                            Modifica la información del rol.
-                        </p>
-                    </div>
+            <div className="flex flex-col gap-4">
+                <Container>
+                    <div className="flex justify-between">
+                        <div>
+                            <h1 className="text-2xl font-semibold">
+                                Editar Rol
+                            </h1>
+                            <p className="text-default-600 mb-4">
+                                Modifica la información del rol.
+                            </p>
+                        </div>
 
-                    <Button
-                        variant="flat"
-                        color="primary"
-                        onClick={onSubmit(
-                            "put",
-                            route("roles.update", { role })
-                        )}
+                        <Button variant="flat" color="primary" onClick={submit}>
+                            Guardar
+                        </Button>
+                    </div>
+                </Container>
+
+                <Container>
+                    <Input
+                        className="max-w-lg mb-4"
+                        size="lg"
+                        label="Nombre"
+                        {...register("name")}
+                    />
+
+                    <CheckboxGroup
+                        label="Roles"
+                        {...register("permissions", "checkbox_group")}
                     >
-                        Guardar
-                    </Button>
-                </div>
-
-                <CheckboxGroup
-                    label="Roles"
-                    {...register("permissions", "checkbox_group")}
-                >
-                    <div className="columns-3">
-                        {permissions.map(({ key, value }) => (
-                            <Checkbox key={key} value={key} className="block">
-                                {value}
-                            </Checkbox>
-                        ))}
-                    </div>
-                </CheckboxGroup>
-            </Container>
+                        <div className="columns-3">
+                            {permissions.map(({ key, value }) => (
+                                <Checkbox
+                                    key={key}
+                                    value={key}
+                                    className="block"
+                                >
+                                    {value}
+                                </Checkbox>
+                            ))}
+                        </div>
+                    </CheckboxGroup>
+                </Container>
+            </div>
         </>
     );
 }

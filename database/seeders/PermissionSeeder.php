@@ -3,15 +3,14 @@
 namespace Database\Seeders;
 
 use App\Enums\PermissionEnum;
-use App\Enums\RoleEnum;
+use App\Models\Role;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
 class PermissionSeeder extends Seeder
 {
     const ROLES = [
-        RoleEnum::ADMIN->value => [
+        Role::ADMIN => [
             PermissionEnum::ACTIVITY_CHECK,
             PermissionEnum::ACTIVITY_CREATE,
             PermissionEnum::ACTIVITY_EDIT,
@@ -25,7 +24,7 @@ class PermissionSeeder extends Seeder
             PermissionEnum::ATTENDANCE_REPORT,
         ],
 
-        RoleEnum::BIENESTAR->value => [
+        Role::BIENESTAR => [
             PermissionEnum::ACTIVITY_CHECK,
             PermissionEnum::ACTIVITY_CREATE,
             PermissionEnum::ACTIVITY_EDIT,
@@ -56,7 +55,7 @@ class PermissionSeeder extends Seeder
             ]);
         }
 
-        $rol = Role::firstOrCreate(["name" => RoleEnum::SUPER_ADMIN]);
+        $rol = Role::firstOrCreate(["name" => Role::SUPERADMIN]);
         $rol->syncPermissions(PermissionEnum::cases());
 
         foreach (self::ROLES as $name => $permissions) {

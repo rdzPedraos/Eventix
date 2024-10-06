@@ -4,7 +4,7 @@ import { usePage } from "@inertiajs/react";
 import { InboxIcon } from "@heroicons/react/24/solid";
 import { Button, Checkbox, CheckboxGroup } from "@nextui-org/react";
 
-import { User } from "@/types/models";
+import { Role, User } from "@/types/models";
 import useForm from "@/hooks/useForm";
 
 type Props = {};
@@ -12,7 +12,7 @@ type Props = {};
 export default function RolesForm({}: Props) {
     const { user, currentRoles, roles } = usePage<{
         user: User;
-        roles: { key: string; value: string }[];
+        roles: Role[];
         currentRoles: string[];
     }>().props;
 
@@ -49,9 +49,9 @@ export default function RolesForm({}: Props) {
                     defaultValue={data.roles}
                     onValueChange={(values) => setData("roles", values)}
                 >
-                    {roles.map(({ key, value }) => (
-                        <Checkbox key={key} value={key}>
-                            {value}
+                    {roles.map(({ id, name }) => (
+                        <Checkbox key={id} value={name}>
+                            {name}
                         </Checkbox>
                     ))}
                 </CheckboxGroup>

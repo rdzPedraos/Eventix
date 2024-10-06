@@ -2,9 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enums\RoleEnum;
-use App\Models\Activity;
-use App\Models\Scheduler;
+use App\Models\Role;
 use App\Models\Sites;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -29,12 +27,12 @@ class TestingSeeder extends Seeder
         User::factory()->create([
             'name' => 'Admin User',
             'email' => 'admin@test.com',
-        ])->assignRole(RoleEnum::ADMIN);
+        ])->assignRole(Role::ADMIN);
 
         User::factory()->create([
             'name' => 'Bienestar User',
             'email' => 'bienestar@test.com',
-        ])->assignRole(RoleEnum::BIENESTAR);
+        ])->assignRole(Role::BIENESTAR);
 
         User::factory(10)->create();
         Sites::factory(3)->create();

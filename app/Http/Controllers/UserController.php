@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Enums\PermissionEnum;
-use App\Enums\RoleEnum;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Resources\UserResource;
 use App\Models\DocumentType;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -30,8 +30,7 @@ class UserController extends Controller
             return inertia("User/Edit", compact("user", "documentTypes"));
         }
 
-
-        $roles = RoleEnum::casesKeyLabel();
+        $roles = Role::all();
         $currentRoles = $user->roles->pluck("name")->toArray();
 
         return inertia("User/Edit/asAdmin", compact("user", "documentTypes", "roles", "currentRoles"));

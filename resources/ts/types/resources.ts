@@ -53,11 +53,12 @@ export type SurveyListResource = {
         label: string;
         date: string;
     };
+    published_at: string;
     status: {
         color: "success" | "danger" | "default";
         label: string;
+        key: "published" | "closed" | "blocked" | "draft";
     };
-    is_closed: boolean;
     activity: {
         id: number;
         name: string;

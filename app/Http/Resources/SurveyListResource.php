@@ -19,23 +19,17 @@ class SurveyListResource extends JsonResource
             "id" => $this->id,
             "name" => $this->name,
             "status" => self::getStatus(),
-            "is_closed" => $this->deleted_at !== null,
             "description" => $this->description,
-            "trigger" => self::getTypeTrigger(),
+            "trigger" => [
+                "label" => $this->published_trigger->label(),
+                "date" => $this->trigger_date?->format("d/m/Y"),
+            ],
+            "published_at" => $this->published_at?->format("d/m/Y"),
             "answers_count" => $this->answers->count(),
             "activity" => [
                 "id" => $this->activity->id,
                 "name" => $this->activity->name
             ]
-        ];
-    }
-
-    protected function getTypeTrigger()
-    {
-        $trigger = $this->published_trigger;
-        return [
-            "label" => $trigger->label(),
-            "date" => $this->trigger_date?->format("Y/m/d"),
         ];
     }
 
@@ -45,6 +39,7 @@ class SurveyListResource extends JsonResource
             return [
                 "color" => "danger",
                 "label" => "Cerrado",
+                "key" => "closed"
             ];
         }
 
@@ -52,6 +47,7 @@ class SurveyListResource extends JsonResource
             return [
                 "color" => "primary",
                 "label" => "Publicado",
+                "key" => "published"
             ];
         }
 
@@ -59,12 +55,14 @@ class SurveyListResource extends JsonResource
             return [
                 "color" => "warning",
                 "label" => "Por publicar",
+                "key" => "blocked"
             ];
         }
 
         return [
             "color" => "default",
             "label" => "Borrador",
+            "key" => "draft"
         ];
     }
 }

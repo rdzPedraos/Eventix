@@ -8,6 +8,7 @@ export default function TextField({
     onChange,
     clearError,
     error,
+    disabled,
 }: PropsField) {
     const handleChange = (value: string) => {
         clearError();
@@ -21,6 +22,7 @@ export default function TextField({
             onValueChange={handleChange}
             isInvalid={!!error}
             errorMessage={error}
+            isDisabled={disabled}
         />
     );
 }

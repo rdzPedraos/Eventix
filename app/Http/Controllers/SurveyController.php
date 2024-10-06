@@ -94,7 +94,8 @@ class SurveyController extends Controller
      */
     public function show(Survey $survey)
     {
-        //
+        $survey->load("questions");
+        return Inertia::render("Survey/Show", compact('survey'));
     }
 
     /**

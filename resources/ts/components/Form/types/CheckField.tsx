@@ -9,6 +9,7 @@ export default function CheckField({
     onChange,
     clearError,
     error,
+    disabled,
 }: PropsField) {
     const selectedOptions = value?.split("|");
 
@@ -25,6 +26,7 @@ export default function CheckField({
             onValueChange={handleChange}
             errorMessage={error}
             isInvalid={!!error}
+            isDisabled={disabled}
         >
             {options.map((option, index) => (
                 <Checkbox key={index} value={option}>

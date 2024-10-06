@@ -1,7 +1,11 @@
 import React from "react";
 import { route } from "@ziggyjs";
 import { usePage } from "@inertiajs/react";
-import { DocumentArrowDownIcon, PencilIcon } from "@heroicons/react/24/solid";
+import {
+    DocumentArrowDownIcon,
+    EyeIcon,
+    PencilIcon,
+} from "@heroicons/react/24/solid";
 
 import { Chip, Link, Tooltip } from "@nextui-org/react";
 import { SurveyListResource } from "@/types/resources";
@@ -9,38 +13,52 @@ import { Breadcrumb, Container, Table } from "@/components";
 import Badge from "@/components/Badge";
 
 const renderCell = (survey: SurveyListResource, columnKey: string) => {
+    const closed = survey.status.key === "closed";
+
     switch (columnKey) {
         case "actions":
             return (
-                <>
-                    <Tooltip
-                        isDisabled={survey.is_closed}
-                        content="Editar encuesta"
-                        as={Link}
-                    >
-                        <Link
-                            href={route("surveys.edit", { survey })}
-                            isDisabled={survey.is_closed}
-                            className="cursor-pointer text-default-500 inline-block mr-2"
-                        >
-                            <PencilIcon width={18} />
-                        </Link>
-                    </Tooltip>
+                <div className="grid grid-cols-2">
+                    {survey.status.key === "draft" ? (
+                        <Tooltip content="Editar encuesta">
+                            <Link
+                                href={route("surveys.edit", { survey })}
+                                className="text-default-500"
+                            >
+                                <PencilIcon width={18} />
+                            </Link>
+                        </Tooltip>
+                    ) : (
+                        !closed && (
+                            <Tooltip content="Ver encuesta">
+                                <Link
+                                    href={route("surveys.show", {
+                                        survey: survey.id,
+                                    })}
+                                    className="text-default-500"
+                                >
+                                    <EyeIcon width={18} />
+                                </Link>
+                            </Tooltip>
+                        )
+                    )}
 
-                    <Tooltip content="Generar reporte" as={Link}>
-                        <a
-                            href={route("answer.report", { survey })}
-                            className="cursor-pointer text-primary-700 inline-block"
-                        >
-                            <DocumentArrowDownIcon width={18} />
-                        </a>
-                    </Tooltip>
-                </>
+                    {survey.published_at && (
+                        <Tooltip content="Generar reporte">
+                            <a
+                                href={route("answer.report", { survey })}
+                                className="cursor-pointer text-primary-700 inline-block"
+                            >
+                                <DocumentArrowDownIcon width={18} />
+                            </a>
+                        </Tooltip>
+                    )}
+                </div>
             );
 
         case "trigger":
             return (
-                <Badge className={survey.is_closed ? "opacity-50" : ""}>
+                <Badge className={closed ? "opacity-50" : ""}>
                     {survey.trigger.label}
                 </Badge>
             );
@@ -54,7 +72,7 @@ const renderCell = (survey: SurveyListResource, columnKey: string) => {
         case "status":
             return (
                 <Chip
-                    isDisabled={survey.is_closed}
+                    isDisabled={closed}
                     className="capitalize"
                     color={survey.status.color}
                     size="sm"
@@ -89,7 +107,7 @@ export default function List() {
     }>().props;
 
     const disabledKeys = data
-        .filter((surveys) => surveys.is_closed)
+        .filter((surveys) => surveys.status.key === "closed")
         .map((survey) => survey.id.toString());
 
     return (

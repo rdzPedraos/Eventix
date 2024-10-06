@@ -5,4 +5,5 @@ export type PropsField = {
     clearError: () => void;
     error?: string;
     options?: string[];
+    disabled?: boolean;
 };

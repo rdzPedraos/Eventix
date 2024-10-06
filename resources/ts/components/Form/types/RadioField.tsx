@@ -9,6 +9,7 @@ export default function RadioField({
     onChange,
     clearError,
     error,
+    disabled,
 }: PropsField) {
     const handleChange = (value: string) => {
         clearError();
@@ -22,6 +23,7 @@ export default function RadioField({
             onValueChange={handleChange}
             errorMessage={error}
             isInvalid={!!error}
+            isDisabled={disabled}
         >
             {options.map((option, index) => (
                 <Radio key={index} value={option}>

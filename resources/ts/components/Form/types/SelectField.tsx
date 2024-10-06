@@ -9,6 +9,7 @@ export default function SelectField({
     onChange,
     clearError,
     error,
+    disabled,
 }: PropsField) {
     const selectedOptions = value?.split("|");
 
@@ -29,6 +30,7 @@ export default function SelectField({
             errorMessage={error}
             defaultSelectedKeys={selectedOptions}
             onChange={handleChange}
+            isDisabled={disabled}
         >
             {options.map((option, index) => (
                 <SelectItem key={option}>{option}</SelectItem>

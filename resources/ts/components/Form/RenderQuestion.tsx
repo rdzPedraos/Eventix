@@ -19,19 +19,21 @@ const types = {
 type Props = {
     number: number;
     question: Question;
-    value: string;
-    onChange: (value: any) => void;
-    clearError: () => void;
-    error: string;
+    value?: string;
+    onChange?: (value: any) => void;
+    clearError?: () => void;
+    error?: string;
+    disabled?: boolean;
 };
 
 export default function RenderQuestion({
     number,
     question,
     value,
-    onChange,
-    clearError,
+    onChange = () => {},
+    clearError = () => {},
     error,
+    disabled,
 }: Props) {
     let label = question.label.toLowerCase();
     label = label.charAt(0).toUpperCase() + label.slice(1);
@@ -54,6 +56,7 @@ export default function RenderQuestion({
                 onChange={onChange}
                 clearError={clearError}
                 error={error}
+                disabled={disabled}
             />
         </Container>
     );

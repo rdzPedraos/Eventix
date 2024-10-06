@@ -1,10 +1,10 @@
 import {
-    AcademicCapIcon,
     CalendarIcon,
     DocumentChartBarIcon,
     MapPinIcon,
     RectangleStackIcon,
     ShieldCheckIcon,
+    UserIcon,
 } from "@heroicons/react/24/solid";
 
 export const MenuMap = [
@@ -40,7 +40,13 @@ export const MenuMap = [
     {
         label: "Gestion de usuarios",
         to: "users.index",
-        Icon: ShieldCheckIcon,
+        Icon: UserIcon,
         permission: "users.list",
+    },
+    {
+        label: "Gestion de roles",
+        to: "roles.index",
+        Icon: ShieldCheckIcon,
+        permission: "users.set_roles",
     },
 ];

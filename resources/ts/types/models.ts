@@ -39,6 +39,9 @@ export interface Inscription {
   activity_id: number
   user_id: number
   registered_at: string
+  // relations
+  user: User
+  activity: Activity
 }
 
 export interface Question {
@@ -60,6 +63,8 @@ export interface Role {
   guard_name: string
   created_at: string|null
   updated_at: string|null
+  // mutators
+  label: string
   // relations
   permissions: Permission[]
   users: User[]
@@ -90,12 +95,16 @@ export interface Survey {
   activity_id: number
   name: string
   description: string|null
+  editable: boolean
   published_trigger: SurveyTriggerEnum
   trigger_date: string|null
   published_at: string|null
   created_at: string|null
   updated_at: string|null
   deleted_at: string|null
+  // mutators
+  is_published: unknown
+  blocked: unknown
   // relations
   activity: Activity
   questions: Question[]

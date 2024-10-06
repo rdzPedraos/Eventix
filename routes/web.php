@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\OtpController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\PasswordController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SitesController;
 use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\UserController;
@@ -48,4 +49,6 @@ Route::middleware("auth")->group(function () {
 
     Route::resource("usuario", UserController::class)->parameters(["usuario" => "user"])->names("users");
     Route::put("usuario/{user}/roles", [UserController::class, "updateRoles"])->name("users.update_roles");
+
+    Route::resource("roles", controller: RoleController::class)->names("roles");
 });

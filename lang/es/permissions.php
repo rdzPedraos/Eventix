@@ -8,6 +8,7 @@ return [
     ],
 
     'activity.check' => "Revisar actividad",
+    'activity.check_all' => "Revisar todas las actividades",
     'activity.create' => "Crear actividad",
     'activity.edit' => "Editar actividad",
     'activity.edit_all' => "Editar todas las actividades",
@@ -16,6 +17,7 @@ return [
     'activity.publish' => "Publicar actividad",
 
     'survey.check' => "Revisar encuesta",
+    'survey.check_all' => "Revisar todas las encuestas",
     'survey.create' => "Crear encuesta",
     'survey.edit' => "Editar encuesta",
     'survey.edit_all' => "Editar todas las encuestas",
@@ -23,7 +25,6 @@ return [
     'survey.remove_all' => "Remover todas las encuestas",
     'survey.publish' => "Publicar encuesta",
 
-    'attendance.check' => "Revisar asistencia",
     'attendance.report' => "Generar reporte de asistencia",
 
     'places.create' => "Crear espacio académico",

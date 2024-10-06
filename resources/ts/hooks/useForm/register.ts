@@ -14,6 +14,19 @@ const registerCheckbox = <T extends object>(
     };
 };
 
+const registerCheckBoxGroup = <T extends object>(
+    form: InertiaFormProps<T>,
+    key: keyof T
+) => {
+    return {
+        defaultValue: form.data[key] as string[],
+        onValueChange: (e: string[]) => {
+            form.clearErrors(key);
+            form.setData(key, e as T[keyof T]);
+        },
+    };
+};
+
 const registerSelect = <T extends object>(
     form: InertiaFormProps<T>,
     key: keyof T
@@ -80,6 +93,8 @@ export default function createRegister<T extends object>(
         switch (type) {
             case "checkbox":
                 return registerCheckbox(form, key);
+            case "checkbox_group":
+                return registerCheckBoxGroup(form, key);
             case "select":
                 return registerSelect(form, key);
             case "otpbox":

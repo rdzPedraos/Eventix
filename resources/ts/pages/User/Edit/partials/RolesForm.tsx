@@ -24,12 +24,9 @@ export default function RolesForm({}: Props) {
         <>
             <div className="flex justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold">
-                        Roles y permisos del usuario
-                    </h1>
+                    <h1 className="text-2xl font-bold">Roles del usuario</h1>
                     <p className="text-default-600 mb-4">
-                        Selecciona los roles y permisos que deseas asignar al
-                        usuario.
+                        Selecciona los roles que deseas asignar al usuario.
                     </p>
                 </div>
 

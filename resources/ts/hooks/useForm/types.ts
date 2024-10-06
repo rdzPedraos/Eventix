@@ -4,6 +4,7 @@ import { Method, VisitOptions } from "@inertiajs/core";
 export type InputTypes =
     | "text"
     | "checkbox"
+    | "checkbox_group"
     | "select"
     | "otpbox"
     | "editable_content";

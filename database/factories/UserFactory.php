@@ -26,7 +26,7 @@ class UserFactory extends Factory
     {
         $documentType = DocumentType::inRandomOrder()->first();
         return [
-            'name' => fake()->name(),
+            'name' => fake()->firstName(),
             "last_name" => fake()->lastName(),
             "document_type_code" => $documentType->code,
             "document_number" => fake()->unique()->regexify($documentType->regex),

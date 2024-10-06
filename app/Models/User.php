@@ -60,6 +60,16 @@ class User extends Authenticatable
         return $this->hasRole(RoleEnum::SUPER_ADMIN);
     }
 
+    /* scopes */
+    public function scopeSearch($query, string|null $search)
+    {
+        if (!$search) return $query;
+
+        return $query->where('name', 'like', "%$search%")
+            ->orWhere('last_name', 'like', "%$search%")
+            ->orWhere('email', 'like', "%$search%");
+    }
+
     /* relations */
 
     public function activities()

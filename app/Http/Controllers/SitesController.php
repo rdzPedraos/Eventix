@@ -22,7 +22,10 @@ class SitesController extends Controller
 
     public function index(Request $request)
     {
-        $sites = Sites::orderBy("name")->paginate($request->per_page ?? 10);
+        $sites = Sites::search($request->input("search"))
+            ->orderBy("name")
+            ->paginate($request->per_page ?? 10);
+
         $sites = SiteResource::collection($sites);
 
         return Inertia::render("Sites/List", compact("sites"));

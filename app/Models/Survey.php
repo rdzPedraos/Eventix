@@ -79,6 +79,17 @@ class Survey extends Model
         return $query->where("published_at", "!=", null);
     }
 
+    public function scopeSearch($query, $search)
+    {
+        if (!$search) return $query;
+
+        return $query->where("name", "like", "%$search%")
+            ->orWhere("description", "like", "%$search%")
+            ->orWhereHas("activity", function ($query) use ($search) {
+                $query->where("name", "like", "%$search%");
+            });
+    }
+
     /* RELATIONS */
     public function activity()
     {

@@ -1,45 +1,70 @@
-import React from "react";
-import { Pagination, Select, SelectItem } from "@nextui-org/react";
-import { onSearchType } from "./types";
+import React, { useRef } from "react";
+import { Input, Pagination, Select, SelectItem } from "@nextui-org/react";
+import { FilterProps, onSearchType } from "./types";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 export function Header({
     content,
-    per_page,
     onSearch,
+    filters,
 }: {
     content?: React.ReactNode;
-    per_page: PaginationProps["per_page"];
     onSearch: onSearchType;
+    filters: FilterProps;
 }) {
-    return (
-        <div className="flex justify-between">
-            {content}
+    const searchRef = useRef<HTMLInputElement>(null);
 
-            <Select
-                className="w-20 ml-auto"
-                aria-label="Paginación"
-                selectedKeys={[per_page.toString()]}
-                onChange={(e) =>
-                    onSearch({
-                        page: 1,
-                        per_page: e.target.value,
-                    })
-                }
-            >
-                <SelectItem key={5}>5</SelectItem>
-                <SelectItem key={10}>10</SelectItem>
-                <SelectItem key={15}>15</SelectItem>
-            </Select>
+    return (
+        <div className="flex flex-col-reverse md:flex-row-reverse justify-between gap-4">
+            <div className="flex gap-2">
+                <Input
+                    ref={searchRef}
+                    className="w-fit"
+                    placeholder="Buscar..."
+                    defaultValue={filters.search}
+                    onClear={() => onSearch({ search: "" })}
+                    startContent={
+                        <MagnifyingGlassIcon
+                            onClick={() =>
+                                onSearch({
+                                    search: searchRef.current.value,
+                                })
+                            }
+                            width={20}
+                            className="cursor-pointer"
+                        />
+                    }
+                    isClearable
+                />
+
+                <Select
+                    className="w-20 ml-auto"
+                    aria-label="Paginación"
+                    selectedKeys={[filters.per_page.toString()]}
+                    onChange={(e) =>
+                        onSearch({
+                            page: 1,
+                            per_page: e.target.value,
+                        })
+                    }
+                >
+                    <SelectItem key={5}>5</SelectItem>
+                    <SelectItem key={10}>10</SelectItem>
+                    <SelectItem key={15}>15</SelectItem>
+                </Select>
+            </div>
+
+            {content}
         </div>
     );
 }
 
 export function Footer({
-    page,
+    filters,
     last_page,
     onSearch,
 }: {
-    page: PaginationProps["current_page"];
+    filters: FilterProps;
     last_page: PaginationProps["last_page"];
     onSearch: onSearchType;
 }) {
@@ -50,7 +75,7 @@ export function Footer({
             showShadow
             color="primary"
             variant="light"
-            page={page}
+            page={filters.page}
             total={last_page}
             onChange={(page) => onSearch({ page })}
         />

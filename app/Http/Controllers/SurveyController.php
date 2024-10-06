@@ -34,6 +34,7 @@ class SurveyController extends Controller
         }
 
         $surveys = Survey::withTrashed()
+            ->search($request->input("search"))
             ->whereIn("activity_id", $activities->pluck("id"))
             ->with("activity")
             ->orderBy("created_at", "desc")

@@ -15,7 +15,8 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $users = User::paginate($request->per_page ?? 10);
+        $users = User::search($request->input("search"))
+            ->paginate($request->per_page ?? 10);
         $users = UserResource::collection($users);
 
         return inertia("User/List", compact("users"));

@@ -38,6 +38,18 @@ class Activity extends Model
         }
     }
 
+    public function getLimitDates()
+    {
+        $this->load("schedulers");
+
+        return [
+            "start" => $this->schedulers->min("start_date"),
+            "end" => $this->schedulers->max("end_date"),
+        ];
+    }
+
+    /* SCOPES */
+
     public function scopePublished(Builder $query)
     {
         return $query->where("published_at", "!=", null);
@@ -56,14 +68,12 @@ class Activity extends Model
             : $query->where("created_by", $user->id);
     }
 
-    public function getLimitDates()
+    public function scopeSearch(Builder $query, string|null $search)
     {
-        $this->load("schedulers");
+        if (!$search) return $query;
 
-        return [
-            "start" => $this->schedulers->min("start_date"),
-            "end" => $this->schedulers->max("end_date"),
-        ];
+        return $query->where("name", "like", "%$search%")
+            ->orWhere("description", "like", "%$search%");
     }
 
     /* Relations */

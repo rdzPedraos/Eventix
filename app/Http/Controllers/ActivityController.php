@@ -25,6 +25,7 @@ class ActivityController extends Controller
     {
         $activities = Activity::withTrashed()
             ->accesibles()
+            ->search($request->input("search"))
             ->orderBy("updated_at", "DESC")
             ->paginate($request->per_page ?? 10);
 

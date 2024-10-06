@@ -30,6 +30,13 @@ export default function index<T extends ItemObject>({
         });
     };
 
+    const urlParams = new URLSearchParams(url.split("?")[1]);
+    const filters = {
+        search: urlParams.get("search") || "",
+        page: current_page,
+        per_page: per_page.toString(),
+    };
+
     return (
         <Table
             removeWrapper={true}
@@ -37,13 +44,13 @@ export default function index<T extends ItemObject>({
             topContent={
                 <Header
                     content={topContent}
-                    per_page={per_page}
                     onSearch={onSearch}
+                    filters={filters}
                 />
             }
             bottomContent={
                 <Footer
-                    page={current_page}
+                    filters={filters}
                     last_page={last_page}
                     onSearch={onSearch}
                 />

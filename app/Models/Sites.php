@@ -16,4 +16,13 @@ class Sites extends Model
         "name",
         "address",
     ];
+
+    /* SCOPES */
+    public function scopeSearch($query, $search)
+    {
+        if (!$search) return $query;
+
+        return $query->where("name", "like", "%$search%")
+            ->orWhere("address", "like", "%$search%");
+    }
 }

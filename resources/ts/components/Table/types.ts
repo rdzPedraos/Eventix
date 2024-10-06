@@ -22,5 +22,12 @@ export type onSearchType = (
     data: Partial<{
         page: PaginationProps["current_page"];
         per_page: PaginationProps["per_page"];
+        search: string;
     }>
 ) => void;
+
+export type FilterProps = {
+    search?: string;
+    page: number;
+    per_page: string;
+};

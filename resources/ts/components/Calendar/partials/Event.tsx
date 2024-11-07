@@ -2,14 +2,16 @@ import React from "react";
 import { useCalendarContext } from "../";
 import { EventType } from "../utils/types";
 
-const getCustomStyle = (defaultColor: string, style: string) => {
-    if (style === "dashed") {
-        return {
-            background: `repeating-linear-gradient(45deg, #fffa, #fff9 10px, ${defaultColor} 10px, ${defaultColor} 20px)`,
-        };
-    }
-
-    return { backgroundColor: defaultColor };
+const getCustomStyle = (defaultColor: string, style?: "dashed") => {
+    return style === "dashed"
+        ? {
+              background: `repeating-linear-gradient(135deg, #fff, #fff 10px, ${defaultColor} 10px, ${defaultColor} 20px)`,
+              opacity: 0.8,
+          }
+        : {
+              backgroundColor: defaultColor,
+              color: "#fff",
+          };
 };
 
 type Props = EventType & {
@@ -32,7 +34,7 @@ export default function Event({ zIndex, position, style, ...event }: Props) {
 
     return (
         <div
-            className="absolute pb-[4px] pr-[4px] min-h-[25px] select-none"
+            className="absolute pb-1 pr-3 min-h-[25px] select-none"
             style={{
                 zIndex,
                 top: `${position.top}%`,
@@ -44,7 +46,7 @@ export default function Event({ zIndex, position, style, ...event }: Props) {
         >
             <div
                 style={getCustomStyle(color, style)}
-                className={`w-full h-full py-[2px] px-1 rounded-sm overflow-hidden text-xs border-1 border-opacity-20 border-black shadow-sm cursor-pointer transition-all hover:shadow-md`}
+                className={`w-full h-full py-1 px-2 rounded-md text-xs border-1 border-white shadow-sm cursor-pointer transition-all hover:shadow-lg`}
             >
                 {shortEvent ? (
                     <div className="my-auto truncate text-[12px]">
@@ -54,9 +56,7 @@ export default function Event({ zIndex, position, style, ...event }: Props) {
                 ) : (
                     <>
                         <div className="font-semibold truncate">{title}</div>
-                        <span>
-                            {`${startDate.format("HH:mm")} - ${endDate.format("HH:mm")}`}
-                        </span>
+                        {`${startDate.format("HH:mm")} - ${endDate.format("HH:mm")}`}
                     </>
                 )}
             </div>

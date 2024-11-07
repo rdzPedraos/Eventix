@@ -17,10 +17,6 @@ class ActivitiesSeeder extends Seeder
      */
     public function run(): void
     {
-        //delete all files and ocntent, set empty disk. NOTE WITHOUT REMOVE FOLDER AND .GITIGNORE FILE. AVOID DELETE GITIGNORE FILE
-        $disk = Storage::disk('public');
-        $disk->delete(array_filter($disk->allFiles(), fn($path) => $path !== ".gitignore"));
-
         $activities = Activity::factory(10)->create();
         Scheduler::factory(15)->create();
 

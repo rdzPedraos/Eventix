@@ -26,7 +26,7 @@ class UpdateSurveysDate implements ShouldQueueAfterCommit
         $surveys = $event->activity->surveys()
             ->where("published_trigger", SurveyTriggerEnum::TO_END)
             ->orWhere("published_trigger", SurveyTriggerEnum::TO_START)
-            ->with("activities")
+            ->with("activity")
             ->get();
 
         $surveys->each(function ($survey) {

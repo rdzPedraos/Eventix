@@ -32,6 +32,7 @@ export default function DatesForm() {
         const newSchedulers = [...schedulers];
         newSchedulers.splice(index, 1);
         setSchedulers(newSchedulers);
+        removeErrors(index);
     };
 
     const updateScheduler = (index: number) => {

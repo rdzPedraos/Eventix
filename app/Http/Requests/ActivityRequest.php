@@ -51,13 +51,12 @@ class ActivityRequest extends FormRequest
                 $schedulers->each(function ($scheduler, $key) use ($schedulers, $validator) {
                     if ($key === 0) return;
 
-                    $previous = new Carbon($schedulers->get($key - 1)["end_date"]);
-                    $current = new Carbon($scheduler["start_date"]);
-
+                    //validate if events are overlapped
+                    $previous = $schedulers->get($key - 1);
                     $validator->errors()->addIf(
-                        $previous->gt($current),
-                        "schedulers.$key.start_date",
-                        __("validation.custom.scheduler.start_date")
+                        $scheduler['start_date'] < $previous['end_date'],
+                        "schedulers.{$key}.start_date",
+                        __("validation.custom.scheduler.overlapped")
                     );
                 });
             }

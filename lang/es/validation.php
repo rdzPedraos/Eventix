@@ -192,7 +192,7 @@ return [
         ],
 
         "scheduler" => [
-            "start_date" => "La fecha inicio del horario debe ser mayor a la fecha cierre del horario anterior.",
+            "overlapped" => "El horario se superpone con otro horario.",
         ],
     ],
 

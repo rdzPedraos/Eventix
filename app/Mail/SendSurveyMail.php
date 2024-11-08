@@ -39,7 +39,7 @@ class SendSurveyMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'mail.send-survey',
+            view: 'mail.send-survey',
         );
     }
 

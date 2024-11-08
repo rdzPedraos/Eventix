@@ -52,3 +52,8 @@ Route::middleware("auth")->group(function () {
 
     Route::resource("roles", controller: RoleController::class)->names("roles");
 });
+
+Route::get("/template/{view}", function ($view) {
+    $variables = request()->all();
+    return view("mail/{$view}", $variables);
+})->middleware("auth", "can:show-mail-templates");

@@ -13,10 +13,12 @@ class InscriptionObserver
     public function created(Inscription $inscription): void
     {
         $user = $inscription->user;
-        $surveys = $inscription->activity->surveys()->published()->alreadyAnswered($user)->get();
+        $surveys = $inscription->activity->surveys()->published()->get();
 
         dispatch(function () use ($user, $surveys) {
             foreach ($surveys as $survey) {
+                if ($survey->alreadyAnswered($user)->exists()) continue;
+
                 SurveyLink::send($user, $survey);
             }
         });

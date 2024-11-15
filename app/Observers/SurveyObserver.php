@@ -26,8 +26,7 @@ class SurveyObserver
             if ($survey->isDirty("published_trigger")) {
                 $survey->updatePublishedTrigger();
             }
-
-            if ($survey->alreadyForPublish()) {
+            if ($survey->alreadyForPublish()->exists()) {
                 $survey->publish();
                 SurveyPublished::dispatch($survey);
             }

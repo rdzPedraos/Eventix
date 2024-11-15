@@ -1,0 +1,7 @@
+vendor
+node_modules
+/storage
+!/storage/app
+!/storage/logs
+!/storage/test
+!/storage/framework

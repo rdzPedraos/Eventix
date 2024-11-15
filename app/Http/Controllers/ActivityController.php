@@ -103,6 +103,13 @@ class ActivityController extends Controller
     {
         Gate::authorize("update", $activity);
 
+        $publish = $request->action == "publish";
+        if ($publish || $activity->isPublished) {
+            $request->validate([
+                "schedulers" => ["required", "min:1"]
+            ]);
+        }
+
         $validated = [
             ...$request->validated(),
             "image" => $request->image,
@@ -116,14 +123,14 @@ class ActivityController extends Controller
             $activity->schedulers()->createMany($validated["schedulers"]);
             ActivityScheduleUpdate::dispatch($activity);
 
-            if ($request->action == "publish") $activity->publish();
+            if ($publish) $activity->publish();
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
         }
 
-        if ($request->action == "publish") return redirect()->route("activities.index");
+        if ($publish) return redirect()->route("activities.index");
         return redirect()->back();
     }
 

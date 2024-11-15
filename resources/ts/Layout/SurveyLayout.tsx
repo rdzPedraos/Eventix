@@ -9,11 +9,8 @@ type Props = {
 export default function SurveyLayout({ children }: Props) {
     return (
         <>
-            <main>{children}</main>
+            <main className="min-h-screen bg-gradient-to-r from-primary-50 to-primary-200">{children}</main>
             <WaterMark />
-            <div className="fixed top-0 left-0 h-full -z-10 bg-default-50">
-                <Image radius="none" src="/img/bg-circles.svg" />
-            </div>
         </>
     );
 }

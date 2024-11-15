@@ -54,7 +54,7 @@ export default function index() {
 
             <form
                 onSubmit={handleSubmit}
-                className="max-w-lg mx-auto flex flex-col gap-4 p-8"
+                className="max-w-2xl mx-auto flex flex-col gap-4 p-8"
             >
                 {survey.questions.map((question, index) => {
                     const id = question.id.toString();

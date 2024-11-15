@@ -28,7 +28,7 @@ export default function Event({ zIndex, position, style, ...event }: Props) {
     const { setSelectedEvent } = useCalendarContext();
     const { title, color, startDate, endDate } = event;
     const minutes = endDate.diff(startDate, "minute");
-    const shortEvent = minutes <= 40;
+    const shortEvent = minutes <= 60;
 
     const onClick = () => setSelectedEvent(event);
 

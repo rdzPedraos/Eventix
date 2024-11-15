@@ -54,6 +54,14 @@ class User extends Authenticatable
         ];
     }
 
+    public function getFullNameAttribute(): string
+    {
+        $name = $this->name;
+        if($this->last_name) $name .= " {$this->last_name}";
+
+        return $name;
+    }
+
     /* scopes */
     public function scopeSearch($query, string|null $search)
     {

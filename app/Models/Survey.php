@@ -90,6 +90,13 @@ class Survey extends Model
             });
     }
 
+    public function scopeAlreadyAnswered($query, User $user)
+    {
+        return $query->whereHas("answers", function ($query) use ($user) {
+            $query->where("user_id", $user->id);
+        });
+    }
+
     /* RELATIONS */
     public function activity()
     {

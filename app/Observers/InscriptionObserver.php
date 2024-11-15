@@ -12,8 +12,8 @@ class InscriptionObserver
      */
     public function created(Inscription $inscription): void
     {
-        $surveys = $inscription->activity->surveys()->published()->get();
         $user = $inscription->user;
+        $surveys = $inscription->activity->surveys()->published()->alreadyAnswered($user)->get();
 
         dispatch(function () use ($user, $surveys) {
             foreach ($surveys as $survey) {

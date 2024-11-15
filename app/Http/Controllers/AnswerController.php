@@ -7,6 +7,7 @@ use App\Http\Requests\AnswerStoreRequest;
 use App\Library\DownloadCSV;
 use App\Models\Survey;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
@@ -15,8 +16,12 @@ class AnswerController extends Controller
     public function show(AnswerRequest $request)
     {
         $survey = Survey::findOrFail($request->survey_id)->load("questions");
-        $token = $request->route("token");
 
+        if ($survey->alreadyAnswered(Auth::user())) {
+            return redirect()->route("home");
+        }
+
+        $token = $request->route("token");
         return Inertia::render("Survey/Answer", compact('survey', "token"));
     }
 

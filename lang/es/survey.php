@@ -3,7 +3,7 @@
 return [
     "trigger" => [
         "custom" => "Personalizado",
-        "to_start" => "Al iniciar una actividad",
+        "to_start" => "Al iniciar actividad",
         "to_end" => "Al finalizar actividad"
     ],
 

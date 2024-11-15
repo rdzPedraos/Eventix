@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-use App\Enums\SurveyTriggerEnum;
+use App\Events\SurveyPublished;
 use App\Models\Survey;
 
 class SurveyObserver
@@ -22,11 +22,16 @@ class SurveyObserver
      */
     public function updated(Survey $survey): void
     {
-        if ($survey->isDirty("published_trigger")) {
-            Survey::withoutEvents(function () use ($survey) {
+        Survey::withoutEvents(function () use ($survey) {
+            if ($survey->isDirty("published_trigger")) {
                 $survey->updatePublishedTrigger();
-            });
-        }
+            }
+
+            if ($survey->alreadyForPublish()) {
+                $survey->publish();
+                SurveyPublished::dispatch($survey);
+            }
+        });
     }
 
     /**

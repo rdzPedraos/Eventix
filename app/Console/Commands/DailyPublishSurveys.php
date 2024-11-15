@@ -2,11 +2,12 @@
 
 namespace App\Console\Commands;
 
+use App\Events\SurveyPublished;
 use App\Library\SurveyLink;
 use App\Models\Survey;
 use Illuminate\Console\Command;
 
-class PublishSurvey extends Command
+class DailyPublishSurveys extends Command
 {
     /**
      * The name and signature of the console command.
@@ -34,16 +35,8 @@ class PublishSurvey extends Command
         $this->info("Founded {$surveys->count()} surveys to publish.");
 
         foreach ($surveys as $survey) {
-            $this->info("Send job for create links and send emails {survey id: {$survey->id}.");
-            $users = $survey->activity->enrollments;
-
-            dispatch(function () use ($users, $survey) {
-                foreach ($users as $user) {
-                    SurveyLink::send($user, $survey);
-                }
-            });
-
             $survey->publish();
+            SurveyPublished::dispatch($survey);
         }
     }
 }

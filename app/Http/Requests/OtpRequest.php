@@ -25,11 +25,11 @@ class OtpRequest extends FormRequest
     public function rules(): array
     {
         $auth = Auth::user();
-        $column = $this->input("channel") == "email" ? "email" : "phone";
 
         //only allow unique document_number and source for users not registered or for the authenticated user
         $uniqueDocument = "unique:users,document_number";
-        $uniqueSource = "unique:users,$column";
+        $uniqueSource = "unique:users,email";
+
         if ($auth) {
             $uniqueDocument .= ",$auth->id";
             $uniqueSource .= ",$auth->id";
@@ -38,7 +38,6 @@ class OtpRequest extends FormRequest
         $rules = [
             "document_number" => ["required", "string", $uniqueDocument],
             "source" => ["required", "string", $uniqueSource],
-            "channel" => ["required", "string", "in:email,sms"],
             "otp" => ["nullable", "string", "size:5"],
         ];
 
@@ -52,9 +51,7 @@ class OtpRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            "source" => $this->input("channel") === "email"
-                ? __("validation.attributes.email")
-                : __("validation.attributes.phone"),
+            "source" => __("validation.attributes.email")
         ];
     }
 }

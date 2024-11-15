@@ -161,7 +161,17 @@ return [
     'ulid' => 'The :attribute field must be a valid ULID.',
     'uuid' => 'The :attribute field must be a valid UUID.',
 
-    /* CUSTOM VALIDATIONS */
+    /*
+    |--------------------------------------------------------------------------
+    | Custom Validation Language Lines
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify custom validation messages for attributes using the
+    | convention "attribute.rule" to name the lines. This makes it quick to
+    | specify a specific custom language line for a given attribute rule.
+    |
+    */
+
     "code" => [
         "expired" => "The :attribute code had not been created or had expired. Please, create it again",
         "invalid" => "The :attribute code not match",
@@ -175,21 +185,14 @@ return [
         "invalid" => "The :attribute field is not a valid phone number",
     ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Custom Validation Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | Here you may specify custom validation messages for attributes using the
-    | convention "attribute.rule" to name the lines. This makes it quick to
-    | specify a specific custom language line for a given attribute rule.
-    |
-    */
-
     'custom' => [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        
+        "scheduler" => [
+            "overlapped" => "Schedule overlaps with another schedule.",
+        ]
     ],
 
     /*
@@ -203,7 +206,25 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        "remember" => "remember",
+
+        "otp" => "verification code",
+
+        "name" => "name",
+        "last_name" => "last name",
+        "email" => "email",
+        "phone" => "phone",
+        "document_type" => "document type",
+        "document_type_code" => "document type",
+        "document_number" => "document number",
+        "password" => "password",
+
+        "schedulers" => "schedulers",
+        "start_date" => "start date",
+        "end_date" => "end date",
+        "site_id" => "academic site",
+    ],
 
     "throw_exception" => "An unexpected error has occurred. Please, try again.",
 ];

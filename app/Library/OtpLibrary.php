@@ -11,17 +11,25 @@ class OtpLibrary
         return "otp_{$id}_{$source}";
     }
 
-    public static function create(String $id, String $source, int $size = 5, $withLetters = false): String
+    public static function generateOtp(int $size = 5, $withLetters = false): String
     {
-        $otp = collect()->times(
+        return collect()->times(
             $size,
             fn() => $withLetters ? chr(rand(65, 90)) : rand(0, 9)
         )->join("");
+    }
 
-
+    public static function setOtpToken(String $id, String $source, String $otp): void
+    {
         $cache_key = self::getOtpKey($id, $source);
         cache()->put($cache_key, $otp, now()->addMinutes(5));
+    }
 
+    public static function create(String $id, String $source, int $size = 5, $withLetters = false): String
+    {
+        $otp = self::generateOtp($size, $withLetters);
+        self::setOtpToken($id, $source, $otp);
+        
         return $otp;
     }
 

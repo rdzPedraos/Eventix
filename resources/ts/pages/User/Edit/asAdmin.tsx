@@ -1,8 +1,9 @@
-import { Breadcrumb, Container } from "@/components";
-import { route } from "@ziggyjs";
 import React from "react";
-import BasicForm from "./partials/BasicForm";
+import { route } from "@ziggyjs";
 import { usePage } from "@inertiajs/react";
+
+import { Container } from "@/components";
+import BasicForm from "./partials/BasicForm";
 import RolesForm from "./partials/RolesForm";
 
 type Props = {};
@@ -19,20 +20,24 @@ export default function Edit({}: Props) {
     }
 
     return (
-        <>
-            <Breadcrumb current="Configuración de usuario" items={items} />
+        <div className="flex flex-col gap-4">
+            <Container>
+                <BasicForm />
+            </Container>
 
-            <div className="flex flex-col gap-4">
+            {can_add_roles && (
                 <Container>
-                    <BasicForm />
+                    <RolesForm />
                 </Container>
-
-                {can_add_roles && (
-                    <Container>
-                        <RolesForm />
-                    </Container>
-                )}
-            </div>
-        </>
+            )}
+        </div>
     );
 }
+
+Edit.breadcrumb = {
+    current: "Configuración de usuario",
+    items: [
+        { to: route("home"), label: "Calendario" },
+        { to: route("users.index"), label: "Usuarios" },
+    ],
+};

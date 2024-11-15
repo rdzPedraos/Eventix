@@ -9,7 +9,7 @@ import {
 
 import { Chip, Link, Tooltip } from "@nextui-org/react";
 import { SurveyListResource } from "@/types/resources";
-import { Breadcrumb, Container, Table } from "@/components";
+import { Container, Table } from "@/components";
 import Badge from "@/components/Badge";
 
 const renderCell = (survey: SurveyListResource, columnKey: string) => {
@@ -112,14 +112,6 @@ export default function List() {
 
     return (
         <>
-            <Breadcrumb
-                current="Encuestas"
-                items={[
-                    { to: route("home"), label: "Calendario" },
-                    { to: route("activities.index"), label: "Actividades" },
-                ]}
-            />
-
             <Container>
                 <Table
                     aria-label="Lugares académicos"
@@ -158,3 +150,13 @@ export default function List() {
         </>
     );
 }
+
+
+List.breadcrumb = () => ({
+    current: "Encuestas",
+    items: [
+        { to: route("home"), label: "Calendario" },
+        { to: route("activities.index"), label: "Actividades" },
+        
+    ]
+})

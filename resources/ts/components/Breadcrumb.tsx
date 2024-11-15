@@ -9,17 +9,17 @@ type BreadcrumpProp = {
     Icon?: React.ReactNode;
 }[];
 
-type Props = {
+type  BreadCrumbProps = {
     items: BreadcrumpProp;
     current?: string;
 } & React.ComponentProps<typeof Breadcrumbs>;
 
-export default function Breadcrumb({
+function BreadCrumb({
     current,
     items,
     className = "mx-4 my-4",
     ...props
-}: Props) {
+}:  BreadCrumbProps) {
     return (
         <>
             {current && <Head title={current} />}
@@ -40,5 +40,8 @@ export default function Breadcrumb({
                 {current && <BreadcrumbItem>{current}</BreadcrumbItem>}
             </Breadcrumbs>
         </>
-    );
+    )
 }
+
+export {BreadCrumb}
+export type { BreadCrumbProps}

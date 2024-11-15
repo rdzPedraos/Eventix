@@ -5,7 +5,7 @@ import { Link, Tooltip } from "@nextui-org/react";
 import { PencilIcon } from "@heroicons/react/24/solid";
 
 import { UserResource } from "@/types/resources";
-import { Breadcrumb, Container, Table } from "@/components";
+import { Container, Table } from "@/components";
 import Badge from "@/components/Badge";
 
 const renderCell = (user: UserResource, columnKey: string) => {
@@ -38,36 +38,34 @@ const renderCell = (user: UserResource, columnKey: string) => {
     }
 };
 
-export default function List() {
-    const {
-        users: { data, meta },
-    } = usePage<{
-        users: CollectionProps<UserResource>;
-    }>().props;
+type Props = {
+    users: CollectionProps<UserResource>;
+};
+
+export default function List({ users }: Props) {
+    const { data, meta } = users;
 
     return (
-        <>
-            <Breadcrumb
-                current="Usuarios"
-                items={[{ to: route("home"), label: "Calendario" }]}
+        <Container>
+            <Table
+                aria-label="Usuarios"
+                data={data}
+                pagination={meta}
+                columns={[
+                    { uid: "id", label: "ID" },
+                    { uid: "name", label: "Nombre" },
+                    { uid: "email", label: "Correo electrónico" },
+                    { uid: "phone", label: "Teléfono" },
+                    { uid: "roles", label: "Roles" },
+                    { uid: "actions", label: "Acciones", align: "center" },
+                ]}
+                renderCell={renderCell}
             />
-
-            <Container>
-                <Table
-                    aria-label="Usuarios"
-                    data={data}
-                    pagination={meta}
-                    columns={[
-                        { uid: "id", label: "ID" },
-                        { uid: "name", label: "Nombre" },
-                        { uid: "email", label: "Correo electrónico" },
-                        { uid: "phone", label: "Teléfono" },
-                        { uid: "roles", label: "Roles" },
-                        { uid: "actions", label: "Acciones", align: "center" },
-                    ]}
-                    renderCell={renderCell}
-                />
-            </Container>
-        </>
+        </Container>
     );
 }
+
+List.breadcrumb = () => ({
+    current: "Usuarios",
+    items: [{ to: route("home"), label: "Calendario" }],
+});

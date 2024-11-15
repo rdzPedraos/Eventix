@@ -1,18 +1,18 @@
-import { Breadcrumb, Container, Table } from "@/components";
-import Confirm from "@/components/Confirm";
-import { Sites } from "@/types/models";
-import { SiteResource } from "@/types/resources";
+import React from "react";
+import { route } from "@ziggyjs";
+import { router, usePage } from "@inertiajs/react";
+import { Button, Link, Tooltip } from "@nextui-org/react";
 import {
     PencilSquareIcon,
     PlusIcon,
     TrashIcon,
 } from "@heroicons/react/24/solid";
-import { router, usePage } from "@inertiajs/react";
-import { Button, Link, Tooltip } from "@nextui-org/react";
-import { route } from "@ziggyjs";
-import React from "react";
 
-type Props = {};
+import { SiteResource } from "@/types/resources";
+import { Sites } from "@/types/models";
+import Confirm from "@/components/Confirm";
+import { Container, Table } from "@/components";
+
 
 const renderCell = (site: Sites, columnKey: string) => {
     switch (columnKey) {
@@ -50,44 +50,44 @@ const renderCell = (site: Sites, columnKey: string) => {
     }
 };
 
-export default function List({}: Props) {
-    const {
-        sites: { data, meta },
-    } = usePage<{
-        sites: CollectionProps<SiteResource>;
-    }>().props;
+type Props = {
+    sites: CollectionProps<SiteResource>;
+}
+
+
+export default function List({sites}: Props) {
+    const  { data, meta } = sites;
 
     return (
-        <>
-            <Breadcrumb
-                current="Espacios académicos"
-                items={[{ to: route("home"), label: "Calendario" }]}
+        <Container>
+            <Table
+                aria-label="Lugares académicos"
+                data={data}
+                pagination={meta}
+                columns={[
+                    { uid: "name", label: "Etiqueta" },
+                    { uid: "address", label: "Dirección" },
+                    { uid: "actions", label: "Acciones", align: "center" },
+                ]}
+                renderCell={renderCell}
+                topContent={
+                    <Button
+                        as={Link}
+                        href={route("sites.create")}
+                        color="primary"
+                        variant="flat"
+                        startContent={<PlusIcon width={20} />}
+                    >
+                        Agregar lugar
+                    </Button>
+                }
             />
-
-            <Container>
-                <Table
-                    aria-label="Lugares académicos"
-                    data={data}
-                    pagination={meta}
-                    columns={[
-                        { uid: "name", label: "Etiqueta" },
-                        { uid: "address", label: "Dirección" },
-                        { uid: "actions", label: "Acciones", align: "center" },
-                    ]}
-                    renderCell={renderCell}
-                    topContent={
-                        <Button
-                            as={Link}
-                            href={route("sites.create")}
-                            color="primary"
-                            variant="flat"
-                            startContent={<PlusIcon width={20} />}
-                        >
-                            Agregar lugar
-                        </Button>
-                    }
-                />
-            </Container>
-        </>
+        </Container>
     );
+}
+
+
+List.breadcrumb = {
+    current: "Espacios académicos",
+    items: [{ to: route("home"), label: "Calendario" }]
 }

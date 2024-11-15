@@ -10,7 +10,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { ActivityListResource } from "@/types/resources";
 
-import { Breadcrumb, Container, Table } from "@/components";
+import { Container, Table } from "@/components";
 
 const renderCell = (activity: ActivityListResource, columnKey: string) => {
     switch (columnKey) {
@@ -70,43 +70,41 @@ export default function List() {
         .map((activity) => activity.id.toString());
 
     return (
-        <>
-            <Breadcrumb
-                current="Actividades"
-                items={[{ to: route("home"), label: "Calendario" }]}
+        <Container>
+            <Table
+                aria-label="Actividades"
+                data={data}
+                disabledKeys={disabledKeys}
+                pagination={meta}
+                columns={[
+                    { uid: "name", label: "Titulo" },
+                    { uid: "description", label: "Descripción" },
+                    {
+                        uid: "enrollments",
+                        label: "Inscritos",
+                        align: "center",
+                    },
+                    { uid: "status", label: "Estado", align: "center" },
+                    { uid: "actions", label: "Acciones", align: "center" },
+                ]}
+                renderCell={renderCell}
+                topContent={
+                    <Button
+                        as={Link}
+                        href={route("activities.create")}
+                        color="primary"
+                        variant="flat"
+                        startContent={<PlusIcon width={20} />}
+                    >
+                        Crear actividad
+                    </Button>
+                }
             />
-
-            <Container>
-                <Table
-                    aria-label="Actividades"
-                    data={data}
-                    disabledKeys={disabledKeys}
-                    pagination={meta}
-                    columns={[
-                        { uid: "name", label: "Titulo" },
-                        { uid: "description", label: "Descripción" },
-                        {
-                            uid: "enrollments",
-                            label: "Inscritos",
-                            align: "center",
-                        },
-                        { uid: "status", label: "Estado", align: "center" },
-                        { uid: "actions", label: "Acciones", align: "center" },
-                    ]}
-                    renderCell={renderCell}
-                    topContent={
-                        <Button
-                            as={Link}
-                            href={route("activities.create")}
-                            color="primary"
-                            variant="flat"
-                            startContent={<PlusIcon width={20} />}
-                        >
-                            Crear actividad
-                        </Button>
-                    }
-                />
-            </Container>
-        </>
+        </Container>
     );
+}
+
+List.breadcrumb = {
+    current: "Actividades",
+    items: [{ to: route("home"), label: "Calendario" }]
 }

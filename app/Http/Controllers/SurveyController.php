@@ -26,12 +26,10 @@ class SurveyController extends Controller
     {
         Gate::authorize("viewAny", Survey::class);
 
-        $activities = Activity::accesibles();
+        $activity = $request->input("activity");
+        if ($activity) $activity = Activity::find($activity);
 
-        $activity_id = $request->input("activity");
-        if ($activity_id) {
-            $activities = $activities->where("id", $activity_id);
-        }
+        $activities = $activity ?? Activity::accesibles();
 
         $surveys = Survey::withTrashed()
             ->search($request->input("search"))
@@ -42,7 +40,7 @@ class SurveyController extends Controller
 
         $surveys = SurveyListResource::collection($surveys);
 
-        return Inertia::render("Survey/List", compact('surveys', "activity_id"));
+        return Inertia::render("Survey/List", compact('surveys', "activity"));
     }
 
     /**

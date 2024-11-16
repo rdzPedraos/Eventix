@@ -9,7 +9,7 @@ type BreadcrumpProp = {
     Icon?: React.ReactNode;
 }[];
 
-type  BreadCrumbProps = {
+type BreadCrumbProps = {
     items: BreadcrumpProp;
     current?: string;
 } & React.ComponentProps<typeof Breadcrumbs>;
@@ -19,7 +19,7 @@ function BreadCrumb({
     items,
     className = "mx-4 my-4",
     ...props
-}:  BreadCrumbProps) {
+}: BreadCrumbProps) {
     return (
         <>
             {current && <Head title={current} />}
@@ -40,8 +40,8 @@ function BreadCrumb({
                 {current && <BreadcrumbItem>{current}</BreadcrumbItem>}
             </Breadcrumbs>
         </>
-    )
+    );
 }
 
-export {BreadCrumb}
-export type { BreadCrumbProps}
+export { BreadCrumb };
+export type { BreadCrumbProps };

@@ -11,6 +11,7 @@ import { Chip, Link, Tooltip } from "@nextui-org/react";
 import { SurveyListResource } from "@/types/resources";
 import { Container, Table } from "@/components";
 import Badge from "@/components/Badge";
+import { Activity } from "@/types/models";
 
 const renderCell = (survey: SurveyListResource, columnKey: string) => {
     const closed = survey.status.key === "closed";
@@ -99,64 +100,62 @@ const renderCell = (survey: SurveyListResource, columnKey: string) => {
     }
 };
 
-export default function List() {
-    const {
-        surveys: { data, meta },
-    } = usePage<{
-        surveys: CollectionProps<SurveyListResource>;
-    }>().props;
+type Props = {
+    surveys: CollectionProps<SurveyListResource>;
+    activity?: Activity;
+};
+
+export default function List({ surveys }: Props) {
+    const { data, meta } = surveys;
 
     const disabledKeys = data
         .filter((surveys) => surveys.status.key === "closed")
         .map((survey) => survey.id.toString());
 
     return (
-        <>
-            <Container>
-                <Table
-                    aria-label="Lugares académicos"
-                    data={data}
-                    pagination={meta}
-                    disabledKeys={disabledKeys}
-                    columns={[
-                        {
-                            uid: "activity",
-                            label: "Actividad",
-                            align: "center",
-                        },
-                        { uid: "name", label: "Nombre" },
-                        { uid: "description", label: "Descripción" },
-                        {
-                            uid: "trigger",
-                            label: "Disparador",
-                            align: "center",
-                        },
-                        {
-                            uid: "trigger_at",
-                            label: "Fecha",
-                            align: "center",
-                        },
-                        {
-                            uid: "answer_count",
-                            label: "Respuestas",
-                            align: "center",
-                        },
-                        { uid: "status", label: "Estado", align: "center" },
-                        { uid: "actions", label: "Acciones", align: "center" },
-                    ]}
-                    renderCell={renderCell}
-                />
-            </Container>
-        </>
+        <Container>
+            <Table
+                aria-label="Lugares académicos"
+                data={data}
+                pagination={meta}
+                disabledKeys={disabledKeys}
+                columns={[
+                    {
+                        uid: "activity",
+                        label: "Actividad",
+                        align: "center",
+                    },
+                    { uid: "name", label: "Nombre" },
+                    { uid: "description", label: "Descripción" },
+                    {
+                        uid: "trigger",
+                        label: "Disparador",
+                        align: "center",
+                    },
+                    {
+                        uid: "trigger_at",
+                        label: "Fecha",
+                        align: "center",
+                    },
+                    {
+                        uid: "answer_count",
+                        label: "Respuestas",
+                        align: "center",
+                    },
+                    { uid: "status", label: "Estado", align: "center" },
+                    { uid: "actions", label: "Acciones", align: "center" },
+                ]}
+                renderCell={renderCell}
+            />
+        </Container>
     );
 }
 
+List.breadcrumb = ({ activity }: Props) => {
+    const items = [{ to: route("home"), label: "Calendario" }];
+    let current = activity
+        ? `Encuestas de la actividad ${activity.name}`
+        : "Encuestas";
 
-List.breadcrumb = () => ({
-    current: "Encuestas",
-    items: [
-        { to: route("home"), label: "Calendario" },
-        { to: route("activities.index"), label: "Actividades" },
-        
-    ]
-})
+    return { current, items };
+};

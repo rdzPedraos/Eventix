@@ -76,7 +76,6 @@ index.breadcrumb = ({ survey }: Props) => ({
     current: "Revisar encuesta",
     items: [
         { to: route("home"), label: "Calendario" },
-        { to: route("activities.index"), label: "Actividades" },
         {
             to: route("surveys.index", {
                 activity: survey.activity_id,

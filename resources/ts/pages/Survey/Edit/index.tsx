@@ -27,7 +27,6 @@ Edit.breadcrumb = ({ survey }: Props) => ({
     current: survey.id ? "Editar encuesta" : "Crear encuesta",
     items: [
         { to: route("home"), label: "Calendario" },
-        { to: route("activities.index"), label: "Actividades" },
         {
             to: route("surveys.index", {
                 activity: survey.activity_id,

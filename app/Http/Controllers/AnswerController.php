@@ -17,7 +17,7 @@ class AnswerController extends Controller
     {
         $survey = Survey::findOrFail($request->survey_id)->load("questions");
 
-        if ($survey->alreadyAnswered(Auth::user())) {
+        if ($survey->alreadyAnswered(Auth::user())->exists()) {
             return redirect()->route("home");
         }
 

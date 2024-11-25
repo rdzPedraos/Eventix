@@ -23,8 +23,8 @@ export default {
                 light: {
                     colors: {
                         primary: {
-                            background: "#00594f",
-                            DEFAULT: "#00594f",
+                            background: "#00594e",
+                            DEFAULT: "#00594e",
 
                             50: "#eaeff2",
                             100: "#d0e0df",
@@ -39,8 +39,8 @@ export default {
                         },
 
                         secondary: {
-                            background: "#b5a260",
-                            DEFAULT: "#b5a260",
+                            background: "#ff6500",
+                            DEFAULT: "#ff64500",
 
                             50: "#f9f6f1",
                             100: "#f2eee3",

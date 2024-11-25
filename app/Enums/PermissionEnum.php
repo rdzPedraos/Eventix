@@ -41,7 +41,7 @@ enum PermissionEnum: string
     case USERS_SET_ROLES = 'users.set_roles';
     case USERS_DELETE = 'users.delete';
 
-    case SHOW_MAIL_TEMPLATES = 'show-mail-templates';
+    case SHOW_MAIL_TEMPLATES = 'mail-templates.show';
 
     public function label(): string
     {

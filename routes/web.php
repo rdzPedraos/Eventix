@@ -56,4 +56,4 @@ Route::middleware("auth")->group(function () {
 Route::get("/template/{view}", function ($view) {
     $variables = request()->all();
     return view("mail/{$view}", $variables);
-})->middleware("auth", "can:show-mail-templates");
+})->middleware("auth", "can:mail-templates.show");

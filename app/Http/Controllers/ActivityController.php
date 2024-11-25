@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ColorEnum;
 use App\Events\ActivityScheduleUpdate;
 use App\Http\Requests\ActivityRequest;
 use App\Http\Resources\ActivityListResource;
@@ -40,8 +41,9 @@ class ActivityController extends Controller
     {
         Gate::authorize("create", Activity::class);
         $sites = SiteResource::collection(Sites::all())->toArray(request());
+        $colors = ColorEnum::casesValue();
 
-        return Inertia::render("Activity/Create", compact('sites'));
+        return Inertia::render("Activity/Create", compact('sites', 'colors'));
     }
 
     /**
@@ -91,9 +93,11 @@ class ActivityController extends Controller
 
         $activity->load(["schedulers", "owner", "surveys"]);
         $activity = (new ActivityResource($activity))->toArray(request());
-        $sites = SiteResource::collection(Sites::all())->toArray(request());
 
-        return Inertia::render("Activity/Create", compact('activity', 'sites'));
+        $sites = SiteResource::collection(Sites::all())->toArray(request());
+        $colors = ColorEnum::casesValue();
+
+        return Inertia::render("Activity/Create", compact('activity', 'sites', 'colors'));
     }
 
     /**

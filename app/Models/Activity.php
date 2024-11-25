@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ColorEnum;
 use App\Enums\PermissionEnum;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
@@ -23,6 +24,7 @@ class Activity extends Model
 
     protected $casts = [
         'published_at' => "date",
+        'color' => ColorEnum::class,
     ];
 
     public function getIsPublishedAttribute()

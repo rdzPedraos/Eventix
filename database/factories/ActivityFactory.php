@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\ColorEnum;
 use App\Enums\PermissionEnum;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -31,19 +32,7 @@ class ActivityFactory extends Factory
             "description" => fake()->text(255),
             "image" => $image_path,
             "published_at" => fake()->randomElement([null, fake()->dateTimeBetween("-1 week", "now")]),
-            "color" => fake()->randomElement([
-                "#616161",
-                "#8e24aa",
-                "#d50000",
-                "#e67c73",
-                "#f4511e",
-                "#f6bf26",
-                "#33b679",
-                "#0b8043",
-                "#039be5",
-                "#3f51b5",
-                "#7986cb",
-            ]),
+            "color" => fake()->randomElement(ColorEnum::cases()),
             "created_by" => $created_by,
         ];
     }

@@ -2,11 +2,13 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\ColorEnum;
 use App\Rules\Base64Image;
 use Carbon\Carbon;
 use Faker\Provider\Base;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 
 class ActivityRequest extends FormRequest
@@ -30,7 +32,7 @@ class ActivityRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
             "image" => ["nullable", new Base64Image()],
-            "color" => ["required", "string", "regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/"],
+            "color" => ["required", "string", Rule::enum(ColorEnum::class)],
             "schedulers" => ["array"],
             "schedulers.*.start_date" => ["required", "date"],
             "schedulers.*.end_date" => ["required", "date", "after:schedulers.*.start_date"],

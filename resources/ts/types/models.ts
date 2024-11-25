@@ -4,7 +4,7 @@ export interface Activity {
   name: string
   description: string|null
   image: string|null
-  color: string
+  color: ColorEnum
   published_at: string|null
   created_by: number
   created_at: string|null
@@ -63,8 +63,6 @@ export interface Role {
   guard_name: string
   created_at: string|null
   updated_at: string|null
-  // mutators
-  label: string
   // relations
   permissions: Permission[]
   users: User[]
@@ -124,6 +122,8 @@ export interface User {
   remember_token?: string|null
   created_at: string|null
   updated_at: string|null
+  // mutators
+  full_name: string
   // relations
   activities: Activity[]
   enrolled_activities: Activity[]
@@ -132,6 +132,18 @@ export interface User {
   roles: Role[]
   permissions: Permission[]
 }
+
+const ColorEnum = {
+  YELLOW: '#FBBA13',
+  ORANGE: '#FF6500',
+  PINK: '#E60E8A',
+  PURPLE: '#9500C9',
+  SKY: '#42ACD4',
+  SEA_WATER: '#24A88E',
+  GREEN: '#80BD41',
+} as const;
+
+export type ColorEnum = typeof ColorEnum[keyof typeof ColorEnum]
 
 const QuestionTypesEnum = {
   TEXT: 'text',

@@ -3,8 +3,10 @@ import { usePage } from "@inertiajs/react";
 
 import { ActivityResource, SiteResource } from "@/types/resources";
 import { useHook } from "./hook";
+import { ColorEnum } from "@/types/models";
 
 type ActivityCreateContextType = ReturnType<typeof useHook> & {
+    colors: ColorEnum[];
     activity: ActivityResource;
     sites: SiteResource[];
 };
@@ -14,15 +16,16 @@ const ActivityCreateContext = createContext<ActivityCreateContextType>(
 );
 
 export default function ActivityCreateProvider({ children }) {
-    const { activity, sites } = usePage<{
+    const props = usePage<{
         activity: ActivityResource;
         sites: SiteResource[];
+        colors: ColorEnum[];
     }>().props;
 
-    const data = useHook(activity);
+    const data = useHook(props.activity);
 
     return (
-        <ActivityCreateContext.Provider value={{ sites, activity, ...data }}>
+        <ActivityCreateContext.Provider value={{ ...props, ...data }}>
             {children}
         </ActivityCreateContext.Provider>
     );

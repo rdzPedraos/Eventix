@@ -2,12 +2,11 @@ import React from "react";
 
 import { Image, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
 
-import { PastelColors } from "@/utils/Colors";
 import { Container } from "@/components";
 import UploadFile from "@/components/UploadFile";
 import { useActivityCreateContext } from "../context";
 
-function renderColorItem(color: (typeof PastelColors)[0]) {
+function renderColorItem(color: string) {
     return (
         <div
             key={color}
@@ -18,7 +17,8 @@ function renderColorItem(color: (typeof PastelColors)[0]) {
 }
 
 export default function BasicForm() {
-    const { register, errors, data, saveImage } = useActivityCreateContext();
+    const { colors, register, errors, data, saveImage } =
+        useActivityCreateContext();
 
     const onUpload = (files: FileList) => {
         const file = files[0];
@@ -48,9 +48,9 @@ export default function BasicForm() {
                             renderColorItem(selected[0].textValue),
                         ]}
                     >
-                        {PastelColors.map((color) => (
-                            <SelectItem key={color} textValue={color}>
-                                {renderColorItem(color)}
+                        {colors.map((rgb) => (
+                            <SelectItem key={rgb} textValue={rgb}>
+                                {renderColorItem(rgb)}
                             </SelectItem>
                         ))}
                     </Select>

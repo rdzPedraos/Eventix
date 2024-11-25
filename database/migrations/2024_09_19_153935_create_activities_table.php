@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string("name");
             $table->text("description")->nullable();
             $table->text("image")->nullable();
-            $table->char("color", 7);
+            $table->string("color", 32);
 
             $table->timestamp("published_at")->nullable();
             $table->unsignedBigInteger("created_by");

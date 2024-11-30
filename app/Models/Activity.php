@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class Activity extends Model
 {
@@ -59,7 +60,7 @@ class Activity extends Model
 
     public function scopeAccesibles(Builder $query)
     {
-        $user = auth()->user();
+        $user = Auth::user();
 
         if (!$user) {
             throw new Exception("Need to be logged in");

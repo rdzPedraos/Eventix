@@ -18,8 +18,8 @@ class UserResource extends JsonResource
             "id" => $this->id,
             "name" => "$this->name $this->last_name",
             "email" => $this->email,
-            "document" => $this->document,
-            "document_type" => $this->document_type,
+            "document" => $this->document_number,
+            "document_type" => $this->document_type_code,
             "phone" => $this->phone,
             "roles" => $this->roles->pluck("name"),
         ];

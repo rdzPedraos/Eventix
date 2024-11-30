@@ -19,7 +19,7 @@ class ActivityTeamController extends Controller
 
         $builders = UserResource::collection($builders);
 
-        return Inertia::render("Activity/Team", compact("activity", "builders"));
+        return Inertia::render("Team", compact("activity", "builders"));
     }
 
     public function store(Request $request, Activity $activity)

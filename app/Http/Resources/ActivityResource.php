@@ -38,6 +38,7 @@ class ActivityResource extends JsonResource
             "image" => $base64,
             "schedulers" => SchedulerResource::collection($schedulers)->toArray($request),
             "surveys_number" => $this->surveys->count(),
+            "is_owner" => $this->created_by === $request->user()->id,
         ];
     }
 }

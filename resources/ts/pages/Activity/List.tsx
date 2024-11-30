@@ -1,6 +1,5 @@
 import React from "react";
 import { route } from "@ziggyjs";
-import { usePage } from "@inertiajs/react";
 import { Button, Chip, Link, Tooltip } from "@nextui-org/react";
 
 import {
@@ -8,12 +7,71 @@ import {
     PencilSquareIcon,
     PlusIcon,
 } from "@heroicons/react/24/solid";
+import { KeyIcon, UserGroupIcon } from "@heroicons/react/24/outline";
 import { ActivityListResource } from "@/types/resources";
 
 import { Container, Table } from "@/components";
 
-const renderCell = (activity: ActivityListResource, columnKey: string) => {
+type Props = {
+    activities: CollectionProps<ActivityListResource>;
+};
+
+export default function List({ activities }: Props) {
+    const { data, meta } = activities;
+
+    const disabledKeys = data
+        .filter((activity) => activity.is_closed)
+        .map((activity) => activity.id.toString());
+
+    return (
+        <Container>
+            <Table
+                aria-label="Actividades"
+                data={data}
+                disabledKeys={disabledKeys}
+                pagination={meta}
+                columns={[
+                    { uid: "rol", label: "Rol" },
+                    { uid: "name", label: "Titulo" },
+                    { uid: "description", label: "Descripción" },
+                    {
+                        uid: "enrollments",
+                        label: "Inscritos",
+                        align: "center",
+                    },
+                    { uid: "status", label: "Estado", align: "center" },
+                    { uid: "actions", label: "Acciones", align: "center" },
+                ]}
+                renderCell={renderCell}
+                topContent={
+                    <Button
+                        as={Link}
+                        href={route("activities.create")}
+                        color="primary"
+                        variant="flat"
+                        startContent={<PlusIcon width={20} />}
+                    >
+                        Crear actividad
+                    </Button>
+                }
+            />
+        </Container>
+    );
+}
+
+function renderCell(activity: ActivityListResource, columnKey: string) {
     switch (columnKey) {
+        case "rol":
+            return activity.is_owner ? (
+                <Tooltip content="Dueño de la actividad">
+                    <KeyIcon width={18} />
+                </Tooltip>
+            ) : (
+                <Tooltip content="Equipo de trabajo">
+                    <UserGroupIcon width={18} />
+                </Tooltip>
+            );
+
         case "status":
             const status = activity.status;
 
@@ -56,55 +114,9 @@ const renderCell = (activity: ActivityListResource, columnKey: string) => {
         default:
             return activity[columnKey];
     }
-};
-
-export default function List() {
-    const {
-        activities: { data, meta },
-    } = usePage<{
-        activities: CollectionProps<ActivityListResource>;
-    }>().props;
-
-    const disabledKeys = data
-        .filter((activity) => activity.is_closed)
-        .map((activity) => activity.id.toString());
-
-    return (
-        <Container>
-            <Table
-                aria-label="Actividades"
-                data={data}
-                disabledKeys={disabledKeys}
-                pagination={meta}
-                columns={[
-                    { uid: "name", label: "Titulo" },
-                    { uid: "description", label: "Descripción" },
-                    {
-                        uid: "enrollments",
-                        label: "Inscritos",
-                        align: "center",
-                    },
-                    { uid: "status", label: "Estado", align: "center" },
-                    { uid: "actions", label: "Acciones", align: "center" },
-                ]}
-                renderCell={renderCell}
-                topContent={
-                    <Button
-                        as={Link}
-                        href={route("activities.create")}
-                        color="primary"
-                        variant="flat"
-                        startContent={<PlusIcon width={20} />}
-                    >
-                        Crear actividad
-                    </Button>
-                }
-            />
-        </Container>
-    );
 }
 
 List.breadcrumb = {
     current: "Actividades",
-    items: [{ to: route("home"), label: "Calendario" }]
-}
+    items: [{ to: route("home"), label: "Calendario" }],
+};

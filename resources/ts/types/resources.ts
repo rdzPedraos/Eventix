@@ -15,6 +15,7 @@ export type ActivityListResource = {
     created_by: number;
     image: string | null;
     enrollments: number;
+    is_owner: boolean;
 };
 
 export type ActivityResource = {
@@ -29,6 +30,7 @@ export type ActivityResource = {
     created_by: number;
     schedulers: Scheduler[];
     surveys_number: number;
+    is_owner: boolean;
 };
 
 export type SchedulerResource = {

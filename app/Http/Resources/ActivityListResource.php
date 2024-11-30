@@ -27,6 +27,7 @@ class ActivityListResource extends JsonResource
             "updated_at" => $this->updated_at,
             "created_by" => $this->owner->name,
             "enrollments" => $this->enrollments->count(),
+            "is_owner" => $this->created_by === $request->user()->id,
         ];
     }
 

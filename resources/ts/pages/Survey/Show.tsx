@@ -75,7 +75,7 @@ export default function index({ activity, survey }: Props) {
 }
 
 index.breadcrumb = ({ activity, survey }: Props) => ({
-    current: "Revisar encuesta",
+    current: `Ver ${survey.name}`,
     items: [
         { to: route("home"), label: "Calendario" },
         { to: route("activities.index"), label: "Actividades" },

@@ -1,6 +1,7 @@
 export * from "./Alerts";
 export * from "./Colors";
 export * from "./Confetti";
+export * from "./Text";
 
 export function debounce(callback: (...args: any[]) => void, wait: number) {
     let timeout;

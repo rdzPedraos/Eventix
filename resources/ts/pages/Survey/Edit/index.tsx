@@ -25,7 +25,7 @@ export default function Edit({}: Props) {
 }
 
 Edit.breadcrumb = ({ activity, survey }: Props) => ({
-    current: survey.id ? "Editar encuesta" : "Crear encuesta",
+    current: survey.id ? `Editar ${survey.name}` : "Crear encuesta",
     items: [
         { to: route("home"), label: "Calendario" },
         { to: route("activities.index"), label: "Actividades" },

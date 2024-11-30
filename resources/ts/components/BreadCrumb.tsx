@@ -1,7 +1,8 @@
 import { router } from "@inertiajs/react";
 import { BreadcrumbItem, Breadcrumbs } from "@nextui-org/react";
-import React from "react";
+import React, { useMemo } from "react";
 import Head from "./Head";
+import { formalText, shortText } from "@/utils";
 
 type BreadcrumpProp = {
     to: string;
@@ -33,11 +34,15 @@ function BreadCrumb({
             >
                 {items.map(({ Icon, to, label }) => (
                     <BreadcrumbItem key={to} startContent={Icon ?? null}>
-                        {label}
+                        {shortText(formalText(label))}
                     </BreadcrumbItem>
                 ))}
 
-                {current && <BreadcrumbItem>{current}</BreadcrumbItem>}
+                {current && (
+                    <BreadcrumbItem>
+                        {shortText(formalText(current))}
+                    </BreadcrumbItem>
+                )}
             </Breadcrumbs>
         </>
     );

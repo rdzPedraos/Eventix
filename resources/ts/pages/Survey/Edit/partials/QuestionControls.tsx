@@ -8,17 +8,20 @@ import { useFormCreateContext } from "../context";
 import Confirm from "@/components/Confirm";
 
 export default function QuestionControls() {
-    const { onSubmit, survey } = useFormCreateContext();
+    const { onSubmit, survey, activity } = useFormCreateContext();
 
     const onSave = (params = {}) => {
         if (survey.id) {
             return onSubmit(
                 "put",
-                route("surveys.update", { survey, ...params })
+                route("surveys.update", { survey, activity, ...params })
             )();
         }
 
-        return onSubmit("post", route("surveys.store", params))();
+        return onSubmit(
+            "post",
+            route("surveys.store", { activity, ...params })
+        )();
     };
 
     const onPublish = () => onSave({ publish: true });
@@ -27,6 +30,7 @@ export default function QuestionControls() {
         router.delete(
             route("surveys.destroy", {
                 survey,
+                activity,
             })
         );
     };

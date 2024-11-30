@@ -22,48 +22,40 @@ class SurveyController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Activity $activity, Request $request)
     {
-        Gate::authorize("viewAny", Survey::class);
+        Gate::authorize("view", $activity->surveys()->make());
 
-        $activity = $request->input("activity");
-        if ($activity) $activity = Activity::find($activity);
-
-        $activities = $activity ?? Activity::editables();
-
-        $surveys = Survey::withTrashed()
+        $surveys = $activity->surveys()
+            ->withTrashed()
             ->search($request->input("search"))
-            ->whereIn("activity_id", $activities->pluck("id"))
-            ->with("activity")
             ->orderBy("created_at", "desc")
             ->paginate($request->input("per_page", 10));
 
         $surveys = SurveyListResource::collection($surveys);
 
-        return Inertia::render("Survey/List", compact('surveys', "activity"));
+        return Inertia::render("Survey/List", compact('activity', 'surveys', "activity"));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(CreateSurveyRequest $request)
+    public function create(Activity $activity, Request $request)
     {
         Gate::authorize("create", Survey::class);
 
-        $survey = new Survey([
-            "activity_id" => $request->input("activity_id"),
-        ]);
+        $survey = $activity->surveys()->make();
 
         $questionTypes = QuestionTypesEnum::casesKeyLabel();
         $triggerTypes = SurveyTriggerEnum::casesKeyLabel();
 
-        return Inertia::render("Survey/Edit", compact('survey', "questionTypes", "triggerTypes"));
+        return Inertia::render("Survey/Edit", compact('survey', "questionTypes", "triggerTypes", "activity"));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Activity $activity, Request $request)
     {
         Gate::authorize("create", Survey::class);
 
@@ -85,40 +77,40 @@ class SurveyController extends Controller
             return redirect()->back()->withErrors(__("validation.throw_exception"));
         }
 
-        return redirect()->route("surveys.edit", $survey);
+        return redirect()->route("surveys.edit", compact("activity", "survey"));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Survey $survey)
+    public function show(Activity $activity, Survey $survey)
     {
         $survey->load("questions");
-        return Inertia::render("Survey/Show", compact('survey'));
+        return Inertia::render("Survey/Show", compact('survey', "activity"));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Survey $survey)
+    public function edit(Activity $activity, Survey $survey)
     {
         Gate::authorize("update", $survey);
 
         if ($survey->blocked) {
-            return redirect()->route("surveys.index");
+            return redirect()->route("surveys.index", compact("activity"));
         }
 
         $survey->load("questions");
         $questionTypes = QuestionTypesEnum::casesKeyLabel();
         $triggerTypes = SurveyTriggerEnum::casesKeyLabel();
 
-        return Inertia::render("Survey/Edit", compact('survey', "questionTypes", "triggerTypes"));
+        return Inertia::render("Survey/Edit", compact('survey', "questionTypes", "triggerTypes", "activity"));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(SurveyRequest $request, Survey $survey)
+    public function update(Activity $activity, Survey $survey, SurveyRequest $request,)
     {
         Gate::authorize("update", $survey);
 
@@ -144,10 +136,10 @@ class SurveyController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Survey $survey)
+    public function destroy(Activity $activity, Survey $survey)
     {
         Gate::authorize("delete", $survey);
         $survey->delete();
-        return redirect()->route("surveys.index");
+        return redirect()->route("surveys.index", compact("activity"));
     }
 }

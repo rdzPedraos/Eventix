@@ -3,24 +3,13 @@
 namespace App\Policies;
 
 use App\Enums\PermissionEnum;
+use App\Models\Activity;
 use App\Models\Survey;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
 class SurveyPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
-    {
-        if ($user->hasPermissionTo(PermissionEnum::SURVEY_CHECK_ALL)) {
-            return true;
-        }
-
-        return $user->hasPermissionTo(PermissionEnum::SURVEY_CHECK);
-    }
-
     /**
      * Determine whether the user can view the model.
      */

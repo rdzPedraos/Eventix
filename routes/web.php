@@ -44,8 +44,8 @@ Route::middleware("auth")->group(function () {
     Route::post("/eventos/{activity}/inscribir", [EventController::class, "subscribe"])->name("events.subscribe");
     Route::post("/eventos/{activity}/desinscribir", [EventController::class, "unsubscribe"])->name("events.unsubscribe");
 
-    Route::resource("encuestas", controller: SurveyController::class)->parameters(["encuestas" => "survey"])->names("surveys");
-    Route::get("/encuestas/{survey}/reporte", [AnswerController::class, "download"])->name("answer.report");
+    Route::resource("/actividades/{activity}/encuestas", controller: SurveyController::class)->parameters(["encuestas" => "survey"])->names("surveys");
+    Route::get("/actividades/{activity}/encuestas/{survey}/reporte", [AnswerController::class, "download"])->name("answer.report");
     Route::get("/s/{token}", [AnswerController::class, "show"])->name("answer.show");
     Route::post("/s/{token}", [AnswerController::class, "store"])->name("answer.store");
 

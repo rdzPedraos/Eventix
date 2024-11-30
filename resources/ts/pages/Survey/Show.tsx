@@ -4,20 +4,22 @@ import { router, usePage } from "@inertiajs/react";
 import { Button, Link } from "@nextui-org/react";
 import { ArrowLongLeftIcon, TrashIcon } from "@heroicons/react/24/solid";
 
-import { Survey } from "@/types/models";
+import { Activity, Survey } from "@/types/models";
 import { Container } from "@/components";
 import RenderQuestion from "@/components/Form/RenderQuestion";
 import Confirm from "@/components/Confirm";
 
 type Props = {
     survey: Survey;
+    activity: Activity;
 };
 
-export default function index({ survey }: Props) {
+export default function index({ activity, survey }: Props) {
     const onDelete = () => {
         router.delete(
             route("surveys.destroy", {
                 survey,
+                activity,
             })
         );
     };
@@ -72,15 +74,12 @@ export default function index({ survey }: Props) {
     );
 }
 
-index.breadcrumb = ({ survey }: Props) => ({
+index.breadcrumb = ({ activity, survey }: Props) => ({
     current: "Revisar encuesta",
     items: [
         { to: route("home"), label: "Calendario" },
-        {
-            to: route("surveys.index", {
-                activity: survey.activity_id,
-            }),
-            label: "Encuestas",
-        },
+        { to: route("activities.index"), label: "Actividades" },
+        { to: route("activities.edit", { activity }), label: activity.name },
+        { to: route("surveys.index", { activity }), label: "Encuestas" },
     ],
 });

@@ -36,7 +36,7 @@ Index.breadcrumb = ({ activity }: Props) => ({
         { to: route("activities.index"), label: "Actividades" },
         {
             to: route("activities.edit", { activity }),
-            label: `Actividad ${activity.name}`,
+            label: activity.name,
         },
     ],
 });

@@ -11,10 +11,10 @@ export default function Create() {
     );
 }
 
-Create.breadcrumb = ({activity}) => ({
-    current: activity ? "Editar actividad" : "Nueva actividad",
+Create.breadcrumb = ({ activity }) => ({
+    current: activity ? activity.name : "Nueva actividad",
     items: [
         { to: route("home"), label: "Calendario" },
         { to: route("activities.index"), label: "Actividades" },
-    ]
-})
+    ],
+});

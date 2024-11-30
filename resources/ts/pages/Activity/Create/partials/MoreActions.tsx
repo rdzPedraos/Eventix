@@ -26,22 +26,10 @@ export default function MoreActions({}: Props) {
                     </DropdownTrigger>
                     <DropdownMenu>
                         <DropdownItem
-                            href={route("surveys.create", {
-                                activity_id: activity.id,
-                            })}
+                            href={route("surveys.index", { activity })}
                         >
-                            🎉 Crear encuesta
+                            👁️ Encuestas
                         </DropdownItem>
-
-                        {activity.surveys_number > 0 && (
-                            <DropdownItem
-                                href={route("surveys.index", {
-                                    activity: activity.id,
-                                })}
-                            >
-                                👁️ Ver encuestas
-                            </DropdownItem>
-                        )}
 
                         <DropdownItem
                             href={route("activities.team.index", { activity })}

@@ -1,13 +1,14 @@
 import React, { createContext, useContext } from "react";
 import { usePage } from "@inertiajs/react";
 
-import { Survey } from "@/types/models";
+import { Activity, Survey } from "@/types/models";
 import useFormBuilder from "./hook";
 
 type ContextType = ReturnType<typeof useFormBuilder> & {
     questionTypes: { key: string; value: string }[];
     triggerTypes: { key: string; value: string }[];
     survey: Survey;
+    activity: Activity;
 };
 
 const FormCreateContext = createContext<ContextType>({} as ContextType);
@@ -17,8 +18,9 @@ export default function FormCreateProvider({
 }: {
     children: React.ReactNode;
 }) {
-    const { survey, questionTypes, triggerTypes } = usePage<{
+    const { survey, questionTypes, triggerTypes, activity } = usePage<{
         survey: Survey;
+        activity: Activity;
         questionTypes: { key: string; value: string }[];
         triggerTypes: { key: string; value: string }[];
     }>().props;
@@ -27,7 +29,7 @@ export default function FormCreateProvider({
 
     return (
         <FormCreateContext.Provider
-            value={{ ...data, questionTypes, triggerTypes, survey }}
+            value={{ ...data, questionTypes, triggerTypes, survey, activity }}
         >
             {children}
         </FormCreateContext.Provider>

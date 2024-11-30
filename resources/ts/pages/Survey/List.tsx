@@ -1,111 +1,25 @@
 import React from "react";
 import { route } from "@ziggyjs";
-import { usePage } from "@inertiajs/react";
 import {
     DocumentArrowDownIcon,
     EyeIcon,
     PencilIcon,
+    PlusIcon,
 } from "@heroicons/react/24/solid";
 
-import { Chip, Link, Tooltip } from "@nextui-org/react";
+import { Button, Chip, Link, Tooltip } from "@nextui-org/react";
 import { SurveyListResource } from "@/types/resources";
+import { Activity } from "@/types/models";
 import { Container, Table } from "@/components";
 import Badge from "@/components/Badge";
-import { Activity } from "@/types/models";
-
-const renderCell = (survey: SurveyListResource, columnKey: string) => {
-    const closed = survey.status.key === "closed";
-
-    switch (columnKey) {
-        case "actions":
-            return (
-                <div className="grid grid-cols-2">
-                    {survey.status.key === "draft" ? (
-                        <Tooltip content="Editar encuesta">
-                            <Link
-                                href={route("surveys.edit", { survey })}
-                                className="text-default-500"
-                            >
-                                <PencilIcon width={18} />
-                            </Link>
-                        </Tooltip>
-                    ) : (
-                        !closed && (
-                            <Tooltip content="Ver encuesta">
-                                <Link
-                                    href={route("surveys.show", {
-                                        survey: survey.id,
-                                    })}
-                                    className="text-default-500"
-                                >
-                                    <EyeIcon width={18} />
-                                </Link>
-                            </Tooltip>
-                        )
-                    )}
-
-                    {survey.published_at && (
-                        <Tooltip content="Generar reporte">
-                            <a
-                                href={route("answer.report", { survey })}
-                                className="cursor-pointer text-primary-700 inline-block"
-                            >
-                                <DocumentArrowDownIcon width={18} />
-                            </a>
-                        </Tooltip>
-                    )}
-                </div>
-            );
-
-        case "trigger":
-            return (
-                <Badge className={closed ? "opacity-50" : ""}>
-                    {survey.trigger.label}
-                </Badge>
-            );
-
-        case "trigger_at":
-            return survey.trigger.date || "-";
-
-        case "answer_count":
-            return survey.answers_count.toString();
-
-        case "status":
-            return (
-                <Chip
-                    isDisabled={closed}
-                    className="capitalize"
-                    color={survey.status.color}
-                    size="sm"
-                    variant="flat"
-                >
-                    {survey.status.label}
-                </Chip>
-            );
-
-        case "activity":
-            return (
-                <Link
-                    className="block max-w-28 text-sm hover:underline"
-                    href={route("activities.edit", {
-                        activity: survey.activity.id,
-                    })}
-                >
-                    {survey.activity.name}
-                </Link>
-            );
-
-        default:
-            return survey[columnKey];
-    }
-};
+import { usePage } from "@inertiajs/react";
 
 type Props = {
     surveys: CollectionProps<SurveyListResource>;
     activity?: Activity;
 };
 
-export default function List({ surveys }: Props) {
+export default function List({ surveys, activity }: Props) {
     const { data, meta } = surveys;
 
     const disabledKeys = data
@@ -120,11 +34,6 @@ export default function List({ surveys }: Props) {
                 pagination={meta}
                 disabledKeys={disabledKeys}
                 columns={[
-                    {
-                        uid: "activity",
-                        label: "Actividad",
-                        align: "center",
-                    },
                     { uid: "name", label: "Nombre" },
                     { uid: "description", label: "Descripción" },
                     {
@@ -145,17 +54,100 @@ export default function List({ surveys }: Props) {
                     { uid: "status", label: "Estado", align: "center" },
                     { uid: "actions", label: "Acciones", align: "center" },
                 ]}
-                renderCell={renderCell}
+                renderCell={renderCell()}
+                topContent={
+                    <Button
+                        as={Link}
+                        href={route("surveys.create", { activity })}
+                        color="primary"
+                        variant="flat"
+                        startContent={<PlusIcon width={20} />}
+                    >
+                        Crear actividad
+                    </Button>
+                }
             />
         </Container>
     );
 }
 
-List.breadcrumb = ({ activity }: Props) => {
-    const items = [{ to: route("home"), label: "Calendario" }];
-    let current = activity
-        ? `Encuestas de la actividad ${activity.name}`
-        : "Encuestas";
+function renderCell() {
+    const { activity } = usePage().props;
 
-    return { current, items };
-};
+    return (survey: SurveyListResource, columnKey: string) => {
+        const closed = survey.status.key === "closed";
+
+        switch (columnKey) {
+            case "actions":
+                return (
+                    <div className="grid grid-cols-2">
+                        {survey.status.key === "draft" ? (
+                            <Tooltip content="Editar encuesta">
+                                <Link
+                                    href={route("surveys.edit", {
+                                        activity,
+                                        survey,
+                                    })}
+                                    className="text-default-500"
+                                >
+                                    <PencilIcon width={18} />
+                                </Link>
+                            </Tooltip>
+                        ) : (
+                            !closed && (
+                                <Tooltip content="Ver encuesta">
+                                    <Link
+                                        href={route("surveys.show", {
+                                            activity,
+                                            survey,
+                                        })}
+                                        className="text-default-500"
+                                    >
+                                        <EyeIcon width={18} />
+                                    </Link>
+                                </Tooltip>
+                            )
+                        )}
+                    </div>
+                );
+
+            case "trigger":
+                return (
+                    <Badge className={closed ? "opacity-50" : ""}>
+                        {survey.trigger.label}
+                    </Badge>
+                );
+
+            case "trigger_at":
+                return survey.trigger.date || "-";
+
+            case "answer_count":
+                return survey.answers_count.toString();
+
+            case "status":
+                return (
+                    <Chip
+                        isDisabled={closed}
+                        className="capitalize"
+                        color={survey.status.color}
+                        size="sm"
+                        variant="flat"
+                    >
+                        {survey.status.label}
+                    </Chip>
+                );
+
+            default:
+                return survey[columnKey];
+        }
+    };
+}
+
+List.breadcrumb = ({ activity }: Props) => ({
+    current: "Encuestas",
+    items: [
+        { to: route("home"), label: "Calendario" },
+        { to: route("activities.index"), label: "Actividades" },
+        { to: route("activities.edit", { activity }), label: activity.name },
+    ],
+});

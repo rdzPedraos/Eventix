@@ -1,7 +1,7 @@
 import React from "react";
 import { route } from "@ziggyjs";
 
-import { Survey } from "@/types/models";
+import { Activity, Survey } from "@/types/models";
 import FormCreateProvider from "./context";
 
 import QuestionHeader from "./partials/QuestionHeader";
@@ -10,6 +10,7 @@ import QuestionControls from "./partials/QuestionControls";
 
 type Props = {
     survey: Survey;
+    activity: Activity;
 };
 export default function Edit({}: Props) {
     return (
@@ -23,15 +24,12 @@ export default function Edit({}: Props) {
     );
 }
 
-Edit.breadcrumb = ({ survey }: Props) => ({
+Edit.breadcrumb = ({ activity, survey }: Props) => ({
     current: survey.id ? "Editar encuesta" : "Crear encuesta",
     items: [
         { to: route("home"), label: "Calendario" },
-        {
-            to: route("surveys.index", {
-                activity: survey.activity_id,
-            }),
-            label: "Encuestas",
-        },
+        { to: route("activities.index"), label: "Actividades" },
+        { to: route("activities.edit", { activity }), label: activity.name },
+        { to: route("surveys.index", { activity }), label: "Encuestas" },
     ],
 });

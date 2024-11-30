@@ -19,12 +19,6 @@ export const MenuMap = [
         Icon: RectangleStackIcon,
         permission: "activity.check",
     },
-    {
-        label: "Encuestas",
-        to: "surveys.index",
-        Icon: DocumentChartBarIcon,
-        permission: "survey.check",
-    },
     /*{
         label: "Roles académicos",
         to: "home", //"academic-role.index",

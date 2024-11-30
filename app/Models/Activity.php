@@ -28,10 +28,7 @@ class Activity extends Model
         'color' => ColorEnum::class,
     ];
 
-    public function getIsPublishedAttribute()
-    {
-        return $this->published_at !== null;
-    }
+    /* OTHER METHODS */
 
     public function publish()
     {
@@ -51,6 +48,21 @@ class Activity extends Model
         ];
     }
 
+    public function authorizedUser(User $user, $only_owner = false)
+    {
+        $user ??= Auth::user();
+
+        if ($this->owner->id === $user->id) return true;
+        return !$only_owner && $this->builders()->where("user_id", $user->id)->exists();
+    }
+
+    /* DYNAMIC ATTRIBUTES */
+
+    public function getIsPublishedAttribute()
+    {
+        return $this->published_at !== null;
+    }
+
     /* SCOPES */
 
     public function scopePublished(Builder $query)
@@ -58,7 +70,7 @@ class Activity extends Model
         return $query->where("published_at", "!=", null);
     }
 
-    public function scopeAccesibles(Builder $query)
+    public function scopeEditables(Builder $query)
     {
         $user = Auth::user();
 
@@ -66,9 +78,13 @@ class Activity extends Model
             throw new Exception("Need to be logged in");
         }
 
-        return $user->hasPermissionTo(PermissionEnum::ACTIVITY_CHECK_ALL)
-            ? $query
-            : $query->where("created_by", $user->id);
+        if ($user->hasPermissionTo(PermissionEnum::ACTIVITY_CHECK_ALL)) {
+            return $query;
+        }
+
+        return $query->where("created_by", $user->id)->orWhereHas("builders", function ($query) use ($user) {
+            $query->where("user_id", $user->id);
+        });
     }
 
     public function scopeSearch(Builder $query, string|null $search)

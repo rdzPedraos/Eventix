@@ -26,12 +26,10 @@ class ActivityPolicy
      */
     public function view(User $user, Activity $activity): bool
     {
-        if ($user->hasPermissionTo(PermissionEnum::ACTIVITY_CHECK_ALL)) {
-            return true;
-        }
+        if ($user->hasPermissionTo(PermissionEnum::ACTIVITY_CHECK_ALL)) return true;
+        if (!$user->hasPermissionTo(PermissionEnum::ACTIVITY_CHECK)) return false;
 
-        return $user->id === $activity->owner->id
-            && $user->hasPermissionTo(PermissionEnum::ACTIVITY_CHECK);
+        return $activity->authorizedUser($user);
     }
 
     /**
@@ -47,12 +45,10 @@ class ActivityPolicy
      */
     public function update(User $user, Activity $activity): bool
     {
-        if ($user->hasPermissionTo(PermissionEnum::ACTIVITY_EDIT_ALL)) {
-            return true;
-        }
+        if ($user->hasPermissionTo(PermissionEnum::ACTIVITY_EDIT_ALL)) return true;
+        if (!$user->hasPermissionTo(PermissionEnum::ACTIVITY_EDIT)) return false;
 
-        return $user->id === $activity->owner->id
-            && $user->hasPermissionTo(PermissionEnum::ACTIVITY_EDIT);
+        return $activity->authorizedUser($user);
     }
 
     /**
@@ -64,8 +60,8 @@ class ActivityPolicy
             return true;
         }
 
-        return $user->id === $activity->owner->id
-            && $user->hasPermissionTo(PermissionEnum::ACTIVITY_REMOVE);
+        return $user->hasPermissionTo(PermissionEnum::ACTIVITY_REMOVE)
+            && $activity->authorizedUser($user, true);
     }
 
     /**
@@ -77,8 +73,8 @@ class ActivityPolicy
             return true;
         }
 
-        return $user->id === $activity->owner->id
-            && $user->hasPermissionTo(PermissionEnum::ACTIVITY_REMOVE);
+        return $user->hasPermissionTo(PermissionEnum::ACTIVITY_REMOVE)
+            && $activity->authorizedUser($user, true);
     }
 
     /**
@@ -91,11 +87,9 @@ class ActivityPolicy
 
     public function downloadReport(User $user, Activity $activity): bool
     {
-        if ($user->hasPermissionTo(PermissionEnum::ACTIVITY_CHECK_ALL)) {
-            return true;
-        }
+        if (!$user->hasPermissionTo(PermissionEnum::ATTENDANCE_REPORT)) return false;
+        if ($user->hasPermissionTo(PermissionEnum::ACTIVITY_CHECK_ALL)) return true;
 
-        return $user->id === $activity->owner->id
-            && $user->hasPermissionTo(PermissionEnum::ATTENDANCE_REPORT);
+        return $activity->authorizedUser($user);
     }
 }

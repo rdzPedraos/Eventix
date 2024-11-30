@@ -29,7 +29,7 @@ class SurveyController extends Controller
         $activity = $request->input("activity");
         if ($activity) $activity = Activity::find($activity);
 
-        $activities = $activity ?? Activity::accesibles();
+        $activities = $activity ?? Activity::editables();
 
         $surveys = Survey::withTrashed()
             ->search($request->input("search"))

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AnswerRequest;
 use App\Http\Requests\AnswerStoreRequest;
 use App\Library\DownloadCSV;
+use App\Models\Activity;
 use App\Models\Survey;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -39,7 +40,7 @@ class AnswerController extends Controller
         return redirect()->route("home");
     }
 
-    public function download(Survey $survey)
+    public function download(Activity $activity, Survey $survey)
     {
         Gate::authorize("downloadReport", $survey);
 

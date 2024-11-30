@@ -63,7 +63,7 @@ export default function List({ surveys, activity }: Props) {
                         variant="flat"
                         startContent={<PlusIcon width={20} />}
                     >
-                        Crear actividad
+                        Crear encuesta
                     </Button>
                 }
             />

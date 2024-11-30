@@ -2,7 +2,11 @@ import React from "react";
 import { route } from "@ziggyjs";
 import { router, usePage } from "@inertiajs/react";
 import { Button, Link } from "@nextui-org/react";
-import { ArrowLongLeftIcon, TrashIcon } from "@heroicons/react/24/solid";
+import {
+    ArrowLongLeftIcon,
+    DocumentArrowDownIcon,
+    TrashIcon,
+} from "@heroicons/react/24/solid";
 
 import { Activity, Survey } from "@/types/models";
 import { Container } from "@/components";
@@ -26,7 +30,7 @@ export default function index({ activity, survey }: Props) {
 
     return (
         <div className="flex flex-col gap-4 max-w-lg mt-4 mx-auto">
-            <div className="flex justify-end">
+            <div className="flex justify-end gap-2">
                 {!survey.deleted_at && (
                     <Confirm
                         title="Eliminar actividad"
@@ -34,6 +38,7 @@ export default function index({ activity, survey }: Props) {
                         confirmColor="danger"
                     >
                         <Button
+                            isIconOnly
                             color="danger"
                             variant="flat"
                             onClick={onDelete}
@@ -42,6 +47,16 @@ export default function index({ activity, survey }: Props) {
                         </Button>
                     </Confirm>
                 )}
+
+                <Button
+                    isIconOnly
+                    as="a"
+                    href={route("answer.report", { survey, activity })}
+                    color="primary"
+                    variant="flat"
+                >
+                    <DocumentArrowDownIcon width={20} />
+                </Button>
             </div>
 
             <Container>

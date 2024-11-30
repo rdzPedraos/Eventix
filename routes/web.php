@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\ActivityTeamController;
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\OtpController;
@@ -35,8 +36,11 @@ Route::get("/eventos", [EventController::class, "index"])->name("events.index");
 
 Route::middleware("auth")->group(function () {
     Route::resource("actividades", ActivityController::class)->parameters(["actividades" => "activity"])->names("activities");
-    Route::get("/actividades/{activity}/reporte", [ActivityController::class, "download"])->name("events.report");
+    Route::get("actividades/{activity}/equipo", [ActivityTeamController::class, "index"])->name("activities.team.index");
+    Route::post("actividades/{activity}/equipo/user", [ActivityTeamController::class, "store"])->name("activities.team.store");
+    Route::delete("actividades/{activity}/equipo/{user}", [ActivityTeamController::class, "destroy"])->name("activities.team.destroy");
 
+    Route::get("/actividades/{activity}/reporte", [ActivityController::class, "download"])->name("events.report");
     Route::post("/eventos/{activity}/inscribir", [EventController::class, "subscribe"])->name("events.subscribe");
     Route::post("/eventos/{activity}/desinscribir", [EventController::class, "unsubscribe"])->name("events.unsubscribe");
 

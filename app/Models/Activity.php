@@ -99,4 +99,9 @@ class Activity extends Model
         return $this->belongsToMany(User::class, "inscriptions")
             ->withPivot("registered_at");
     }
+
+    public function builders()
+    {
+        return $this->morphToMany(User::class, "teamable", Team::class);
+    }
 }

@@ -35,7 +35,7 @@ class SurveyRequest extends FormRequest
             "name" => ["required", "string"],
             "description" => ["required", "string"],
             "published_trigger" => ["required", "string", "in:{$triggers}"],
-            "trigger_date" => ["required_if:published_trigger,{$customTrigger}", "date"],
+            "trigger_date" => ["required_if:published_trigger,{$customTrigger}", "nullable", "date"],
             "questions" => ["required", "array"],
             "questions.*.label" => ["required", "string"],
             "questions.*.type" => ["required", "string", "in:{$inputTypes}"],

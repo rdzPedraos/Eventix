@@ -32,13 +32,13 @@ class RoleController extends Controller
     {
         $validated = $request->validate([
             "name" => ["required", "string", "max:255", "unique:roles"],
-            "permissions" => ["required", "array", "exists:permissions,name"],
+            "permissions" => ["nullable", "array", "exists:permissions,name"],
         ]);
 
         $role = Role::create($validated);
         $role->givePermissionTo($validated["permissions"]);
 
-        return redirect()->route("roles.index");
+        return redirect()->route("roles.edit", $role);
     }
 
     public function edit(Role $role)
@@ -59,6 +59,6 @@ class RoleController extends Controller
         $role->update($validated);
         $role->syncPermissions($validated["permissions"]);
 
-        return redirect()->route("roles.index");
+        return redirect()->back();
     }
 }

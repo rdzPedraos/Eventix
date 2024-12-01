@@ -35,4 +35,6 @@ return [
     'users.edit' => "Editar usuario",
     'users.set_roles' => "Establecer roles al usuario",
     'users.delete' => "Eliminar usuario",
+
+    "mail-templates.show" => "Ver plantillas de correo"
 ];

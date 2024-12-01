@@ -25,15 +25,15 @@ class ActivityTeamController extends Controller
     public function store(Request $request, Activity $activity)
     {
         $validated = $request->validate([
-            "document_number" => ["required", "exists:users,document_number"]
+            "email" => ["required", "exists:users,email"]
         ], [
-            "document_number.exists" => "El usuario no se encuentra registrado"
+            "email.exists" => "El usuario no se encuentra registrado"
         ]);
 
-        $user = User::where("document_number", $validated["document_number"])->first();
+        $user = User::where($validated)->first();
 
         if ($activity->builders()->where("id", $user->id)->exists()) {
-            throw ValidationException::withMessages(["document_number" => "El usuario ya se encuentra inscrito en la actividad"]);
+            throw ValidationException::withMessages(["email" => "El usuario ya se encuentra inscrito en la actividad"]);
         }
 
         $activity->builders()->attach($user);

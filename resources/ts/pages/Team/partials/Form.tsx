@@ -9,9 +9,7 @@ type Props = {};
 
 export default function Form({}: Props) {
     const { activity } = usePage().props;
-    const { register, onSubmit } = useForm<{
-        document_number: string;
-    }>({ document_number: "" });
+    const { register, onSubmit } = useForm({ email: "" });
 
     return (
         <form
@@ -22,8 +20,8 @@ export default function Form({}: Props) {
             )}
         >
             <Input
-                {...register("document_number")}
-                label="Número de documento del usuario"
+                {...register("email")}
+                label="Email del usuario"
                 className="max-w-lg"
                 endContent={
                     <Button

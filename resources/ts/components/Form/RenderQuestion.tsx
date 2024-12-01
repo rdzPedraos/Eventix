@@ -6,11 +6,13 @@ import CheckField from "@/components/Form/types/CheckField";
 import RadioField from "@/components/Form/types/RadioField";
 import SelectField from "@/components/Form/types/SelectField";
 import TextField from "@/components/Form/types/TextField";
+import DateField from "@/components/Form/types/DateField";
+import NumberField from "./types/NumberField";
 
 const types = {
     text: TextField,
-    number: TextField,
-    date: TextField,
+    number: NumberField,
+    date: DateField,
     radio: RadioField,
     checkbox: CheckField,
     select: SelectField,

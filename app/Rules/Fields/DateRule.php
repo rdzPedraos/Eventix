@@ -3,6 +3,7 @@
 namespace App\Rules\Fields;
 
 use App\Models\Question;
+use Carbon\Carbon;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 
@@ -29,6 +30,13 @@ class DateRule implements ValidationRule
 
         if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $value)) {
             $fail("El campo debe tener el formato YYYY-MM-DD");
+        }
+
+        #Validar que el año tenga sentido 0001 no seria vlaido, al igual que dia 32
+        $date = Carbon::parse($value);
+
+        if (!$date->gt(now()->addYears(-100))) {
+            $fail("La fecha no puede ser inferior a 100 años.");
         }
     }
 }

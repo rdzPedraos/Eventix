@@ -7,7 +7,8 @@ export type InputTypes =
     | "checkbox_group"
     | "select"
     | "otpbox"
-    | "editable_content";
+    | "editable_content"
+    | "date";
 
 export type RegisterType<T extends object> = (
     key: keyof T,

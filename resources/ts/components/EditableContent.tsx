@@ -3,12 +3,14 @@ import React, { useEffect, useRef } from "react";
 type Props = {
     value: string;
     onChange: (value: string) => void;
+    error: string;
     className?: string;
 } & Omit<React.HTMLProps<HTMLTextAreaElement>, "ref">;
 
 export default function EditableContent({
     value,
     onChange,
+    error,
     className,
     ...props
 }: Props) {
@@ -31,13 +33,17 @@ export default function EditableContent({
     }, [value]);
 
     return (
-        <textarea
-            ref={txtAreaRef}
-            {...props}
-            value={value}
-            onChange={onChangeHandler}
-            className={`overflow-hidden resize-none focus:outline-none ${className}`}
-            rows={1}
-        />
+        <div>
+            <textarea
+                ref={txtAreaRef}
+                {...props}
+                value={value}
+                onChange={onChangeHandler}
+                className={`overflow-hidden resize-none focus:outline-none ${className}`}
+                rows={1}
+            />
+
+            {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
+        </div>
     );
 }

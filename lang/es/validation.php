@@ -225,6 +225,11 @@ return [
         "start_date" => "fecha inicio",
         "end_date" => "fecha cierre",
         "site_id" => "lugar académico",
+
+        "published_trigger" => "tipo de disparador",
+        "trigger_date" => "fecha de disparo",
+        "description" => "descripción",
+        "questions" => "preguntas",
     ],
 
     /* GENERIC ERRORS */

@@ -4,14 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Enums\QuestionTypesEnum;
 use App\Enums\SurveyTriggerEnum;
-use App\Http\Requests\CreateSurveyRequest;
 use App\Http\Requests\SurveyRequest;
 use App\Http\Resources\SurveyListResource;
 use App\Models\Activity;
 use App\Models\Survey;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
@@ -55,19 +52,14 @@ class SurveyController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Activity $activity, Request $request)
+    public function store(Activity $activity, SurveyRequest $request)
     {
         Gate::authorize("create", Survey::class);
-
-        $validated = $request->validate([
-            ...(new CreateSurveyRequest)->rules(),
-            ...(new SurveyRequest)->rules()
-        ]);
 
         DB::beginTransaction();
 
         try {
-            $survey = Survey::create($validated);
+            $survey = Survey::create($request->validated());
             $survey->questions()->createMany($request->questions);
 
             DB::commit();

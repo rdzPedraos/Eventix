@@ -1,9 +1,7 @@
-import React, { useMemo } from "react";
-import { CalendarDate } from "@internationalized/date";
+import React, { useEffect } from "react";
 import { ArrowLongLeftIcon } from "@heroicons/react/24/solid";
 import { DatePicker, Link, Select, SelectItem } from "@nextui-org/react";
 import { route } from "@ziggyjs";
-import { createDay } from "@/components/Calendar/utils/calendar";
 
 import { useFormCreateContext } from "../context";
 import { Container, EditableContent } from "@/components";
@@ -11,13 +9,11 @@ import { Container, EditableContent } from "@/components";
 export default function QuestionHeader() {
     const { data, setData, register, triggerTypes } = useFormCreateContext();
 
-    const trigger_date = useMemo(() => {
-        if (!data.trigger_date || data.published_trigger != "custom")
-            return null;
-
-        const date = createDay(data.trigger_date);
-        return new CalendarDate(date.year(), date.month() + 1, date.date());
-    }, [data.trigger_date, data.published_trigger]);
+    useEffect(() => {
+        if (data.published_trigger != "custom") {
+            setData("trigger_date", null);
+        }
+    }, [data.published_trigger]);
 
     return (
         <>
@@ -37,10 +33,7 @@ export default function QuestionHeader() {
                     <DatePicker
                         label="Fecha de lanzamiento"
                         isDisabled={data.published_trigger != "custom"}
-                        value={trigger_date}
-                        onChange={(date) => {
-                            setData("trigger_date", date.toString());
-                        }}
+                        {...register("trigger_date", "date")}
                     />
                 </div>
             </Container>

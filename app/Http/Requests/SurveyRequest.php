@@ -4,7 +4,9 @@ namespace App\Http\Requests;
 
 use App\Enums\QuestionTypesEnum;
 use App\Enums\SurveyTriggerEnum;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\ValidationException;
 
 class SurveyRequest extends FormRequest
 {
@@ -29,7 +31,7 @@ class SurveyRequest extends FormRequest
         $inputTypes = implode(",", QuestionTypesEnum::casesValue());
         $inputWithOptions = implode(",", [QuestionTypesEnum::SELECT->value, QuestionTypesEnum::RADIO->value, QuestionTypesEnum::CHECKBOX->value]);
 
-        return [
+        $rules = [
             "name" => ["required", "string"],
             "description" => ["required", "string"],
             "published_trigger" => ["required", "string", "in:{$triggers}"],
@@ -42,5 +44,48 @@ class SurveyRequest extends FormRequest
             "questions.*.is_required" => ["required", "boolean"],
             "publish" => ["nullable", "boolean"],
         ];
+
+        if ($this->route()->getName() == "surveys.store") {
+            $rules["activity_id"] = ["required", "exists:activities,id"];
+        }
+
+        return $rules;
+    }
+
+    public function attributes(): array
+    {
+        return [
+            "questions.*.label" => "texto de la pregunta",
+            "questions.*.type" => "tipo de pregunta",
+            "questions.*.options" => "opciones de la pregunta",
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            "questions.*.options.*.required" => "Las opciones de las preguntas son requeridas",
+        ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        $errors = $validator->errors()->getMessages();
+        $groupedErrors = [];
+
+        foreach ($errors as $key => $messages) {
+            $parts = explode('.', $key);
+
+            if (!isset($parts[1])) {
+                $groupedErrors[$key] = $messages;
+                continue;
+            }
+
+            $name = $parts[0];
+            $index = $parts[1];
+            $groupedErrors["{$name}.{$index}"][] = implode(', ', $messages);
+        }
+
+        throw ValidationException::withMessages($groupedErrors);
     }
 }

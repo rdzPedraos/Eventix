@@ -1,5 +1,7 @@
 import { InertiaFormProps } from "@inertiajs/react/types/useForm";
 import { InputTypes, RegisterType } from "./types";
+import { createDay } from "@/components/Calendar/utils/calendar";
+import { CalendarDate } from "@internationalized/date";
 
 const registerCheckbox = <T extends object>(
     form: InertiaFormProps<T>,
@@ -86,6 +88,26 @@ const registerEditableContent = <T extends object>(
     };
 };
 
+const registerDate = <T extends object>(
+    form: InertiaFormProps<T>,
+    key: keyof T
+) => {
+    const date = form.data[key] ? createDay(form.data[key] as string) : null;
+    const value = date
+        ? new CalendarDate(date.year(), date.month() + 1, date.date())
+        : null;
+
+    return {
+        value,
+        onChange: (date) => {
+            form.clearErrors(key);
+            form.setData(key, date.toString());
+        },
+        isInvalid: !!form.errors[key],
+        errorMessage: form.errors[key] as string,
+    };
+};
+
 export default function createRegister<T extends object>(
     form: InertiaFormProps<T>
 ): RegisterType<T> {
@@ -101,6 +123,8 @@ export default function createRegister<T extends object>(
                 return registerOtpBox(form, key);
             case "editable_content":
                 return registerEditableContent(form, key);
+            case "date":
+                return registerDate(form, key);
             default:
                 return registerInput(form, key);
         }

@@ -4,9 +4,10 @@ import { useState } from "react";
 
 export default function useFormBuilder(survey: Survey = {} as Survey) {
     const [editMode, setEditMode] = useState(null);
-    const { data, setData, errors, register, onSubmit } = useForm<Survey>({
-        ...survey,
-    } as Survey);
+    const { data, setData, errors, register, onSubmit, setError } =
+        useForm<Survey>({
+            ...survey,
+        } as Survey);
 
     const addQuestion = () => {
         const questions = [...(data?.questions ?? [])];
@@ -21,6 +22,7 @@ export default function useFormBuilder(survey: Survey = {} as Survey) {
 
         questions.push(newQuestion);
         setData("questions", questions);
+        setError("questions", null);
         setEditMode(newQuestion.id);
     };
 

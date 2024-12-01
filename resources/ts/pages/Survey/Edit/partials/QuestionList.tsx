@@ -7,6 +7,7 @@ import { useFormCreateContext } from "../context";
 import { Container } from "@/components";
 import QuestionEditor from "./QuestionEditor";
 import QuestionPreview from "./QuestionPreview";
+import ShowError from "@/components/ShowError";
 
 export default function QuestionList() {
     const {
@@ -15,6 +16,7 @@ export default function QuestionList() {
         addQuestion,
         changeEditMode,
         isInEditMode,
+        errors,
     } = useFormCreateContext();
 
     const editingRef = useRef<HTMLDivElement>(null);
@@ -41,7 +43,7 @@ export default function QuestionList() {
                     values={data.questions}
                     onReorder={onReorderQuestions}
                 >
-                    {data.questions.map((question) => {
+                    {data.questions.map((question, idx) => {
                         const editMode = isInEditMode(question);
 
                         return (
@@ -53,6 +55,10 @@ export default function QuestionList() {
                                             : ""
                                     }
                                 >
+                                    <ShowError
+                                        message={errors[`questions.${idx}`]}
+                                    />
+
                                     {editMode ? (
                                         <div ref={editingRef}>
                                             <QuestionEditor
@@ -68,6 +74,8 @@ export default function QuestionList() {
                     })}
                 </Reorder.Group>
             )}
+
+            <ShowError message={errors.questions} />
 
             <Button
                 onClick={addQuestion}

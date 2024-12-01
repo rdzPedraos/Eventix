@@ -68,7 +68,7 @@ export default function index<T extends ItemObject>({
                 )}
             </TableHeader>
 
-            <TableBody emptyContent="Crea un registro primero" items={data}>
+            <TableBody emptyContent="Tabla vacía" items={data}>
                 {(item) => (
                     <TableRow key={item.id}>
                         {(columnKey) => (

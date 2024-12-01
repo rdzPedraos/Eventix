@@ -15,19 +15,13 @@ type PageProps = {
     token: string;
 };
 
-export default function index() {
-    const { survey, token } = usePage<PageProps>().props;
-    const initialize = useMemo(
-        () =>
-            survey.questions.reduce((acc, question) => {
-                acc[question.id] = "";
-                return acc;
-            }, {}),
-        [survey.questions]
+export default function index({ survey, token }: PageProps) {
+    const { data, errors, setError, setData, submit } = useForm<any>(
+        survey.questions.reduce((acc, question) => {
+            acc[question.id] = "";
+            return acc;
+        }, {})
     );
-
-    const { data, errors, setError, setData, submit } =
-        useForm<any>(initialize);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();

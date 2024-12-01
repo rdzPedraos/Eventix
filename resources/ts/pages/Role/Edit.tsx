@@ -64,10 +64,10 @@ export default function Edit({ role, permissions }: Props) {
     );
 }
 
-Edit.breadcrumb = {
-    current: "Editar Rol",
+Edit.breadcrumb = ({ role }: Props) => ({
+    current: role.name,
     items: [
         { to: route("home"), label: "Calendario" },
         { to: route("roles.index"), label: "Roles" },
     ],
-};
+});

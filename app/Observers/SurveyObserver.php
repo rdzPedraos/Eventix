@@ -23,9 +23,8 @@ class SurveyObserver
     public function updated(Survey $survey): void
     {
         Survey::withoutEvents(function () use ($survey) {
-            if ($survey->isDirty("published_trigger")) {
-                $survey->updatePublishedTrigger();
-            }
+            $survey->updatePublishedTrigger();
+
             if ($survey->alreadyForPublish()->exists()) {
                 $survey->publish();
                 SurveyPublished::dispatch($survey);

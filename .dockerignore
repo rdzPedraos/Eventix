@@ -5,3 +5,4 @@ node_modules
 !/storage/logs
 !/storage/test
 !/storage/framework
+.env

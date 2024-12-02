@@ -5,11 +5,9 @@ WORKDIR /app
 COPY composer.json composer.lock ./ 
 
 RUN composer install \
-    #--ignore-platform-reqs \
     --no-interaction \
     --no-plugins \
     --no-scripts \
- #   --no-dev \   
     --prefer-dist \
     --no-autoloader
 
@@ -23,19 +21,19 @@ RUN npm install
 
 # Copia solo el archivo Ziggy necesario desde la capa vendor
 COPY --from=vendor /app/vendor/tightenco/ziggy/src/js ./vendor/tightenco/ziggy/src/js
-
-# Compila los assets del frontend
-COPY .env vite.config.js tailwind.config.js postcss.config.js ./
+COPY vite.config.js tailwind.config.mjs postcss.config.js ./
 COPY public ./public
 COPY resources ./resources
+
 RUN npm run build
-#--- Stage end ---
 
 
+#--- Stage: Final --- 
 FROM php:8.3-fpm-alpine
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apk add --no-cache \
+    nginx \
     freetype \
     freetype-dev \
     zip \
@@ -44,27 +42,30 @@ RUN apk add --no-cache \
     curl \
     $PHPIZE_DEPS
 
-#RUN pecl install xdebug
-#RUN docker-php-ext-configure zip
+    
+# Configurar PHP y extensiones
 RUN docker-php-ext-install mysqli pdo pdo_mysql opcache
-#RUN docker-php-ext-enable xdebug
 
-# Add config custom for php-fpm
+# Configurar PHP-FPM y Nginx
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 COPY deploy/files/php.ini "$PHP_INI_DIR/conf.d/z-custom.ini"
 COPY deploy/files/php-fpm.conf "$PHP_INI_DIR/../php-fpm.d/z-www.cof"
+COPY deploy/files/nginx.conf /etc/nginx/nginx.conf
 
-# Nos movemos a /var/www/
 WORKDIR /var/www/
-RUN chown www-data:www-data .
-USER www-data
 
-# Copiamos los archivos a /var/www/
-COPY --chown=www-data --from=frontend app/public/ ./public/
-COPY --chown=www-data --from=vendor app/vendor/ ./vendor/
+COPY --chown=www-data --from=frontend /app/public/ ./public/
+COPY --chown=www-data --from=vendor /app/vendor/ ./vendor/
 COPY --chown=www-data --from=vendor /usr/bin/composer /usr/bin/composer
 COPY --chown=www-data . .
+RUN cp .env.example .env
 
 RUN composer dump-autoload \
     && php artisan storage:link
-    #&& php artisan test --coverage-html coverage 
+
+# Agregar el script de entrada
+COPY deploy/files/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Comando para iniciar Nginx, PHP-FPM, Scheduler y Queue
+CMD ["sh", "/usr/local/bin/entrypoint.sh"]

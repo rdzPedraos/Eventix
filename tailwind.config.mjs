@@ -40,7 +40,7 @@ export default {
 
                         secondary: {
                             background: "#ff6500",
-                            DEFAULT: "#ff64500",
+                            DEFAULT: "#ff6500",
 
                             50: "#f9f6f1",
                             100: "#f2eee3",

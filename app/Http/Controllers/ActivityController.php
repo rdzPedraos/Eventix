@@ -8,7 +8,7 @@ use App\Http\Requests\ActivityRequest;
 use App\Http\Resources\ActivityListResource;
 use App\Http\Resources\ActivityResource;
 use App\Http\Resources\SiteResource;
-use App\Library\DownloadCSV;
+use App\Library\DownloadFile;
 use App\Models\Activity;
 use App\Models\Sites;
 use Illuminate\Http\Request;
@@ -163,11 +163,11 @@ class ActivityController extends Controller
 
         $users = $activity->enrollments->toArray();
 
-        $document = (new DownloadCSV())
+        $document = (new DownloadFile())
             ->setFilename("reporte-asistencia-{$activity->name}")
             ->addHeaders($headers)
             ->addBodyRows($users);
 
-        return response()->download($document->build())->deleteFileAfterSend(true);
+        return response()->download($document->buildExcel())->deleteFileAfterSend(true);
     }
 }

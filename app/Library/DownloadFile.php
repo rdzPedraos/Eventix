@@ -2,7 +2,10 @@
 
 namespace App\Library;
 
-class DownloadCSV
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
+class DownloadFile
 {
     private $filename;
     private $headers;
@@ -18,7 +21,7 @@ class DownloadCSV
     {
         if ($addDate) {
             $date = now()->format("Y-m-d");
-            $filename = "{$filename}-{$date}.csv";
+            $filename = "{$filename}-{$date}";
         }
 
         $this->filename = $filename;
@@ -46,9 +49,10 @@ class DownloadCSV
         return $this;
     }
 
-    public function build()
+    public function buildCsv()
     {
-        $file = fopen($this->filename, 'w');
+        $filename = "{$this->filename}.csv";
+        $file = fopen($filename, 'w');
 
         // Escribir el BOM para UTF-8
         fwrite($file, "\xEF\xBB\xBF");
@@ -67,6 +71,37 @@ class DownloadCSV
 
         fclose($file);
 
-        return $this->filename;
+        return $filename;
+    }
+
+    public function buildExcel()
+    {
+        $filename = "{$this->filename}.xlsx";
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Escribir los encabezados
+        $column = 'A';
+        foreach ($this->headers->values() as $header) {
+            $sheet->setCellValue("{$column}1", $header);
+            $column++;
+        }
+
+        // Escribir los datos del cuerpo
+        $rowNumber = 2;
+        foreach ($this->body as $row) {
+            $column = 'A';
+            foreach ($this->headers->keys() as $key) {
+                $sheet->setCellValue("{$column}{$rowNumber}", data_get($row, $key));
+                $column++;
+            }
+            $rowNumber++;
+        }
+
+        $writer = new Xlsx($spreadsheet);
+        $writer->save($filename);
+
+        return $filename;
     }
 }

@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AnswerRequest;
 use App\Http\Requests\AnswerStoreRequest;
-use App\Library\DownloadCSV;
+use App\Library\DownloadFile;
 use App\Models\Activity;
 use App\Models\Survey;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
@@ -48,11 +47,11 @@ class AnswerController extends Controller
         $questions = $survey->questions->pluck("label", "id");
         $answers = $survey->answers->pluck("answers");
 
-        $document = (new DownloadCSV())
+        $document = (new DownloadFile())
             ->setFilename("reporte-{$name}")
             ->addHeaders($questions)
             ->addBodyRows($answers);
 
-        return response()->download($document->build())->deleteFileAfterSend(true);
+        return response()->download($document->buildExcel())->deleteFileAfterSend(true);
     }
 }

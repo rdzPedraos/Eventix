@@ -52,8 +52,8 @@ export default function EventInfo({ event, forceUpdate }: Props) {
 
     return (
         <>
-            <ModalHeader className="text-xl font-bold truncate">
-                {title}
+            <ModalHeader>
+                <p className="text-xl font-bold text-wrap">{title}</p>
             </ModalHeader>
 
             <ModalBody>

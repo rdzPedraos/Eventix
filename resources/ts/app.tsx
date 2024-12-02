@@ -25,7 +25,10 @@ createInertiaApp({
     },
     setup({ el, App, props }) {
         createRoot(el).render(
-            <NextUIProvider navigate={(path) => router.get(path)}>
+            <NextUIProvider
+                navigate={(path) => router.get(path)}
+                locale="en-GB"
+            >
                 <Toaster />
                 <App {...props} />
             </NextUIProvider>

@@ -46,9 +46,16 @@ class ActivityRequest extends FormRequest
             function (Validator $validator) {
                 //crea una matriz de [key=>$key, value=>$scheduler]
                 $schedulers = collect($this->get('schedulers'))
+                    ->map(function ($sch) {
+                        $sch["start_date"] = new Carbon($sch["start_date"]);
+                        $sch["end_date"] = new Carbon($sch["end_date"]);
+
+                        return $sch;
+                    })
                     ->sort(function ($a, $b) {
-                        return $a['start_date'] <=> $b['start_date'];
-                    });
+                        return $a["start_date"] <=> $b["start_date"];
+                    })
+                    ->values();
 
                 $schedulers->each(function ($scheduler, $key) use ($schedulers, $validator) {
                     if ($key === 0) return;

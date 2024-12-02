@@ -24,8 +24,8 @@ class SideRequest extends FormRequest
         $id = $this->route("site")?->id;
 
         return [
-            "name" => ["required", "max:100", "regex:/^[a-zA-Z\s\d]+$/", "unique:sites,name,$id"],
-            "address" => ["required", "max:255", "regex:/^[a-zA-Z\s\d\.\-\,]+$/"],
+            "name" => ["required", "max:100", "regex:/^[a-zA-ZáéíóúÁÉÍÓÚ\s\d]+$/", "unique:sites,name,$id"],
+            "address" => ["required", "max:255", "regex:/^[a-zA-ZáéíóúÁÉÍÓÚ\s\d\.\-\,]+$/"],
         ];
     }
 }

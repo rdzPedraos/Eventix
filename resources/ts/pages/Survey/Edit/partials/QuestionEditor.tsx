@@ -56,9 +56,9 @@ export default function QuestionEditor({ question }: Props) {
             {["radio", "checkbox", "select"].includes(question.type) && (
                 <div>
                     {question.options?.map((option, index) => (
-                        <div key={index} className="flex justify-between">
+                        <div key={index} className="flex justify-between mb-4">
                             <EditableContent
-                                className="w-full mb-4"
+                                className="w-full"
                                 placeholder="Opción..."
                                 value={option}
                                 onChange={(value) => {

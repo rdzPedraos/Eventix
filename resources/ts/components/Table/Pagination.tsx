@@ -70,7 +70,9 @@ export function Footer({
 }) {
     return (
         <Pagination
-            className="ml-auto"
+            classNames={{
+                base: "flex justify-end gap-2",
+            }}
             showControls
             showShadow
             color="primary"

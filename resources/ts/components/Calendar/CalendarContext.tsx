@@ -56,9 +56,10 @@ export default function CalendarProvider({
     onChangeEvents,
     sideBar,
 }: CalendarProviderProps) {
+    const isMobileScreen = window.innerWidth < 768;
     const [current, setCurrent] = useState<DayType>(now());
     const [selectedEvent, setSelectedEvent] = useState<EventType>();
-    const [openSidebar, toggleSideBar] = useState<boolean>(true);
+    const [openSidebar, toggleSideBar] = useState<boolean>(!isMobileScreen);
 
     const [filters, setFilters] = useState({
         day: current,

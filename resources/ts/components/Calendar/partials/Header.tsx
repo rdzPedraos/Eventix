@@ -32,8 +32,8 @@ export default function Header({}: Props) {
     };
 
     return (
-        <div className="sticky top-0 flex justify-between items-center p-3 bg-white z-50 shadow">
-            <div className="flex items-center space-x-4">
+        <div className="sticky top-0 flex flex-wrap gap-4 justify-between items-center p-3 bg-white z-50 shadow">
+            <div className="flex gap-4">
                 {sideBar && (
                     <button onClick={() => toggleSideBar((s) => !s)}>
                         {openSidebar ? (
@@ -69,17 +69,17 @@ export default function Header({}: Props) {
                         <ChevronRightIcon className="h-4 w-4" />
                     </Button>
                 </div>
-
-                <h2 className="text-xl font-semibold first-letter:uppercase">
-                    {filters.mode === "week"
-                        ? filters.day.format("MMMM [de] YYYY")
-                        : filters.day.format("DD [de] MMMM [de] YYYY")}
-                </h2>
             </div>
+
+            <h2 className="text-xl font-semibold first-letter:uppercase">
+                {filters.mode === "week"
+                    ? filters.day.format("MMMM [de] YYYY")
+                    : filters.day.format("DD [de] MMMM [de] YYYY")}
+            </h2>
 
             <Select
                 disallowEmptySelection
-                className="max-w-32"
+                className="max-w-32 ml-auto"
                 aria-label="Tipo de vista"
                 variant="flat"
                 color="primary"

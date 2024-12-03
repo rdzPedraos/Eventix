@@ -32,7 +32,9 @@ function renderSideBar() {
     return (
         <Sidebar
             collapsed={!openSidebar}
+            toggled={openSidebar}
             collapsedWidth="0"
+            breakPoint="md"
             onBackdropClick={() => toggleSideBar(false)}
             className="bg-[#fcfcfc]"
         >

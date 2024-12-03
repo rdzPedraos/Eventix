@@ -38,47 +38,48 @@ export default function index<T extends ItemObject>({
     };
 
     return (
-        <Table
-            removeWrapper={true}
-            {...props}
-            topContent={
-                <Header
-                    content={topContent}
-                    onSearch={onSearch}
-                    filters={filters}
-                />
-            }
-            bottomContent={
-                <Footer
-                    filters={filters}
-                    last_page={last_page}
-                    onSearch={onSearch}
-                />
-            }
-        >
-            <TableHeader columns={columns}>
-                {(column) => (
-                    <TableColumn
-                        key={column.uid}
-                        align={column?.align}
-                        className="text-center uppercase"
-                    >
-                        {column.label}
-                    </TableColumn>
-                )}
-            </TableHeader>
+        <div>
+            <Header
+                content={topContent}
+                onSearch={onSearch}
+                filters={filters}
+            />
 
-            <TableBody emptyContent="Tabla vacía" items={data}>
-                {(item) => (
-                    <TableRow key={item.id}>
-                        {(columnKey) => (
-                            <TableCell>
-                                {renderCell(item, columnKey as string)}
-                            </TableCell>
-                        )}
-                    </TableRow>
-                )}
-            </TableBody>
-        </Table>
+            <Table
+                removeWrapper={true}
+                className="mt-4 overflow-x-auto md:overflow-hidden overflow-y-hidden"
+                {...props}
+            >
+                <TableHeader columns={columns}>
+                    {(column) => (
+                        <TableColumn
+                            key={column.uid}
+                            align={column?.align}
+                            className="text-center uppercase"
+                        >
+                            {column.label}
+                        </TableColumn>
+                    )}
+                </TableHeader>
+
+                <TableBody emptyContent="Tabla vacía" items={data}>
+                    {(item) => (
+                        <TableRow key={item.id}>
+                            {(columnKey) => (
+                                <TableCell>
+                                    {renderCell(item, columnKey as string)}
+                                </TableCell>
+                            )}
+                        </TableRow>
+                    )}
+                </TableBody>
+            </Table>
+
+            <Footer
+                filters={filters}
+                last_page={last_page}
+                onSearch={onSearch}
+            />
+        </div>
     );
 }

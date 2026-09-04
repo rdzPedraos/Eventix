@@ -1,11 +1,39 @@
+x-db-credentials: &db-credentials
+    DB_HOST: svc-mysql
+    DB_USERNAME: &db_username test
+    DB_PASSWORD: &db_password test
+
 services:
-    app:
+    svc-web:
         build:
             context: .
             dockerfile: deploy/Dockerfile
-        environment:
-            APP_URL: http://localhost:3200
-            APP_ENV: production
-
+            target: web
         ports:
             - "3200:3200"
+        depends_on:
+            - svc-app
+
+    svc-app:
+        build:
+            context: .
+            dockerfile: deploy/Dockerfile
+            target: app
+        volumes:
+            - ./.env:/var/www/.env:ro
+            - ./deploy/files/compose-init-db.sh:/init.sh:ro
+        environment:
+            <<: *db-credentials
+        entrypoint: ["/bin/sh", "-c"]
+        command:
+            - "sh /init.sh && exec php-fpm -F"
+        depends_on:
+            - svc-mysql
+
+    svc-mysql:
+        image: mysql:8.0
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: eventix
+            MYSQL_USER: *db_username
+            MYSQL_PASSWORD: *db_password

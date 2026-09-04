@@ -9,7 +9,7 @@
         "baseUrl": ".",
         "paths": {
             "@/*": ["resources/ts/*"],
-            "@ziggyjs": ["vendor/tightenco/ziggy/src/js"]
+            "@ziggyjs": ["./node_modules/ziggy-js"]
         }
     }
 }

@@ -1,39 +1,47 @@
 x-db-credentials: &db-credentials
-    DB_HOST: svc-mysql
-    DB_USERNAME: &db_username test
-    DB_PASSWORD: &db_password test
+  DB_HOST: svc-mysql
+  DB_PORT: "3306"
+  DB_DATABASE: &db_database eventix
+  DB_USERNAME: &db_username test
+  DB_PASSWORD: &db_password test
+
+volumes:
+  public:
 
 services:
-    svc-web:
-        build:
-            context: .
-            dockerfile: deploy/Dockerfile
-            target: web
-        ports:
-            - "3200:3200"
-        depends_on:
-            - svc-app
+  svc-web:
+    image: nginx:1.27-alpine
+    ports:
+      - "3200:3200"
+    volumes:
+      - ./deploy/files/nginx.conf:/etc/nginx/nginx.conf:ro
+      - public:/var/www/public:ro
 
-    svc-app:
-        build:
-            context: .
-            dockerfile: deploy/Dockerfile
-            target: app
-        volumes:
-            - ./.env:/var/www/.env:ro
-            - ./deploy/files/compose-init-db.sh:/init.sh:ro
-        environment:
-            <<: *db-credentials
-        entrypoint: ["/bin/sh", "-c"]
-        command:
-            - "sh /init.sh && exec php-fpm -F"
-        depends_on:
-            - svc-mysql
+  svc-app:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile
+    volumes:
+      - ./.env:/var/www/.env:ro
+      - ./deploy/files/compose-init-db.sh:/init.sh:ro
+      - public:/mnt/public
+    env_file:
+      - .env
+    environment:
+      <<: *db-credentials
+    entrypoint: [ "/bin/sh", "-c" ]
+    command:
+      - |
+        cp -a /var/www/public/. /mnt/public/;
+        sh /init.sh &&
+        exec php-fpm -F
+    depends_on:
+      - svc-mysql
 
-    svc-mysql:
-        image: mysql:8.0
-        environment:
-            MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: eventix
-            MYSQL_USER: *db_username
-            MYSQL_PASSWORD: *db_password
+  svc-mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: *db_database
+      MYSQL_USER: *db_username
+      MYSQL_PASSWORD: *db_password

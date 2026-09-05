@@ -1,4 +1,4 @@
-#--- Stage: Build frontend assets (shared by app + web) ---
+#--- Stage: Build frontend assets ---
 FROM node:20.18.0-slim AS frontend
 
 WORKDIR /app
@@ -29,8 +29,8 @@ RUN composer install \
     --ignore-platform-req=ext-gd
 
 
-#--- Target: PHP-FPM application ---
-FROM php:8.3-fpm-alpine AS app
+#--- PHP-FPM application (final image) ---
+FROM php:8.3-fpm-alpine
 
 RUN apk add --no-cache \
     zip \
@@ -46,9 +46,9 @@ COPY deploy/files/php-fpm.conf "$PHP_INI_DIR/../php-fpm.d/z-www.conf"
 
 WORKDIR /var/www/
 
-COPY --chown=www-data --from=frontend /app/public/build ./public/build
 COPY --chown=www-data --from=vendor /app/vendor/ ./vendor/
 COPY --chown=www-data --from=vendor /usr/bin/composer /usr/bin/composer
+COPY --chown=www-data --from=frontend /app/public ./public
 COPY --chown=www-data . .
 
 RUN composer dump-autoload \
@@ -59,14 +59,3 @@ RUN composer dump-autoload \
 EXPOSE 9000
 
 CMD ["php-fpm", "-F"]
-
-
-#--- Target: Nginx web server ---
-FROM nginx:1.27-alpine AS web
-
-COPY deploy/files/nginx.conf /etc/nginx/nginx.conf
-COPY --from=frontend /app/public /var/www/public
-
-EXPOSE 3200
-
-CMD ["nginx", "-g", "daemon off;"]

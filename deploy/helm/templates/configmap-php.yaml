@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Chart.Name }}-php
+data:
+  php.ini: |
+{{ .Files.Get "files/php.ini" | indent 4 }}
+  php-fpm.conf: |
+{{ .Files.Get "files/php-fpm.conf" | indent 4 }}

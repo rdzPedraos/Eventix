@@ -1,0 +1,50 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Chart.Name }}-migrate
+  labels:
+    app: {{ .Chart.Name }}
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-weight: "0"
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+spec:
+  backoffLimit: 3
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      restartPolicy: OnFailure
+      initContainers:
+        - name: wait-db
+          image: {{ include "chart.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - sh
+            - -c
+            - |
+              until php artisan db:show > /dev/null 2>&1; do
+                echo "Waiting for database..."
+                sleep 2
+              done
+          envFrom:
+            - configMapRef:
+                name: {{ .Chart.Name }}-app
+            - secretRef:
+                name: {{ .Chart.Name }}-envs
+      containers:
+        - name: migrate
+          image: {{ include "chart.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - sh
+            - -c
+            - |
+              php artisan migrate --force {{- if .Values.db.seed }} && \
+              php artisan db:seed --force {{- end }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Chart.Name }}-app
+            - secretRef:
+                name: {{ .Chart.Name }}-envs

@@ -41,8 +41,6 @@ RUN apk add --no-cache \
     && docker-php-ext-install pdo pdo_mysql opcache intl
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
-COPY deploy/files/php.ini "$PHP_INI_DIR/conf.d/z-custom.ini"
-COPY deploy/files/php-fpm.conf "$PHP_INI_DIR/../php-fpm.d/z-www.conf"
 
 WORKDIR /var/www/
 

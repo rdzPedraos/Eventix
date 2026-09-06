@@ -1,0 +1,15 @@
+db:
+  image: mysql:8.0
+  seed: true
+
+secrets:
+  DB_HOST: eventix-db
+  DB_PORT: "3306"
+  DB_DATABASE: eventix
+  DB_USERNAME: eventix
+  DB_PASSWORD: root
+
+configMap:
+  APP_ENV: local
+  APP_DEBUG: "true"
+  MAIL_MAILER: log

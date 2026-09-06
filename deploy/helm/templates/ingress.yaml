@@ -1,19 +1,19 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: eventix
+  name: {{ .Chart.Name }}
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: "20m"
 spec:
   ingressClassName: nginx
   rules:
-    - host: eventix.local
+    - host: {{ include "chart.domain" . }}
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: eventix
+                name: {{ .Chart.Name }}
                 port:
                   number: 80

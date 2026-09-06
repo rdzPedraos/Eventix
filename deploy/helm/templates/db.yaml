@@ -1,0 +1,63 @@
+{{- if .Values.db.image }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Chart.Name }}-db
+  labels:
+    app: {{ .Chart.Name }}
+spec:
+  selector:
+    app: {{ .Chart.Name }}
+  ports:
+    - name: mysql
+      port: 3306
+      targetPort: mysql
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}-db
+  labels:
+    app: {{ .Chart.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      containers:
+        - name: mysql
+          image: {{ .Values.db.image }}
+          ports:
+            - name: mysql
+              containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: {{ .Values.secrets.DB_PASSWORD }}
+            - name: MYSQL_DATABASE
+              value: {{ .Values.secrets.DB_DATABASE }}
+            - name: MYSQL_USER
+              value: {{ .Values.secrets.DB_USERNAME }}
+            - name: MYSQL_PASSWORD
+              value: {{ .Values.secrets.DB_PASSWORD }}
+          readinessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - mysqladmin ping -h 127.0.0.1 -u root -p"$MYSQL_ROOT_PASSWORD"
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - mysqladmin ping -h 127.0.0.1 -u root -p"$MYSQL_ROOT_PASSWORD"
+            initialDelaySeconds: 30
+            periodSeconds: 10
+{{- end }}

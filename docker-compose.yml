@@ -21,6 +21,7 @@ services:
     build:
       context: .
       dockerfile: deploy/Dockerfile
+    network_mode: "service:svc-web"
     volumes:
       - ./.env:/var/www/.env:ro
       - ./deploy/files/compose-init-db.sh:/init.sh:ro
@@ -36,6 +37,7 @@ services:
         sh /init.sh &&
         exec php-fpm -F
     depends_on:
+      - svc-web
       - svc-mysql
 
   svc-mysql:

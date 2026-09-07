@@ -10,29 +10,13 @@ metadata:
     helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
 spec:
   backoffLimit: 3
+  activeDeadlineSeconds: {{ .Values.migrate.activeDeadlineSeconds }}
   template:
     metadata:
       labels:
         app: migrate
     spec:
       restartPolicy: OnFailure
-      initContainers:
-        - name: wait-db
-          image: {{ include "chart.image" . }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command:
-            - sh
-            - -c
-            - |
-              until php artisan db:show > /dev/null 2>&1; do
-                echo "Waiting for database..."
-                sleep 2
-              done
-          envFrom:
-            - configMapRef:
-                name: web-config
-            - secretRef:
-                name: secrets
       containers:
         - name: migrate
           image: {{ include "chart.image" . }}

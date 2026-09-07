@@ -10,6 +10,9 @@ nginx:
 
 replicaCount: 1
 
+migrate:
+  activeDeadlineSeconds: 180
+
 scheduler:
   schedule: "*/1 * * * *"
   concurrencyPolicy: Forbid

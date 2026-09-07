@@ -18,7 +18,7 @@ env:
   PREVIEW_LABEL: preview-ready
 
 jobs:
-  unlabel-and-clean:
+  reset-pr-state:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -45,34 +45,33 @@ jobs:
       - name: Delete Argo PR comments
         uses: ./.github/actions/delete-argo-pr-comments
 
-  changes:
+  javascript:
     runs-on: ubuntu-latest
-    outputs:
-      resources: ${{ steps.filter.outputs.resources }}
     steps:
       - uses: actions/checkout@v4
 
       - uses: dorny/paths-filter@v3
-        id: filter
+        id: js-changes
         with:
           filters: |
             resources:
               - 'resources/**'
+              - 'package.json'
+              - 'package-lock.json'
+              - 'public/**'
+              - 'eslint.config.js'
+              - 'vite.config.js'
+              - 'tailwind.config.mjs'
+              - 'postcss.config.js'
+              - 'tsconfig.json'
 
-  javascript:
-    needs: changes
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - if: needs.changes.outputs.resources != 'true'
+      - if: steps.js-changes.outputs.resources != 'true'
         run: echo "Sin cambios en resources/; se omiten audit y lint de JS."
 
-      - if: needs.changes.outputs.resources == 'true'
+      - if: steps.js-changes.outputs.resources == 'true'
         uses: ./.github/actions/validate-javascript
 
   php:
-    needs: javascript
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -82,16 +81,8 @@ jobs:
           php-version: "8.3"
           extensions: mbstring, pdo_sqlite, gd
           coverage: none
-
-      - name: Get Composer cache directory
-        id: composer-cache
-        run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
-
-      - uses: actions/cache@v4
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: composer-${{ runner.os }}-${{ hashFiles('composer.lock') }}
-          restore-keys: composer-${{ runner.os }}-
+          cache: composer
+          cache-dependency-path: composer.lock
 
       - name: Audit PHP dependencies (Composer)
         run: composer security:audit
@@ -105,7 +96,7 @@ jobs:
         run: composer test:unit
 
   build-and-push:
-    needs: [unlabel-and-clean, javascript, php]
+    needs: [reset-pr-state, javascript, php]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

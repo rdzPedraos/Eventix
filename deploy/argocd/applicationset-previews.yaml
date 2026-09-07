@@ -38,7 +38,7 @@ spec:
             - name: domain
               value: "pr-{{ .number }}.eventix.k8s.test"
             - name: image.tag
-              value: "pr-{{ .number }}"
+              value: "{{ .head_sha }}"
       destination:
         server: https://kubernetes.default.svc
         namespace: "eventix-pr-{{ .number }}"

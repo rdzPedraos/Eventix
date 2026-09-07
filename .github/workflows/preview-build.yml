@@ -53,7 +53,7 @@ jobs:
           context: .
           file: deploy/Dockerfile
           push: true
-          tags: rdzpedraos/eventix:pr-${{ github.event.pull_request.number }}
+          tags: rdzpedraos/eventix:${{ github.event.pull_request.head.sha }}
 
   signal-deploy:
     needs: build-and-push

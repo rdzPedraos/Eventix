@@ -79,7 +79,7 @@ export default function Login({}: Props) {
                     color="foreground"
                     className="block absolute bottom-10 left-0 right-0 text-center text-default-500 hover:underline"
                 >
-                    ¿No tienes cuenta? <strong>Regístrate aquí</strong>
+                    ¿No tienes cuenta? <strong>Regístrate</strong>
                 </Link>
             </div>
         </>

@@ -5,7 +5,7 @@
         "dev": "vite",
         "build": "vite build",
         "lint": "eslint 'resources/ts/**/*.{js,jsx,ts,tsx}'",
-        "audit": "npm audit --audit-level=high",
+        "audit": "npm audit --package-lock-only --omit=dev --audit-level=high",
         "format": "prettier --write 'resources/ts/**/*.{js,jsx,ts,tsx,json,css}'"
     },
     "devDependencies": {

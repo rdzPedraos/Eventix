@@ -20,8 +20,8 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: migrate
-          image: { { include "chart.image" . } }
-          imagePullPolicy: { { .Values.image.pullPolicy } }
+          image: {{ include "chart.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
             - sh
             - -c

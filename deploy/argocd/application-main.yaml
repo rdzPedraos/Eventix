@@ -13,6 +13,7 @@ spec:
       releaseName: eventix
       valueFiles:
         - values.yaml
+        - values-production.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: eventix

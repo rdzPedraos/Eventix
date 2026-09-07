@@ -17,24 +17,3 @@ jobs:
 
       - name: Delete Argo PR comments
         uses: ./.github/actions/delete-argo-pr-comments
-
-  build-for-main:
-    if: github.event.pull_request.merged == true
-    runs-on: ubuntu-latest
-    steps:
-      - name: Ensure merge commit SHA
-        run: |
-          if [ -z "${{ github.event.pull_request.merge_commit_sha }}" ]; then
-            echo "::error::merge_commit_sha vacío; no se puede construir imagen para main."
-            exit 1
-          fi
-
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.merge_commit_sha }}
-
-      - uses: ./.github/actions/build-and-push-image
-        with:
-          tag: ${{ github.event.pull_request.merge_commit_sha }}
-          docker-username: ${{ secrets.DOCKERHUB_USERNAME }}
-          docker-password: ${{ secrets.DOCKERHUB_TOKEN }}

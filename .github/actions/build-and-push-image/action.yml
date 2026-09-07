@@ -1,5 +1,5 @@
 name: Build and push image
-description: Build deploy/Dockerfile and push to Docker Hub with an immutable tag.
+description: Build deploy/Dockerfile and push to Docker Hub with an immutable tag. Skips build when the tag already exists.
 
 inputs:
   tag:
@@ -24,7 +24,15 @@ runs:
         username: ${{ inputs.docker-username }}
         password: ${{ inputs.docker-password }}
 
+    - id: check-image
+      shell: bash
+      run: |
+        image="${{ inputs.image-repository }}:${{ inputs.tag }}"
+        exists="$(docker manifest inspect "$image" >/dev/null 2>&1 && echo true || echo false)"
+        echo "exists=$exists" >> "$GITHUB_OUTPUT"
+
     - uses: docker/build-push-action@v6
+      if: steps.check-image.outputs.exists != 'true'
       with:
         context: .
         file: deploy/Dockerfile

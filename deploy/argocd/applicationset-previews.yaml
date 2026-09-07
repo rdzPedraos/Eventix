@@ -1,0 +1,49 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: eventix-previews
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - pullRequest:
+        requeueAfterSeconds: 180
+        github:
+          owner: rdzPedraos
+          repo: Eventix
+          labels:
+            - preview-ready
+  template:
+    metadata:
+      name: "eventix-pr-{{ .number }}"
+      labels:
+        preview-url: "http://pr-{{ .number }}.eventix.local"
+      annotations:
+        notifications.argoproj.io/subscribe.on-deployed.github: ""
+        notifications.argoproj.io/subscribe.on-sync-failed.github: ""
+        notifications.argoproj.io/subscribe.on-health-degraded.github: ""
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/rdzPedraos/Eventix.git
+        targetRevision: "{{ .head_sha }}"
+        path: deploy/helm
+        helm:
+          releaseName: "eventix-pr-{{ .number }}"
+          valueFiles:
+            - values-preview.yaml
+          parameters:
+            - name: domain
+              value: "pr-{{ .number }}.eventix.local"
+            - name: image.tag
+              value: "pr-{{ .number }}"
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "eventix-pr-{{ .number }}"
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

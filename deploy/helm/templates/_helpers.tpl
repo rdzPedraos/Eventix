@@ -1,3 +1,7 @@
 {{- define "chart.image" -}}
-{{ .Values.image.repository }}:{{ .Values.image.tag }}
+{{- $tag := .Values.image.tag -}}
+{{- if not $tag -}}
+{{- $tag = .Chart.AppVersion -}}
+{{- end -}}
+{{ .Values.image.repository }}:{{ $tag }}
 {{- end }}

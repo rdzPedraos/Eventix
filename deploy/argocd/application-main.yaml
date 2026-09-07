@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: eventix
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/rdzPedraos/Eventix.git
+    targetRevision: main
+    path: deploy/helm
+    helm:
+      releaseName: eventix
+      valueFiles:
+        - values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: eventix
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

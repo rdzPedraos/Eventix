@@ -1,8 +1,8 @@
-domain: eventix.local
+domain: eventix.k8s.test
 
 image:
   repository: rdzpedraos/eventix
-  tag: "1.0"
+  tag: ""
   pullPolicy: IfNotPresent
 
 nginx:

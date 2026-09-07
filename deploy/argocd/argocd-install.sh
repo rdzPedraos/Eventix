@@ -54,6 +54,7 @@ kubectl create secret generic "$SECRET_NAME" \
   | kubectl apply -f -
 
 kubectl apply -f "$DIR/applicationset-previews.yaml"
+kubectl apply -f "$DIR/application-main.yaml"
 
 echo ""
 echo "Argo CD ready in ${NAMESPACE}."

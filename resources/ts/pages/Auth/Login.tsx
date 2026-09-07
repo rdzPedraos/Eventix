@@ -22,8 +22,7 @@ export default function Login({}: Props) {
                 <Logo size="sm" color="text-gray-700" />
 
                 <p className="my-4 text-gray-500">
-                    Ingresa algún correo electrónico vinculado a tu cuenta y la
-                    contraseña para acceder.
+                    Ingresa algún correo electrónico vinculado a tu cuenta.
                 </p>
 
                 <form onSubmit={onSubmit("post", "login")}>

@@ -1,23 +1,28 @@
 notifications:
   enabled: true
 
+  secret:
+    create: false
+
   notifiers:
     service.github: |
-      token: $github-token
+      appID: $githubAppID
+      installationID: $githubAppInstallationID
+      privateKey: $githubAppPrivateKey
 
   triggers:
     on-deployed: |
-      - oncePer: app.status.operationState.syncResult.revision
+      - oncePer: app.status.sync.revision
         send:
           - preview-deployed
-        when: app.status.operationState != nil and app.status.operationState.phase in ['Succeeded'] and app.status.health.status == 'Healthy'
+        when: app.status.sync.status == 'Synced' and app.status.health.status == 'Healthy'
     on-sync-failed: |
-      - oncePer: app.status.operationState.syncResult.revision
+      - oncePer: app.status.sync.revision
         send:
           - preview-failed
         when: app.status.operationState != nil and app.status.operationState.phase in ['Error', 'Failed']
     on-health-degraded: |
-      - oncePer: app.status.operationState.syncResult.revision
+      - oncePer: app.status.sync.revision
         send:
           - preview-failed
         when: app.status.health.status == 'Degraded'
@@ -25,17 +30,13 @@ notifications:
   templates:
     preview-deployed: |
       github:
-        repoURLPath: "{{.app.spec.source.repoURL}}"
-        revisionPath: "{{.app.status.operationState.syncResult.revision}}"
         pullRequestComment:
           commentTag: "preview/{{.app.metadata.name}}"
           content: |
-            🚀 Proyecto desplegado 
+            🚀 Proyecto desplegado
             🔗 {{index .app.metadata.annotations "preview-url"}}
     preview-failed: |
       github:
-        repoURLPath: "{{.app.spec.source.repoURL}}"
-        revisionPath: "{{.app.status.operationState.syncResult.revision}}"
         pullRequestComment:
           commentTag: "preview/{{.app.metadata.name}}"
           content: |

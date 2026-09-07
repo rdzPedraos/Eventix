@@ -2,12 +2,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Chart.Name }}-db
+  name: mysql
   labels:
-    app: {{ .Chart.Name }}
+    app: mysql
 spec:
   selector:
-    app: {{ .Chart.Name }}
+    app: mysql
   ports:
     - name: mysql
       port: 3306
@@ -16,18 +16,18 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Chart.Name }}-db
+  name: mysql
   labels:
-    app: {{ .Chart.Name }}
+    app: mysql
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Chart.Name }}
+      app: mysql
   template:
     metadata:
       labels:
-        app: {{ .Chart.Name }}
+        app: mysql
     spec:
       containers:
         - name: mysql

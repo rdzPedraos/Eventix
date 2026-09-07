@@ -12,9 +12,7 @@ spec:
         github:
           owner: rdzPedraos
           repo: Eventix
-          tokenRef:
-            secretName: argocd-notifications-secret
-            key: github-token
+          appSecretName: argocd-notifications-secret
           labels:
             - preview-ready
   template:
@@ -32,7 +30,7 @@ spec:
         targetRevision: "{{ .head_sha }}"
         path: deploy/helm
         helm:
-          releaseName: "eventix-pr-{{ .number }}"
+          releaseName: eventix
           valueFiles:
             - values-preview.yaml
           parameters:

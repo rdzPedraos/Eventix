@@ -4,16 +4,16 @@ description: Install npm dependencies, audit, and lint frontend resources.
 runs:
   using: composite
   steps:
+    - name: Audit npm dependencies
+      run: npm audit --package-lock-only --omit=dev --audit-level=high
+      shell: bash
+
     - uses: actions/setup-node@v4
       with:
         node-version: "20"
         cache: npm
 
     - run: npm ci
-      shell: bash
-
-    - name: Audit npm dependencies
-      run: npm audit --audit-level=high
       shell: bash
 
     - name: Lint JavaScript (ESLint)

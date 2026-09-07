@@ -79,7 +79,7 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.2"
+          php-version: "8.3"
           extensions: mbstring, pdo_sqlite, gd
           coverage: none
 
@@ -94,7 +94,7 @@ jobs:
           restore-keys: composer-${{ runner.os }}-
 
       - name: Audit PHP dependencies (Composer)
-        run: composer audit --no-interaction --no-dev --locked
+        run: composer security:audit
 
       - run: composer install --no-interaction --prefer-dist --optimize-autoloader
 

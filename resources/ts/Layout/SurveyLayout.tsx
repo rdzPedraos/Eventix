@@ -9,7 +9,9 @@ type Props = {
 export default function SurveyLayout({ children }: Props) {
     return (
         <>
-            <main className="min-h-screen bg-gradient-to-r from-primary-50 to-primary-200">{children}</main>
+            <main className="min-h-screen bg-gradient-to-r from-primary-50 to-primary-200">
+                {children}
+            </main>
             <WaterMark />
         </>
     );

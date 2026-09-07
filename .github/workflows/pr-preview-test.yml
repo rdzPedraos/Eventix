@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Remove preview-ready label
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         env:
           PREVIEW_LABEL: ${{ env.PREVIEW_LABEL }}
         with:
@@ -37,7 +37,7 @@ jobs:
             }
 
       - name: Delete preview comments
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const marker = "argocd-notifications preview/eventix";
@@ -81,7 +81,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Mark PR ready for preview
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         env:
           PREVIEW_LABEL: ${{ env.PREVIEW_LABEL }}
         with:

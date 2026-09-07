@@ -31,7 +31,7 @@ notifications:
           commentTag: "preview/{{.app.metadata.name}}"
           content: |
             🚀 Proyecto desplegado 
-            🔗 {{index .app.metadata.labels "preview-url"}}
+            🔗 {{index .app.metadata.annotations "preview-url"}}
     preview-failed: |
       github:
         repoURLPath: "{{.app.spec.source.repoURL}}"

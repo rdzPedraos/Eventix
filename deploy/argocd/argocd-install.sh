@@ -12,9 +12,24 @@ fi
 
 NAMESPACE="${ARGOCD_NAMESPACE:-argocd}"
 
-if [[ -z "${GITHUB_TOKEN:-}" ]]; then
-  read -rsp "GitHub PAT (repo): " GITHUB_TOKEN
-  echo
+require_var() {
+  if [[ -z "${!1:-}" ]]; then
+    echo "Missing $1 (set in deploy/argocd/.env)" >&2
+    exit 1
+  fi
+}
+
+require_var GITHUB_APP_ID
+require_var GITHUB_APP_INSTALLATION_ID
+require_var GITHUB_APP_PRIVATE_KEY_PATH
+
+if [[ "$GITHUB_APP_PRIVATE_KEY_PATH" != /* ]]; then
+  GITHUB_APP_PRIVATE_KEY_PATH="$DIR/$GITHUB_APP_PRIVATE_KEY_PATH"
+fi
+
+if [[ ! -f "$GITHUB_APP_PRIVATE_KEY_PATH" ]]; then
+  echo "Private key not found: $GITHUB_APP_PRIVATE_KEY_PATH" >&2
+  exit 1
 fi
 
 echo "Adding Argo CD repository..."
@@ -30,9 +45,13 @@ helm upgrade --install "$RELEASE" argo/argo-cd \
 
 SECRET_NAME="argocd-notifications-secret"
 
-kubectl patch secret "$SECRET_NAME" -n "$NAMESPACE" \
-  --type merge \
-  -p "{\"stringData\":{\"github-token\":\"${GITHUB_TOKEN}\"}}"
+kubectl create secret generic "$SECRET_NAME" \
+  -n "$NAMESPACE" \
+  --from-literal=githubAppID="$GITHUB_APP_ID" \
+  --from-literal=githubAppInstallationID="$GITHUB_APP_INSTALLATION_ID" \
+  --from-file=githubAppPrivateKey="$GITHUB_APP_PRIVATE_KEY_PATH" \
+  --dry-run=client -o yaml \
+  | kubectl apply -f -
 
 kubectl apply -f "$DIR/applicationset-previews.yaml"
 

@@ -20,9 +20,8 @@ spec:
   template:
     metadata:
       name: "eventix-pr-{{ .number }}"
-      labels:
-        preview-url: "http://pr-{{ .number }}.eventix.local"
       annotations:
+        preview-url: "http://pr-{{ .number }}.eventix.local"
         notifications.argoproj.io/subscribe.on-deployed.github: ""
         notifications.argoproj.io/subscribe.on-sync-failed.github: ""
         notifications.argoproj.io/subscribe.on-health-degraded.github: ""

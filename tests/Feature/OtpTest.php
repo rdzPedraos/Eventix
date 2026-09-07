@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Library\OtpLibrary;
 use App\Mail\OtpMail;
 use Illuminate\Support\Facades\Mail;
-use Mockery;
 use Tests\TestCase;
 
 class OtpTest extends TestCase

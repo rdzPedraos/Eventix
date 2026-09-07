@@ -15,18 +15,18 @@ class Survey extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'name',
+        "name",
         "activity_id",
-        'description',
-        'published_trigger',
-        'trigger_date',
+        "description",
+        "published_trigger",
+        "trigger_date",
     ];
 
     protected $casts = [
         "published_trigger" => SurveyTriggerEnum::class,
-        'trigger_date' => 'date',
-        'published_at' => 'date',
-        'editable' => 'boolean',
+        "trigger_date" => "date",
+        "published_at" => "date",
+        "editable" => "boolean",
     ];
 
     public function block()
@@ -43,7 +43,9 @@ class Survey extends Model
 
     public function updatePublishedTrigger()
     {
-        if ($this->published_trigger === SurveyTriggerEnum::CUSTOM->value) return;
+        if ($this->published_trigger === SurveyTriggerEnum::CUSTOM->value) {
+            return;
+        }
 
         $activity = $this->activity;
         $limit_dates = $activity->getLimitDates();
@@ -62,7 +64,7 @@ class Survey extends Model
 
     public function getBlockedAttribute()
     {
-        return !$this->editable;
+        return ! $this->editable;
     }
 
     /* SCOPES */
@@ -81,7 +83,9 @@ class Survey extends Model
 
     public function scopeSearch($query, $search)
     {
-        if (!$search) return $query;
+        if (! $search) {
+            return $query;
+        }
 
         return $query->where("name", "like", "%$search%")
             ->orWhere("description", "like", "%$search%")

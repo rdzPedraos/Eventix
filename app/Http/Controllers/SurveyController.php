@@ -31,7 +31,7 @@ class SurveyController extends Controller
 
         $surveys = SurveyListResource::collection($surveys);
 
-        return Inertia::render("Survey/List", compact('activity', 'surveys', "activity"));
+        return Inertia::render("Survey/List", compact("activity", "surveys", "activity"));
     }
 
     /**
@@ -46,7 +46,7 @@ class SurveyController extends Controller
         $questionTypes = QuestionTypesEnum::casesKeyLabel();
         $triggerTypes = SurveyTriggerEnum::casesKeyLabel();
 
-        return Inertia::render("Survey/Edit", compact('survey', "questionTypes", "triggerTypes", "activity"));
+        return Inertia::render("Survey/Edit", compact("survey", "questionTypes", "triggerTypes", "activity"));
     }
 
     /**
@@ -66,6 +66,7 @@ class SurveyController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());
+
             return redirect()->back()->withErrors(__("validation.throw_exception"));
         }
 
@@ -78,7 +79,8 @@ class SurveyController extends Controller
     public function show(Activity $activity, Survey $survey)
     {
         $survey->load("questions");
-        return Inertia::render("Survey/Show", compact('survey', "activity"));
+
+        return Inertia::render("Survey/Show", compact("survey", "activity"));
     }
 
     /**
@@ -96,13 +98,13 @@ class SurveyController extends Controller
         $questionTypes = QuestionTypesEnum::casesKeyLabel();
         $triggerTypes = SurveyTriggerEnum::casesKeyLabel();
 
-        return Inertia::render("Survey/Edit", compact('survey', "questionTypes", "triggerTypes", "activity"));
+        return Inertia::render("Survey/Edit", compact("survey", "questionTypes", "triggerTypes", "activity"));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Activity $activity, Survey $survey, SurveyRequest $request,)
+    public function update(Activity $activity, Survey $survey, SurveyRequest $request)
     {
         Gate::authorize("update", $survey);
 
@@ -113,12 +115,15 @@ class SurveyController extends Controller
             $survey->questions()->delete();
             $survey->questions()->createMany($request->questions);
 
-            if ($request->input("publish")) $survey->block();
+            if ($request->input("publish")) {
+                $survey->block();
+            }
 
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());
+
             return redirect()->back()->withErrors(__("validation.throw_exception"));
         }
 
@@ -132,6 +137,7 @@ class SurveyController extends Controller
     {
         Gate::authorize("delete", $survey);
         $survey->delete();
+
         return redirect()->route("surveys.index", compact("activity"));
     }
 }

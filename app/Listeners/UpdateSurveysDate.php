@@ -4,9 +4,7 @@ namespace App\Listeners;
 
 use App\Enums\SurveyTriggerEnum;
 use App\Events\ActivityScheduleUpdate;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Contracts\Queue\ShouldQueueAfterCommit;
-use Illuminate\Queue\InteractsWithQueue;
 
 class UpdateSurveysDate implements ShouldQueueAfterCommit
 {
@@ -30,7 +28,9 @@ class UpdateSurveysDate implements ShouldQueueAfterCommit
             ->get();
 
         $surveys->each(function ($survey) {
-            if ($survey->isPublished) return;
+            if ($survey->isPublished) {
+                return;
+            }
             $survey->updatePublishedTrigger();
         });
     }

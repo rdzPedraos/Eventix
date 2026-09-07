@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\DocumentType;
 use App\Rules\PhoneValidationRule;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
 
@@ -20,7 +21,7 @@ class UserUpdateRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
@@ -43,12 +44,12 @@ class UserUpdateRequest extends FormRequest
                     $regex = DocumentType::find($this->document_type_code)->regex;
 
                     $validator->errors()->addIf(
-                        !preg_match("/$regex/", $this->document_number),
+                        ! preg_match("/$regex/", $this->document_number),
                         "document_number",
                         __("validation.regex", ["attribute" => __("validation.attributes.document_number")])
                     );
                 }
-            }
+            },
         ];
     }
 }

@@ -5,7 +5,6 @@ namespace App\Policies;
 use App\Enums\PermissionEnum;
 use App\Models\Activity;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class ActivityPolicy
 {
@@ -26,8 +25,12 @@ class ActivityPolicy
      */
     public function view(User $user, Activity $activity): bool
     {
-        if ($user->hasPermissionTo(PermissionEnum::ACTIVITY_CHECK_ALL)) return true;
-        if (!$user->hasPermissionTo(PermissionEnum::ACTIVITY_CHECK)) return false;
+        if ($user->hasPermissionTo(PermissionEnum::ACTIVITY_CHECK_ALL)) {
+            return true;
+        }
+        if (! $user->hasPermissionTo(PermissionEnum::ACTIVITY_CHECK)) {
+            return false;
+        }
 
         return $activity->authorizedUser($user);
     }
@@ -45,8 +48,12 @@ class ActivityPolicy
      */
     public function update(User $user, Activity $activity): bool
     {
-        if ($user->hasPermissionTo(PermissionEnum::ACTIVITY_EDIT_ALL)) return true;
-        if (!$user->hasPermissionTo(PermissionEnum::ACTIVITY_EDIT)) return false;
+        if ($user->hasPermissionTo(PermissionEnum::ACTIVITY_EDIT_ALL)) {
+            return true;
+        }
+        if (! $user->hasPermissionTo(PermissionEnum::ACTIVITY_EDIT)) {
+            return false;
+        }
 
         return $activity->authorizedUser($user);
     }
@@ -87,8 +94,12 @@ class ActivityPolicy
 
     public function downloadReport(User $user, Activity $activity): bool
     {
-        if (!$user->hasPermissionTo(PermissionEnum::ATTENDANCE_REPORT)) return false;
-        if ($user->hasPermissionTo(PermissionEnum::ACTIVITY_CHECK_ALL)) return true;
+        if (! $user->hasPermissionTo(PermissionEnum::ATTENDANCE_REPORT)) {
+            return false;
+        }
+        if ($user->hasPermissionTo(PermissionEnum::ACTIVITY_CHECK_ALL)) {
+            return true;
+        }
 
         return $activity->authorizedUser($user);
     }

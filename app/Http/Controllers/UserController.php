@@ -26,7 +26,7 @@ class UserController extends Controller
     {
         $documentTypes = DocumentType::all();
 
-        if (!Auth::user()->can(PermissionEnum::USERS_EDIT->value)) {
+        if (! Auth::user()->can(PermissionEnum::USERS_EDIT->value)) {
             return inertia("User/Edit", compact("user", "documentTypes"));
         }
 
@@ -39,12 +39,14 @@ class UserController extends Controller
     public function update(User $user, UserUpdateRequest $request)
     {
         $user->update($request->validated());
+
         return redirect()->route("users.edit", $user);
     }
 
     public function updateRoles(User $user, Request $request)
     {
         $user->syncRoles($request->roles);
+
         return redirect()->route("users.edit", $user);
     }
 }

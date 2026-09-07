@@ -16,23 +16,23 @@ class Activity extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'name',
-        'description',
-        'image',
-        'color',
-        'created_by',
+        "name",
+        "description",
+        "image",
+        "color",
+        "created_by",
     ];
 
     protected $casts = [
-        'published_at' => "date",
-        'color' => ColorEnum::class,
+        "published_at" => "date",
+        "color" => ColorEnum::class,
     ];
 
     /* OTHER METHODS */
 
     public function publish()
     {
-        if (!$this->published_at) {
+        if (! $this->published_at) {
             $this->published_at = now();
             $this->save();
         }
@@ -52,8 +52,11 @@ class Activity extends Model
     {
         $user ??= Auth::user();
 
-        if ($this->owner->id === $user->id) return true;
-        return !$only_owner && $this->builders()->where("user_id", $user->id)->exists();
+        if ($this->owner->id === $user->id) {
+            return true;
+        }
+
+        return ! $only_owner && $this->builders()->where("user_id", $user->id)->exists();
     }
 
     /* DYNAMIC ATTRIBUTES */
@@ -74,7 +77,7 @@ class Activity extends Model
     {
         $user = Auth::user();
 
-        if (!$user) {
+        if (! $user) {
             throw new Exception("Need to be logged in");
         }
 
@@ -87,9 +90,11 @@ class Activity extends Model
         });
     }
 
-    public function scopeSearch(Builder $query, string|null $search)
+    public function scopeSearch(Builder $query, ?string $search)
     {
-        if (!$search) return $query;
+        if (! $search) {
+            return $query;
+        }
 
         return $query->where("name", "like", "%$search%")
             ->orWhere("description", "like", "%$search%");
@@ -98,7 +103,7 @@ class Activity extends Model
     /* Relations */
     public function owner()
     {
-        return $this->belongsTo(User::class, 'created_by');
+        return $this->belongsTo(User::class, "created_by");
     }
 
     public function schedulers()

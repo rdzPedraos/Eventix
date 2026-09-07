@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Enums\ColorEnum;
 use App\Rules\Base64Image;
 use Carbon\Carbon;
-use Faker\Provider\Base;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
@@ -24,14 +24,14 @@ class ActivityRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string'],
-            "image" => ["nullable", new Base64Image()],
+            "name" => ["required", "string", "max:255"],
+            "description" => ["required", "string"],
+            "image" => ["nullable", new Base64Image],
             "color" => ["required", "string", Rule::enum(ColorEnum::class)],
             "schedulers" => ["array"],
             "schedulers.*.start_date" => ["required", "date"],
@@ -44,8 +44,8 @@ class ActivityRequest extends FormRequest
     {
         return [
             function (Validator $validator) {
-                //crea una matriz de [key=>$key, value=>$scheduler]
-                $schedulers = collect($this->get('schedulers'))
+                // crea una matriz de [key=>$key, value=>$scheduler]
+                $schedulers = collect($this->get("schedulers"))
                     ->map(function ($sch) {
                         $sch["start_date"] = new Carbon($sch["start_date"]);
                         $sch["end_date"] = new Carbon($sch["end_date"]);
@@ -58,38 +58,40 @@ class ActivityRequest extends FormRequest
                     ->values();
 
                 $schedulers->each(function ($scheduler, $key) use ($schedulers, $validator) {
-                    if ($key === 0) return;
+                    if ($key === 0) {
+                        return;
+                    }
 
                     $previous = new Carbon($schedulers->get($key - 1)["end_date"]);
                     $current = new Carbon($scheduler["start_date"]);
 
                     $validator->errors()->addIf(
-                        !$current->gt($previous),
+                        ! $current->gt($previous),
                         "schedulers.{$key}.start_date",
                         __("validation.custom.scheduler.overlapped")
                     );
                 });
-            }
+            },
         ];
     }
 
     public function passedValidation()
     {
-        $image = $this->get('image');
+        $image = $this->get("image");
         if ($image) {
-            $image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $image));
-            $filename = 'activity_' . time() . '.png';
+            $image = base64_decode(preg_replace("#^data:image/\\w+;base64,#i", "", $image));
+            $filename = "activity_".time().".png";
 
             file_put_contents(Storage::disk("public")->path($filename), $image);
 
-            $this->merge(['image' => $filename]);
+            $this->merge(["image" => $filename]);
         }
     }
 
     public function attributes()
     {
         return [
-            "schedulers.*.start_date" =>  __("validation.attributes.start_date"),
+            "schedulers.*.start_date" => __("validation.attributes.start_date"),
             "schedulers.*.end_date" => __("validation.attributes.end_date"),
             "schedulers.*.site_id" => __("validation.attributes.site_id"),
         ];

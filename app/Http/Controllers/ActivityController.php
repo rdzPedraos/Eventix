@@ -31,7 +31,8 @@ class ActivityController extends Controller
             ->paginate($request->per_page ?? 10);
 
         $activities = ActivityListResource::collection($activities);
-        return Inertia::render("Activity/List", compact('activities'));
+
+        return Inertia::render("Activity/List", compact("activities"));
     }
 
     /**
@@ -43,7 +44,7 @@ class ActivityController extends Controller
         $sites = SiteResource::collection(Sites::all())->toArray(request());
         $colors = ColorEnum::casesValue();
 
-        return Inertia::render("Activity/Create", compact('sites', 'colors'));
+        return Inertia::render("Activity/Create", compact("sites", "colors"));
     }
 
     /**
@@ -97,7 +98,7 @@ class ActivityController extends Controller
         $sites = SiteResource::collection(Sites::all())->toArray(request());
         $colors = ColorEnum::casesValue();
 
-        return Inertia::render("Activity/Create", compact('activity', 'sites', 'colors'));
+        return Inertia::render("Activity/Create", compact("activity", "sites", "colors"));
     }
 
     /**
@@ -110,7 +111,7 @@ class ActivityController extends Controller
         $publish = $request->action == "publish";
         if ($publish || $activity->isPublished) {
             $request->validate([
-                "schedulers" => ["required", "min:1"]
+                "schedulers" => ["required", "min:1"],
             ]);
         }
 
@@ -127,14 +128,19 @@ class ActivityController extends Controller
             $activity->schedulers()->createMany($validated["schedulers"]);
             ActivityScheduleUpdate::dispatch($activity);
 
-            if ($publish) $activity->publish();
+            if ($publish) {
+                $activity->publish();
+            }
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
         }
 
-        if ($publish) return redirect()->route("activities.index");
+        if ($publish) {
+            return redirect()->route("activities.index");
+        }
+
         return redirect()->back();
     }
 
@@ -163,7 +169,7 @@ class ActivityController extends Controller
 
         $users = $activity->enrollments->toArray();
 
-        $document = (new DownloadFile())
+        $document = (new DownloadFile)
             ->setFilename("reporte-asistencia-{$activity->name}")
             ->addHeaders($headers)
             ->addBodyRows($users);

@@ -17,7 +17,9 @@ class InscriptionObserver
 
         dispatch(function () use ($user, $surveys) {
             foreach ($surveys as $survey) {
-                if ($survey->alreadyAnswered($user)->exists()) continue;
+                if ($survey->alreadyAnswered($user)->exists()) {
+                    continue;
+                }
 
                 SurveyLink::send($user, $survey);
             }

@@ -35,19 +35,20 @@ class LoginController extends Controller
             )
         ) {
             $request->session()->regenerate();
+
             return redirect()->intended();
         }
 
         return back()->withErrors([
-            "email" => __("auth.failed")
+            "email" => __("auth.failed"),
         ]);
     }
 
     public function destroy(Request $request)
     {
         Auth::logout();
-        #$request->session()->invalidate();
-        #$request->session()->regenerateToken();
+        // $request->session()->invalidate();
+        // $request->session()->regenerateToken();
 
         return redirect()->route("login");
     }

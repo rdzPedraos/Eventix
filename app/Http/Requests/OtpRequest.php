@@ -3,9 +3,9 @@
 namespace App\Http\Requests;
 
 use App\Models\User;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Validator;
 
 class OtpRequest extends FormRequest
 {
@@ -20,13 +20,13 @@ class OtpRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         $auth = Auth::user();
 
-        //only allow unique document_number and source for users not registered or for the authenticated user
+        // only allow unique document_number and source for users not registered or for the authenticated user
         $uniqueDocument = "unique:users,document_number";
         $uniqueSource = "unique:users,email";
 
@@ -51,7 +51,7 @@ class OtpRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            "source" => __("validation.attributes.email")
+            "source" => __("validation.attributes.email"),
         ];
     }
 }

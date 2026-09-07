@@ -1,0 +1,14 @@
+{
+    "preset": "laravel",
+    "rules": {
+        "declare_strict_types": false,
+        "single_quote": false
+    },
+    "exclude": [
+        "vendor",
+        "storage",
+        "bootstrap/cache",
+        "node_modules",
+        "public/build"
+    ]
+}

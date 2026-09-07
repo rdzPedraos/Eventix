@@ -3,8 +3,8 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -17,7 +17,7 @@ class OtpMail extends Mailable
      * Create a new message instance.
      */
     public function __construct(
-        public String $otp
+        public string $otp
     ) {
         //
     }
@@ -28,7 +28,7 @@ class OtpMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Envío código de verificación',
+            subject: "Envío código de verificación",
         );
     }
 
@@ -38,14 +38,14 @@ class OtpMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'mail.otp',
+            markdown: "mail.otp",
         );
     }
 
     /**
      * Get the attachments for the message.
      *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     * @return array<int, Attachment>
      */
     public function attachments(): array
     {

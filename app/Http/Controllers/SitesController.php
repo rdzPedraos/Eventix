@@ -15,8 +15,8 @@ class SitesController extends Controller
     public function middleware()
     {
         return [
-            new Middleware("permission:" . PermissionEnum::PLACES_EDIT->value, ["index", "create", "store", "edit", "update"]),
-            new Middleware("permission:" . PermissionEnum::PLACES_EDIT->value, ["destroy"]),
+            new Middleware("permission:".PermissionEnum::PLACES_EDIT->value, ["index", "create", "store", "edit", "update"]),
+            new Middleware("permission:".PermissionEnum::PLACES_EDIT->value, ["destroy"]),
         ];
     }
 
@@ -39,6 +39,7 @@ class SitesController extends Controller
     public function store(SideRequest $request)
     {
         $site = Sites::create($request->validated());
+
         return redirect()->route("sites.edit", $site);
     }
 
@@ -50,18 +51,21 @@ class SitesController extends Controller
     public function update(SideRequest $request, Sites $site)
     {
         $site->update($request->validated());
+
         return redirect()->route("sites.edit", $site);
     }
 
     public function destroy(Sites $site)
     {
         $site->delete();
+
         return redirect()->back();
     }
 
     public function getByapi()
     {
         $sites = Sites::all();
+
         return response()->json($sites);
     }
 }

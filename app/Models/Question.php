@@ -14,17 +14,17 @@ class Question extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'survey_id',
-        'label',
-        'type',
-        'is_required',
-        'options',
+        "survey_id",
+        "label",
+        "type",
+        "is_required",
+        "options",
     ];
 
     protected $casts = [
-        'options' => 'array',
+        "options" => "array",
         "is_required" => "boolean",
-        'type' => QuestionTypesEnum::class,
+        "type" => QuestionTypesEnum::class,
     ];
 
     /* RELATIONS */

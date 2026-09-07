@@ -2,10 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\Activity;
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ActivityTest extends TestCase

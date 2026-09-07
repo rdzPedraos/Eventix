@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Enums\QuestionTypesEnum;
 use App\Enums\SurveyTriggerEnum;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
@@ -21,7 +22,7 @@ class SurveyRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
@@ -74,16 +75,17 @@ class SurveyRequest extends FormRequest
         $groupedErrors = [];
 
         foreach ($errors as $key => $messages) {
-            $parts = explode('.', $key);
+            $parts = explode(".", $key);
 
-            if (!isset($parts[1])) {
+            if (! isset($parts[1])) {
                 $groupedErrors[$key] = $messages;
+
                 continue;
             }
 
             $name = $parts[0];
             $index = $parts[1];
-            $groupedErrors["{$name}.{$index}"][] = implode(', ', $messages);
+            $groupedErrors["{$name}.{$index}"][] = implode(", ", $messages);
         }
 
         throw ValidationException::withMessages($groupedErrors);

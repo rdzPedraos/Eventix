@@ -22,7 +22,8 @@ class AnswerController extends Controller
         }
 
         $token = $request->route("token");
-        return Inertia::render("Survey/Answer", compact('survey', "token"));
+
+        return Inertia::render("Survey/Answer", compact("survey", "token"));
     }
 
     public function store(AnswerStoreRequest $request)
@@ -33,7 +34,7 @@ class AnswerController extends Controller
         $survey = Survey::findOrFail($request->survey_id);
         $survey->answers()->create([
             "user_id" => $request->user_id,
-            "answers" => $answers
+            "answers" => $answers,
         ]);
 
         return redirect()->route("home");
@@ -47,7 +48,7 @@ class AnswerController extends Controller
         $questions = $survey->questions->pluck("label", "id");
         $answers = $survey->answers->pluck("answers");
 
-        $document = (new DownloadFile())
+        $document = (new DownloadFile)
             ->setFilename("reporte-{$name}")
             ->addHeaders($questions)
             ->addBodyRows($answers);

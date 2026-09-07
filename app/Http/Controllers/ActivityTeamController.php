@@ -25,9 +25,9 @@ class ActivityTeamController extends Controller
     public function store(Request $request, Activity $activity)
     {
         $validated = $request->validate([
-            "email" => ["required", "exists:users,email"]
+            "email" => ["required", "exists:users,email"],
         ], [
-            "email.exists" => "El usuario no se encuentra registrado"
+            "email.exists" => "El usuario no se encuentra registrado",
         ]);
 
         $user = User::where($validated)->first();
@@ -37,12 +37,14 @@ class ActivityTeamController extends Controller
         }
 
         $activity->builders()->attach($user);
+
         return redirect()->back();
     }
 
     public function destroy(Activity $activity, User $user)
     {
         $activity->builders()->detach($user);
+
         return redirect()->back();
     }
 }

@@ -18,7 +18,7 @@ class SchedulerResource extends JsonResource
         $already_enrolled = Auth::id() ? $this->activity->enrollments->contains("id", Auth::id()) : false;
 
         return [
-            'id' => $this->id,
+            "id" => $this->id,
             "already_enrolled" => $already_enrolled,
             "activity" => [
                 "id" => $this->activity->id,

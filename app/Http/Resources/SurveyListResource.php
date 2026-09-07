@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Enums\SurveyTriggerEnum;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -28,8 +27,8 @@ class SurveyListResource extends JsonResource
             "answers_count" => $this->answers->count(),
             "activity" => [
                 "id" => $this->activity->id,
-                "name" => $this->activity->name
-            ]
+                "name" => $this->activity->name,
+            ],
         ];
     }
 
@@ -39,7 +38,7 @@ class SurveyListResource extends JsonResource
             return [
                 "color" => "danger",
                 "label" => "Cerrado",
-                "key" => "closed"
+                "key" => "closed",
             ];
         }
 
@@ -47,7 +46,7 @@ class SurveyListResource extends JsonResource
             return [
                 "color" => "primary",
                 "label" => "Publicado",
-                "key" => "published"
+                "key" => "published",
             ];
         }
 
@@ -55,14 +54,14 @@ class SurveyListResource extends JsonResource
             return [
                 "color" => "warning",
                 "label" => "Por publicar",
-                "key" => "blocked"
+                "key" => "blocked",
             ];
         }
 
         return [
             "color" => "default",
             "label" => "Borrador",
-            "key" => "draft"
+            "key" => "draft",
         ];
     }
 }

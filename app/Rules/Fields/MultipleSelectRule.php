@@ -5,6 +5,7 @@ namespace App\Rules\Fields;
 use App\Models\Question;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Translation\PotentiallyTranslatedString;
 
 class MultipleSelectRule implements ValidationRule
 {
@@ -17,7 +18,7 @@ class MultipleSelectRule implements ValidationRule
     /**
      * Run the validation rule.
      *
-     * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     * @param  Closure(string): PotentiallyTranslatedString  $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
@@ -29,7 +30,7 @@ class MultipleSelectRule implements ValidationRule
         }
 
         foreach ($values as $val) {
-            if (!in_array($val, $question->options)) {
+            if (! in_array($val, $question->options)) {
                 $fail("El campo tiene valores no permitidos");
             }
         }

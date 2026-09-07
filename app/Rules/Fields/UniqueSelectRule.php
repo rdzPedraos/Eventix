@@ -5,6 +5,7 @@ namespace App\Rules\Fields;
 use App\Models\Question;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Translation\PotentiallyTranslatedString;
 
 class UniqueSelectRule implements ValidationRule
 {
@@ -17,7 +18,7 @@ class UniqueSelectRule implements ValidationRule
     /**
      * Run the validation rule.
      *
-     * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     * @param  Closure(string): PotentiallyTranslatedString  $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
@@ -27,7 +28,7 @@ class UniqueSelectRule implements ValidationRule
             $fail("El campo es requerido");
         }
 
-        if (!in_array($value, $question->options)) {
+        if (! in_array($value, $question->options)) {
             $fail("El campo tiene valores no permitidos");
         }
     }

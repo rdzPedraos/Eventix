@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,13 +14,14 @@ class AnswerRequest extends FormRequest
     public function authorize(): bool
     {
         $user = Auth::user();
+
         return $user && $user->id === $this->user_id;
     }
 
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
@@ -34,7 +36,7 @@ class AnswerRequest extends FormRequest
         $token = $this->route("token");
         $token = decrypt($token);
 
-        if (!isset($token["user_id"]) || !isset($token["survey_id"])) {
+        if (! isset($token["user_id"]) || ! isset($token["survey_id"])) {
             abort(404);
         }
 

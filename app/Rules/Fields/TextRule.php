@@ -5,6 +5,7 @@ namespace App\Rules\Fields;
 use App\Models\Question;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Translation\PotentiallyTranslatedString;
 
 class TextRule implements ValidationRule
 {
@@ -17,17 +18,21 @@ class TextRule implements ValidationRule
     /**
      * Run the validation rule.
      *
-     * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     * @param  Closure(string): PotentiallyTranslatedString  $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $question = $this->question;
 
-        if ($question->is_required && empty($value)) {
-            $fail("El campo es requerido");
+        if (empty($value)) {
+            if ($question->is_required) {
+                $fail("El campo es requerido");
+            }
+
+            return;
         }
 
-        if (!preg_match('/^[a-zA-ZñáéíóúÁÉÍÓÚ0-9\s\.\-]+$/', $value)) {
+        if (! preg_match("/^[a-zA-ZñáéíóúÁÉÍÓÚ0-9\\s\\.\\-]+$/", $value)) {
             $fail("El campo solo puede contener letras, números, espacios, puntos y guiones");
         }
     }

@@ -17,7 +17,7 @@ class PasswordController extends Controller
     public function sendEmail(Request $request)
     {
         $request->validate([
-            "email" => ["required", "email"]
+            "email" => ["required", "email"],
         ]);
 
         Password::sendResetLink(
@@ -31,7 +31,7 @@ class PasswordController extends Controller
     {
         return Inertia::render("Auth/Password/Reset", [
             "token" => $token,
-            "email" => $request->email
+            "email" => $request->email,
         ]);
     }
 
@@ -40,25 +40,26 @@ class PasswordController extends Controller
         $request->validate([
             "token" => ["required"],
             "email" => ["required", "email"],
-            "password" => ["required", "confirmed"]
+            "password" => ["required", "confirmed"],
         ]);
 
         $status = Password::reset(
             $request->only("email", "password", "password_confirmation", "token"),
             function ($user) use ($request) {
                 $user->forceFill([
-                    "password" => bcrypt($request->password)
+                    "password" => bcrypt($request->password),
                 ])->save();
             }
         );
 
         if ($status == Password::PASSWORD_RESET) {
             Auth::logout();
+
             return redirect()->route("login");
         }
 
         return back()->withInput()->withErrors([
-            "email" => "El token de recuperación es inválido."
+            "email" => "El token de recuperación es inválido.",
         ]);
     }
 }

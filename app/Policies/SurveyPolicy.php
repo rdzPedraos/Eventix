@@ -3,10 +3,8 @@
 namespace App\Policies;
 
 use App\Enums\PermissionEnum;
-use App\Models\Activity;
 use App\Models\Survey;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class SurveyPolicy
 {
@@ -15,8 +13,12 @@ class SurveyPolicy
      */
     public function view(User $user, Survey $survey): bool
     {
-        if ($user->hasPermissionTo(PermissionEnum::SURVEY_CHECK_ALL)) return true;
-        if (!$user->hasPermissionTo(PermissionEnum::SURVEY_CHECK)) return false;
+        if ($user->hasPermissionTo(PermissionEnum::SURVEY_CHECK_ALL)) {
+            return true;
+        }
+        if (! $user->hasPermissionTo(PermissionEnum::SURVEY_CHECK)) {
+            return false;
+        }
 
         return $survey->activity->authorizedUser($user);
     }
@@ -34,8 +36,12 @@ class SurveyPolicy
      */
     public function update(User $user, Survey $survey): bool
     {
-        if ($user->hasPermissionTo(PermissionEnum::SURVEY_EDIT_ALL)) return true;
-        if (!$user->hasPermissionTo(PermissionEnum::SURVEY_EDIT)) return false;
+        if ($user->hasPermissionTo(PermissionEnum::SURVEY_EDIT_ALL)) {
+            return true;
+        }
+        if (! $user->hasPermissionTo(PermissionEnum::SURVEY_EDIT)) {
+            return false;
+        }
 
         return $survey->activity->authorizedUser($user);
     }
@@ -76,8 +82,12 @@ class SurveyPolicy
 
     public function downloadReport(User $user, Survey $survey): bool
     {
-        if (!$user->hasPermissionTo(PermissionEnum::ATTENDANCE_REPORT)) return false;
-        if ($user->hasPermissionTo(PermissionEnum::ACTIVITY_CHECK_ALL)) return true;
+        if (! $user->hasPermissionTo(PermissionEnum::ATTENDANCE_REPORT)) {
+            return false;
+        }
+        if ($user->hasPermissionTo(PermissionEnum::ACTIVITY_CHECK_ALL)) {
+            return true;
+        }
 
         return $survey->activity->authorizedUser($user);
     }

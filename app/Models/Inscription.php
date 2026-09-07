@@ -15,8 +15,8 @@ class Inscription extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
-        'activity_id',
+        "user_id",
+        "activity_id",
     ];
 
     /* RELATIONS */

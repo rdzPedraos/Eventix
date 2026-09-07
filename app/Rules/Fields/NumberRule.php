@@ -5,6 +5,7 @@ namespace App\Rules\Fields;
 use App\Models\Question;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Translation\PotentiallyTranslatedString;
 
 class NumberRule implements ValidationRule
 {
@@ -17,7 +18,7 @@ class NumberRule implements ValidationRule
     /**
      * Run the validation rule.
      *
-     * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     * @param  Closure(string): PotentiallyTranslatedString  $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
@@ -27,7 +28,7 @@ class NumberRule implements ValidationRule
             $fail("El campo es requerido");
         }
 
-        if (!is_numeric($value)) {
+        if (! is_numeric($value)) {
             $fail("El campo solo puede contener números");
         }
     }

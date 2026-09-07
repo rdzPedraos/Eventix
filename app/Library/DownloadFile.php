@@ -8,7 +8,9 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class DownloadFile
 {
     private $filename;
+
     private $headers;
+
     private $body;
 
     public function __construct()
@@ -25,12 +27,14 @@ class DownloadFile
         }
 
         $this->filename = $filename;
+
         return $this;
     }
 
     public function addHeader($key, $label)
     {
         $this->headers->put($key, $label);
+
         return $this;
     }
 
@@ -46,13 +50,14 @@ class DownloadFile
     public function addBodyRows($rows)
     {
         $this->body->push(...$rows);
+
         return $this;
     }
 
     public function buildCsv()
     {
         $filename = "{$this->filename}.csv";
-        $file = fopen($filename, 'w');
+        $file = fopen($filename, "w");
 
         // Escribir el BOM para UTF-8
         fwrite($file, "\xEF\xBB\xBF");
@@ -78,11 +83,11 @@ class DownloadFile
     {
         $filename = "{$this->filename}.xlsx";
 
-        $spreadsheet = new Spreadsheet();
+        $spreadsheet = new Spreadsheet;
         $sheet = $spreadsheet->getActiveSheet();
 
         // Escribir los encabezados
-        $column = 'A';
+        $column = "A";
         foreach ($this->headers->values() as $header) {
             $sheet->setCellValue("{$column}1", $header);
             $column++;
@@ -91,7 +96,7 @@ class DownloadFile
         // Escribir los datos del cuerpo
         $rowNumber = 2;
         foreach ($this->body as $row) {
-            $column = 'A';
+            $column = "A";
             foreach ($this->headers->keys() as $key) {
                 $sheet->setCellValue("{$column}{$rowNumber}", data_get($row, $key));
                 $column++;

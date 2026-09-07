@@ -12,9 +12,9 @@ class Scheduler extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'activity_id',
-        'start_date',
-        'end_date',
+        "activity_id",
+        "start_date",
+        "end_date",
         "site_id",
     ];
 
@@ -26,18 +26,18 @@ class Scheduler extends Model
     public function scopeSearch($query, $search, $enrolled, $site, $ignoreActivity)
     {
         return $query
-            ->whereHas('activity', function ($query) use ($search, $enrolled, $ignoreActivity) {
+            ->whereHas("activity", function ($query) use ($search, $enrolled, $ignoreActivity) {
                 $query->published()
-                    ->when($search, fn($query) => $query->where('name', 'like', "%$search%"))
-                    ->when($ignoreActivity, fn($query) => $query->where('id', '!=', $ignoreActivity));
+                    ->when($search, fn ($query) => $query->where("name", "like", "%$search%"))
+                    ->when($ignoreActivity, fn ($query) => $query->where("id", "!=", $ignoreActivity));
 
                 if ($enrolled) {
                     $user_id = auth()->id();
-                    $query->whereHas('enrollments', fn($query) => $query->where('user_id', $user_id));
+                    $query->whereHas("enrollments", fn ($query) => $query->where("user_id", $user_id));
                 }
             })
             ->when($site, function ($query, $site) {
-                $query->where('site_id', $site);
+                $query->where("site_id", $site);
             });
     }
 

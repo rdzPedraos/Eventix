@@ -20,7 +20,7 @@ class ActivityResource extends JsonResource
             $imgSrc = Storage::disk("public")->path($this->image);
             $type = pathinfo($imgSrc, PATHINFO_EXTENSION);
             $data = file_get_contents($imgSrc);
-            $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+            $base64 = "data:image/".$type.";base64,".base64_encode($data);
         }
 
         $schedulers = collect($this->schedulers)->sortBy("start_date")->values();
@@ -29,7 +29,7 @@ class ActivityResource extends JsonResource
             "id" => $this->id,
             "name" => $this->name,
             "description" => $this->description,
-            #"status" => $this->status->label(),
+            // "status" => $this->status->label(),
             "isPublished" => $this->isPublished,
             "color" => $this->color,
             "created_at" => $this->created_at,

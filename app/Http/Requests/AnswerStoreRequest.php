@@ -10,7 +10,7 @@ use App\Rules\Fields\MultipleSelectRule;
 use App\Rules\Fields\NumberRule;
 use App\Rules\Fields\TextRule;
 use App\Rules\Fields\UniqueSelectRule;
-use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\ValidationRule;
 
 class AnswerStoreRequest extends AnswerRequest
 {
@@ -25,7 +25,7 @@ class AnswerStoreRequest extends AnswerRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {

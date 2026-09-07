@@ -11,31 +11,31 @@ notifications:
       privateKey: $githubAppPrivateKey
 
   triggers:
-    on-deployed: |
+    trigger.on-deployed: |
       - oncePer: app.status.sync.revision
         send:
           - preview-deployed
         when: app.status.sync.status == 'Synced' and app.status.health.status == 'Healthy'
-    on-sync-failed: |
+    trigger.on-sync-failed: |
       - oncePer: app.status.sync.revision
         send:
           - preview-failed
         when: app.status.operationState != nil and app.status.operationState.phase in ['Error', 'Failed']
-    on-health-degraded: |
+    trigger.on-health-degraded: |
       - oncePer: app.status.sync.revision
         send:
           - preview-failed
         when: app.status.health.status == 'Degraded'
 
   templates:
-    preview-deployed: |
+    template.preview-deployed: |
       github:
         pullRequestComment:
           commentTag: "preview/{{.app.metadata.name}}"
           content: |
             🚀 Proyecto desplegado
             🔗 {{index .app.metadata.annotations "preview-url"}}
-    preview-failed: |
+    template.preview-failed: |
       github:
         pullRequestComment:
           commentTag: "preview/{{.app.metadata.name}}"

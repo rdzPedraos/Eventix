@@ -1,9 +1,9 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ .Chart.Name }}-migrate
+  name: migrate
   labels:
-    app: {{ .Chart.Name }}
+    app: migrate
   annotations:
     helm.sh/hook: post-install,post-upgrade
     helm.sh/hook-weight: "0"
@@ -13,7 +13,7 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ .Chart.Name }}
+        app: migrate
     spec:
       restartPolicy: OnFailure
       initContainers:
@@ -30,9 +30,9 @@ spec:
               done
           envFrom:
             - configMapRef:
-                name: {{ .Chart.Name }}-app
+                name: web-config
             - secretRef:
-                name: {{ .Chart.Name }}-envs
+                name: secrets
       containers:
         - name: migrate
           image: {{ include "chart.image" . }}
@@ -45,6 +45,6 @@ spec:
               php artisan db:seed --force {{- end }}
           envFrom:
             - configMapRef:
-                name: {{ .Chart.Name }}-app
+                name: web-config
             - secretRef:
-                name: {{ .Chart.Name }}-envs
+                name: secrets

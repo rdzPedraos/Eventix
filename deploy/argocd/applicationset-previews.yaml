@@ -32,7 +32,7 @@ spec:
         targetRevision: "{{ .head_sha }}"
         path: deploy/helm
         helm:
-          releaseName: "eventix-pr-{{ .number }}"
+          releaseName: eventix
           valueFiles:
             - values-preview.yaml
           parameters:

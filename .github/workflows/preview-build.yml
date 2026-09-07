@@ -1,11 +1,11 @@
-name: PR preview test
+name: Preview build
 
 on:
   pull_request:
     types: [opened, synchronize, reopened]
 
 concurrency:
-  group: preview-test-pr-${{ github.event.pull_request.number }}
+  group: preview-build-pr-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 permissions:
@@ -16,7 +16,7 @@ env:
   PREVIEW_LABEL: preview-ready
 
 jobs:
-  reset:
+  unlabel-and-clean:
     runs-on: ubuntu-latest
     steps:
       - name: Remove preview-ready label
@@ -58,8 +58,8 @@ jobs:
               });
             }
 
-  ci:
-    needs: reset
+  build-and-push:
+    needs: unlabel-and-clean
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -76,8 +76,8 @@ jobs:
           push: true
           tags: rdzpedraos/eventix:pr-${{ github.event.pull_request.number }}
 
-  mark-ready:
-    needs: ci
+  signal-deploy:
+    needs: build-and-push
     runs-on: ubuntu-latest
     steps:
       - name: Mark PR ready for preview

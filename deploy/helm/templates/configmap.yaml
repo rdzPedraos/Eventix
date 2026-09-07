@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: web-config
+data:
+  APP_URL: {{ printf "http://%s" .Values.domain | quote }}
+{{ .Values.configMap | toYaml | indent 2 }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+data:
+  nginx.conf: |
+{{ .Files.Get "files/nginx.conf" | indent 4 }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: php-config
+data:
+  php.ini: |
+{{ .Files.Get "files/php.ini" | indent 4 }}
+  php-fpm.conf: |
+{{ .Files.Get "files/php-fpm.conf" | indent 4 }}

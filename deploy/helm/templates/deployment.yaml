@@ -1,28 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Chart.Name }}
+  name: web
   labels:
-    app: {{ .Chart.Name }}
+    app: web
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Chart.Name }}
+      app: web
   template:
     metadata:
       labels:
-        app: {{ .Chart.Name }}
+        app: web
     spec:
       volumes:
         - name: app-public
           emptyDir: {}
         - name: nginx-config
           configMap:
-            name: {{ .Chart.Name }}-nginx
+            name: nginx-config
         - name: php-config
           configMap:
-            name: {{ .Chart.Name }}-php
+            name: php-config
       containers:
         - name: nginx
           image: {{ .Values.nginx.image }}
@@ -73,9 +73,9 @@ spec:
               readOnly: true
           envFrom:
             - configMapRef:
-                name: {{ .Chart.Name }}-app
+                name: web-config
             - secretRef:
-                name: {{ .Chart.Name }}-envs
+                name: secrets
           readinessProbe:
             tcpSocket:
               port: fpm

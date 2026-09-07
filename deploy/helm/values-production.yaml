@@ -3,7 +3,7 @@ domain: eventix.k8s.test
 secrets:
   APP_KEY: "base64:e7QhiVhXyxLfLaDK1vZ6FOU4GwI0QvWX7t7r8TW7uGI="
 
-  DB_HOST: host.minikube.internal
+  DB_HOST: 192.168.94.1
   DB_PORT: "3306"
   DB_DATABASE: eventix
   DB_USERNAME: admin

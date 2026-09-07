@@ -12,7 +12,7 @@ export default function AuthLayout({
     children,
 }: {
     paddingX?: string;
-    children: LayoutConfigProps,
+    children: LayoutConfigProps;
 }) {
     const { fullView, breadcrumb } = getProperties(children);
 

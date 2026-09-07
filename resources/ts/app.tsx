@@ -13,7 +13,7 @@ createInertiaApp({
 
         const search =
             pages[`./pages/${name}.tsx`] || pages[`./pages/${name}/index.tsx`];
-        let page: any = await search();
+        const page: any = await search();
 
         if (page.default.layout === undefined) {
             page.default.layout = (page: React.ReactNode) => (

@@ -1,18 +1,18 @@
 type LoginFormFields = {
-    email: String;
-    password: String;
-    remember: Boolean;
+    email: string;
+    password: string;
+    remember: boolean;
 };
 
 type RegisterFormFields = {
-    email: String;
-    document_type_code: String;
-    document_number: String;
-    name: String;
-    last_name: String;
-    phone: String;
-    otp: String;
-    verify_otp: String;
-    password: String;
-    verify_password: String;
+    email: string;
+    document_type_code: string;
+    document_number: string;
+    name: string;
+    last_name: string;
+    phone: string;
+    otp: string;
+    verify_otp: string;
+    password: string;
+    verify_password: string;
 };

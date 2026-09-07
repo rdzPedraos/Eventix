@@ -13,7 +13,6 @@ import { Sites } from "@/types/models";
 import Confirm from "@/components/Confirm";
 import { Container, Table } from "@/components";
 
-
 const renderCell = (site: Sites, columnKey: string) => {
     switch (columnKey) {
         case "actions":
@@ -52,11 +51,10 @@ const renderCell = (site: Sites, columnKey: string) => {
 
 type Props = {
     sites: CollectionProps<SiteResource>;
-}
+};
 
-
-export default function List({sites}: Props) {
-    const  { data, meta } = sites;
+export default function List({ sites }: Props) {
+    const { data, meta } = sites;
 
     return (
         <Container>
@@ -86,8 +84,7 @@ export default function List({sites}: Props) {
     );
 }
 
-
 List.breadcrumb = {
     current: "Espacios académicos",
-    items: [{ to: route("home"), label: "Calendario" }]
-}
+    items: [{ to: route("home"), label: "Calendario" }],
+};

@@ -3,5 +3,5 @@ kind: ConfigMap
 metadata:
   name: {{ .Chart.Name }}-app
 data:
-  APP_URL: {{ printf "http://%s" (include "chart.domain" .) | quote }}
+  APP_URL: {{ printf "http://%s" .Values.domain | quote }}
 {{ .Values.configMap | toYaml | indent 2 }}

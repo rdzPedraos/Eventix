@@ -1,6 +1,4 @@
-pr:
-  number: 0
-  domain: eventix.local
+domain: eventix.local
 
 image:
   repository: rdzpedraos/eventix

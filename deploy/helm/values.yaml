@@ -18,7 +18,7 @@ secrets:
   DB_DATABASE: eventix
   DB_USERNAME: eventix
   DB_PASSWORD: ""
-  
+
   MAIL_HOST: ""
   MAIL_PORT: ""
   MAIL_USERNAME: ""

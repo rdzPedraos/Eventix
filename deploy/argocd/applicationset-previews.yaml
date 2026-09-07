@@ -21,7 +21,7 @@ spec:
     metadata:
       name: "eventix-pr-{{ .number }}"
       annotations:
-        preview-url: "http://pr-{{ .number }}.eventix.local"
+        preview-url: "http://pr-{{ .number }}.eventix.k8s.test"
         notifications.argoproj.io/subscribe.on-deployed.github: ""
         notifications.argoproj.io/subscribe.on-sync-failed.github: ""
         notifications.argoproj.io/subscribe.on-health-degraded.github: ""
@@ -37,7 +37,7 @@ spec:
             - values-preview.yaml
           parameters:
             - name: domain
-              value: "pr-{{ .number }}.eventix.local"
+              value: "pr-{{ .number }}.eventix.k8s.test"
             - name: image.tag
               value: "pr-{{ .number }}"
       destination:

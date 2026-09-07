@@ -12,6 +12,9 @@ spec:
         github:
           owner: rdzPedraos
           repo: Eventix
+          tokenRef:
+            secretName: argocd-notifications-secret
+            key: github-token
           labels:
             - preview-ready
   template:

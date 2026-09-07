@@ -1,5 +1,8 @@
 domain: eventix.k8s.test
 
+autoscaling:
+  enabled: true
+
 secrets:
   APP_KEY: "base64:e7QhiVhXyxLfLaDK1vZ6FOU4GwI0QvWX7t7r8TW7uGI="
 

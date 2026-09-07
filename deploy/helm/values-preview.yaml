@@ -1,5 +1,5 @@
 db:
-  image: mysql:8.0
+  enabled: true
   seed: true
 
 secrets:

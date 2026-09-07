@@ -9,12 +9,13 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  pull-requests: write
+  issues: write
   contents: read
   statuses: write
 
 env:
   PREVIEW_LABEL: preview-ready
+  ARGO_NOTIFICATIONS_BOT: despliegaloargocd[bot]
 
 jobs:
   unlabel-and-clean:
@@ -24,11 +25,10 @@ jobs:
         uses: actions/github-script@v8
         env:
           PREVIEW_LABEL: ${{ env.PREVIEW_LABEL }}
+          ARGO_NOTIFICATIONS_BOT: ${{ env.ARGO_NOTIFICATIONS_BOT }}
         with:
           script: |
             const pr = context.issue.number;
-            const sha = context.payload.pull_request.head.sha;
-            const marker = "argocd-notifications preview/eventix";
 
             try {
               await github.rest.issues.removeLabel({
@@ -45,17 +45,18 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: pr,
+              per_page: 100,
             });
 
-            for (const comment of comments.filter((c) =>
-              c.body?.includes(marker),
-            )) {
+            comments.filter(
+              (comment) => comment.user?.login === process.env.ARGO_NOTIFICATIONS_BOT,
+            ).forEach(async (comment) => {
               await github.rest.issues.deleteComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 comment_id: comment.id,
               });
-            }
+            });
 
   build-and-push:
     needs: unlabel-and-clean

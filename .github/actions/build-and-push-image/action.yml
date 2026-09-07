@@ -1,0 +1,32 @@
+name: Build and push image
+description: Build deploy/Dockerfile and push to Docker Hub with an immutable tag.
+
+inputs:
+  tag:
+    description: Image tag (typically a commit SHA).
+    required: true
+  image-repository:
+    description: Docker image repository without tag.
+    required: false
+    default: rdzpedraos/eventix
+  docker-username:
+    description: Docker Hub username.
+    required: true
+  docker-password:
+    description: Docker Hub token or password.
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - uses: docker/login-action@v3
+      with:
+        username: ${{ inputs.docker-username }}
+        password: ${{ inputs.docker-password }}
+
+    - uses: docker/build-push-action@v6
+      with:
+        context: .
+        file: deploy/Dockerfile
+        push: true
+        tags: ${{ inputs.image-repository }}:${{ inputs.tag }}

@@ -8,7 +8,32 @@ image:
 nginx:
   image: nginx:1.27-alpine
 
-replicaCount: 1
+db:
+  enabled: false
+  image: mysql:8.0
+  seed: false
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 70
+
+resources:
+  nginx:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+  app:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
 
 scheduler:
   schedule: "*/1 * * * *"

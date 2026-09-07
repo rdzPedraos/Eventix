@@ -5,7 +5,9 @@ metadata:
   labels:
     app: web
 spec:
-  replicas: {{ .Values.replicaCount }}
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: 1
+  {{- end }}
   selector:
     matchLabels:
       app: web
@@ -26,6 +28,8 @@ spec:
       containers:
         - name: nginx
           image: {{ .Values.nginx.image }}
+          resources:
+            {{- toYaml .Values.resources.nginx | nindent 12 }}
           ports:
             - name: http
               containerPort: 3200
@@ -53,6 +57,8 @@ spec:
         - name: app
           image: {{ include "chart.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          resources:
+            {{- toYaml .Values.resources.app | nindent 12 }}
           command:
             - /bin/sh
             - -c

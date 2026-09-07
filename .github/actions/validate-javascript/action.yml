@@ -1,0 +1,21 @@
+name: Validate JavaScript
+description: Install npm dependencies, audit, and lint frontend resources.
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version: "20"
+        cache: npm
+
+    - run: npm ci
+      shell: bash
+
+    - name: Audit npm dependencies
+      run: npm audit --audit-level=high
+      shell: bash
+
+    - name: Lint JavaScript (ESLint)
+      run: npm run lint
+      shell: bash

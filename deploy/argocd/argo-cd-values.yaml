@@ -1,3 +1,7 @@
+configs:
+  params:
+    controller.sync.timeout.seconds: "120"
+
 notifications:
   enabled: true
 

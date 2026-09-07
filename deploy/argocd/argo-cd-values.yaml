@@ -29,8 +29,8 @@ notifications:
     trigger.on-health-degraded: |
       - oncePer: app.status.sync.revision
         send:
-          - preview-failed
-        when: app.status.health.status == 'Degraded'
+          - preview-degraded
+        when: app.status.health.status == 'Degraded' and (app.status.operationState == nil or app.status.operationState.phase not in ['Error', 'Failed'])
 
   templates:
     template.preview-syncing: |
@@ -39,6 +39,14 @@ notifications:
           commentTag: "preview/{{.app.metadata.name}}"
           content: |
             🚧 Despliegue de aplicación en construcción…
+
+    template.preview-degraded: |
+      github:
+        pullRequestComment:
+          commentTag: "preview/{{.app.metadata.name}}"
+          content: |
+            🩹 Despliegue con problemas — el cluster intenta recuperarlo…
+
     template.preview-deployed: |
       github:
         status:
@@ -50,6 +58,7 @@ notifications:
           content: |
             🚀 Proyecto desplegado
             🔗 {{index .app.metadata.annotations "preview-url"}}
+
     template.preview-failed: |
       github:
         status:
@@ -58,4 +67,4 @@ notifications:
         pullRequestComment:
           commentTag: "preview/{{.app.metadata.name}}"
           content: |
-            🚨 No se pudo desplegar el proyecto 🚨
+            🚨 No se pudo desplegar el proyecto

@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: scheduler
+  labels:
+    app: scheduler
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-weight: "5"
+    helm.sh/hook-delete-policy: before-hook-creation
+spec:
+  schedule: {{ .Values.scheduler.schedule | quote }}
+  concurrencyPolicy: {{ .Values.scheduler.concurrencyPolicy }}
+  successfulJobsHistoryLimit: {{ .Values.scheduler.successfulJobsHistoryLimit }}
+  failedJobsHistoryLimit: {{ .Values.scheduler.failedJobsHistoryLimit }}
+  startingDeadlineSeconds: {{ .Values.scheduler.startingDeadlineSeconds }}
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+      template:
+        metadata:
+          labels:
+            app: scheduler
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: scheduler
+              image: {{ include "chart.image" . }}
+              imagePullPolicy: {{ .Values.image.pullPolicy }}
+              command:
+                - php
+                - artisan
+                - schedule:run
+              envFrom:
+                - configMapRef:
+                    name: web-config
+                - secretRef:
+                    name: secrets

@@ -10,6 +10,13 @@ nginx:
 
 replicaCount: 1
 
+scheduler:
+  schedule: "*/1 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  startingDeadlineSeconds: 300
+
 secrets:
   APP_KEY: ""
 

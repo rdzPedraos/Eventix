@@ -51,6 +51,7 @@
         ],
         "lint": "@php vendor/bin/pint --test app tests",
         "lint:fix": "@php vendor/bin/pint app tests",
+        "audit": "composer audit --no-interaction --no-dev",
         "test": "@php vendor/bin/phpunit",
         "test:unit": "@php vendor/bin/phpunit --testsuite=Unit",
         "test:feature": "@php vendor/bin/phpunit --testsuite=Feature",

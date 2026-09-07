@@ -2,7 +2,10 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "keywords": [
+        "laravel",
+        "framework"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.2",
@@ -15,7 +18,7 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
-        "fumeapp/modeltyper": "^2.8",
+        "fumeapp/modeltyper": "^3.0",
         "laravel/pint": "^1.26",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.0",
@@ -51,7 +54,7 @@
         ],
         "lint": "@php vendor/bin/pint --test app tests",
         "lint:fix": "@php vendor/bin/pint app tests",
-        "audit": "composer audit --no-interaction --no-dev --locked",
+        "security:audit": "composer audit --no-interaction --no-dev --locked",
         "test": "@php vendor/bin/phpunit",
         "test:unit": "@php vendor/bin/phpunit --testsuite=Unit",
         "test:feature": "@php vendor/bin/phpunit --testsuite=Feature",
@@ -72,6 +75,13 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
+        },
+        "audit": {
+            "ignore": {
+                "GHSA-crmm-hgp2-wgrp": "L11 sin parche; sin URLs firmadas en la app",
+                "GHSA-5vg9-5847-vvmq": "L11 sin parche; mitigación en validación de email",
+                "CVE-2026-48019": "Mismo advisory CRLF; pendiente upgrade a L12"
+            }
         }
     },
     "minimum-stability": "stable",

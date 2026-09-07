@@ -11,6 +11,7 @@ concurrency:
 permissions:
   pull-requests: write
   contents: read
+  statuses: write
 
 env:
   PREVIEW_LABEL: preview-ready
@@ -19,7 +20,7 @@ jobs:
   unlabel-and-clean:
     runs-on: ubuntu-latest
     steps:
-      - name: Remove preview-ready label
+      - name: Reset PR state
         uses: actions/github-script@v8
         env:
           PREVIEW_LABEL: ${{ env.PREVIEW_LABEL }}
@@ -34,28 +35,6 @@ jobs:
               });
             } catch (error) {
               if (error.status !== 404) throw error;
-            }
-
-      - name: Delete preview comments
-        uses: actions/github-script@v8
-        with:
-          script: |
-            const marker = "argocd-notifications preview/eventix";
-
-            const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-            });
-
-            for (const comment of comments.filter((c) =>
-              c.body?.includes(marker),
-            )) {
-              await github.rest.issues.deleteComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: comment.id,
-              });
             }
 
   build-and-push:
@@ -86,6 +65,17 @@ jobs:
           PREVIEW_LABEL: ${{ env.PREVIEW_LABEL }}
         with:
           script: |
+            const sha = context.payload.pull_request.head.sha;
+
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha,
+              state: "pending",
+              context: "argo/preview",
+              description: "Despliegue de aplicación en construcción…",
+            });
+
             await github.rest.issues.addLabels({
               owner: context.repo.owner,
               repo: context.repo.repo,

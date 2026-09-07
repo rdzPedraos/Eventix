@@ -20,6 +20,7 @@ spec:
       name: "eventix-pr-{{ .number }}"
       annotations:
         preview-url: "http://pr-{{ .number }}.eventix.k8s.test"
+        notifications.argoproj.io/subscribe.on-sync-running.github: ""
         notifications.argoproj.io/subscribe.on-deployed.github: ""
         notifications.argoproj.io/subscribe.on-sync-failed.github: ""
         notifications.argoproj.io/subscribe.on-health-degraded.github: ""

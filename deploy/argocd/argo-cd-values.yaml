@@ -11,6 +11,11 @@ notifications:
       privateKey: $githubAppPrivateKey
 
   triggers:
+    trigger.on-sync-running: |
+      - oncePer: app.status.sync.revision
+        send:
+          - preview-syncing
+        when: app.status.operationState != nil and app.status.operationState.phase in ['Running']
     trigger.on-deployed: |
       - oncePer: app.status.sync.revision
         send:
@@ -28,8 +33,18 @@ notifications:
         when: app.status.health.status == 'Degraded'
 
   templates:
+    template.preview-syncing: |
+      github:
+        pullRequestComment:
+          commentTag: "preview/{{.app.metadata.name}}"
+          content: |
+            🚧 Despliegue de aplicación en construcción…
     template.preview-deployed: |
       github:
+        status:
+          state: success
+          label: argo/preview
+          targetURL: "{{index .app.metadata.annotations \"preview-url\"}}"
         pullRequestComment:
           commentTag: "preview/{{.app.metadata.name}}"
           content: |
@@ -37,6 +52,9 @@ notifications:
             🔗 {{index .app.metadata.annotations "preview-url"}}
     template.preview-failed: |
       github:
+        status:
+          state: failure
+          label: argo/preview
         pullRequestComment:
           commentTag: "preview/{{.app.metadata.name}}"
           content: |

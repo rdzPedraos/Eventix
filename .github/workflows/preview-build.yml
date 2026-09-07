@@ -26,15 +26,35 @@ jobs:
           PREVIEW_LABEL: ${{ env.PREVIEW_LABEL }}
         with:
           script: |
+            const pr = context.issue.number;
+            const sha = context.payload.pull_request.head.sha;
+            const marker = "argocd-notifications preview/eventix";
+
             try {
               await github.rest.issues.removeLabel({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                issue_number: context.issue.number,
+                issue_number: pr,
                 name: process.env.PREVIEW_LABEL,
               });
             } catch (error) {
               if (error.status !== 404) throw error;
+            }
+
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr,
+            });
+
+            for (const comment of comments.filter((c) =>
+              c.body?.includes(marker),
+            )) {
+              await github.rest.issues.deleteComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: comment.id,
+              });
             }
 
   build-and-push:
@@ -59,7 +79,7 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
-      - name: Mark PR ready for preview
+      - name: Mark PR ready to generate preview
         uses: actions/github-script@v8
         env:
           PREVIEW_LABEL: ${{ env.PREVIEW_LABEL }}

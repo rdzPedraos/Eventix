@@ -39,6 +39,19 @@ resources:
     limits:
       cpu: 500m
       memory: 512Mi
+  queue:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+
+queue:
+  replicas: 1
+  sleep: 3
+  tries: 3
+  maxTime: 3600
 
 scheduler:
   schedule: "*/1 * * * *"

@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: queue
+  labels:
+    app: queue
+spec:
+  replicas: {{ .Values.queue.replicas }}
+  selector:
+    matchLabels:
+      app: queue
+  template:
+    metadata:
+      labels:
+        app: queue
+    spec:
+      containers:
+        - name: queue
+          image: {{ include "chart.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - php
+            - artisan
+            - queue:work
+            - --sleep={{ .Values.queue.sleep }}
+            - --tries={{ .Values.queue.tries }}
+            - --max-time={{ .Values.queue.maxTime }}
+          resources:
+            {{- toYaml .Values.resources.queue | nindent 12 }}
+          envFrom:
+            - configMapRef:
+                name: web-config
+            - secretRef:
+                name: secrets

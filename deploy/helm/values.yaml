@@ -42,6 +42,9 @@ scheduler:
   failedJobsHistoryLimit: 3
   startingDeadlineSeconds: 300
 
+externalSecrets:
+  enabled: false
+
 secrets:
   APP_KEY: ""
 

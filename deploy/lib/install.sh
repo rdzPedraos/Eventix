@@ -17,30 +17,7 @@ require_var() {
 }
 
 ######################################
-echo "### INSTALLING GITHUB SECRETS ###"
-
-require_var GITHUB_APP_ID
-require_var GITHUB_APP_INSTALLATION_ID
-require_var GITHUB_APP_PRIVATE_KEY_PATH
-
-if [[ "$GITHUB_APP_PRIVATE_KEY_PATH" != /* ]]; then
-  GITHUB_APP_PRIVATE_KEY_PATH="$DIR/$GITHUB_APP_PRIVATE_KEY_PATH"
-fi
-
-if [[ ! -f "$GITHUB_APP_PRIVATE_KEY_PATH" ]]; then
-  echo "Private key not found: $GITHUB_APP_PRIVATE_KEY_PATH" >&2
-  exit 1
-fi
-
-kubectl create secret generic argocd-notifications-secret \
-  -n $ARGOCD \
-  --from-literal=githubAppID="$GITHUB_APP_ID" \
-  --from-literal=githubAppInstallationID="$GITHUB_APP_INSTALLATION_ID" \
-  --from-file=githubAppPrivateKey="$GITHUB_APP_PRIVATE_KEY_PATH" \
-  --dry-run=client -o yaml \
-  | kubectl apply -f -
-
-######################################
+echo ""
 echo "### INSTALLING EXTERNAL SECRETS ###"
 
 require_var AWS_ACCESS_KEY_ID
@@ -65,9 +42,10 @@ kubectl create secret generic awssm-secret \
 kubectl apply -f "$DIR/$EXT_SECRETS"
 
 ######################################
+echo ""
 echo "### INSTALLING ARGO CD ###"
 
-$ARGOCD="argocd"
+ARGOCD="argocd"
 
 helm repo add $ARGOCD https://argoproj.github.io/argo-helm 2>/dev/null || true
 
@@ -76,7 +54,6 @@ helm upgrade --install $ARGOCD $ARGOCD/argo-cd \
   --create-namespace \
   -f "$DIR/$ARGOCD/values.yaml"
 
-kubectl apply -f "$DIR/applicationset-previews.yaml"
-kubectl apply -f "$DIR/application-main.yaml"
+kubectl apply -f "$DIR/$ARGOCD/manifest"
 
 echo "All resource were installed successfully."

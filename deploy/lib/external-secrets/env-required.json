@@ -1,0 +1,25 @@
+// VARIABLES REQUIRED INTO SECRET MANAGER
+{
+    // web app
+    "APP_KEY": "base64:e7Qh=",
+
+    // email
+    "MAIL_HOST": "sandbox.smtp.mailtrap.io",
+    "MAIL_PORT": "2525",
+    "MAIL_USERNAME": "username",
+    "MAIL_PASSWORD": "password",
+    "MAIL_ENCRYPTION": "null",
+    "MAIL_FROM_ADDRESS": "hello@example.com",
+
+    // database
+    "DB_HOST": "mysql.example.com",
+    "DB_PORT": "3306",
+    "DB_DATABASE": "databate",
+    "DB_USERNAME": "username",
+    "DB_PASSWORD": "password",
+
+    // notifications (Argo CD)
+    "GITHUB_APP_ID": "1234567",
+    "GITHUB_APP_INSTALLATION_ID": "123456789",
+    "GITHUB_APP_PRIVATE_KEY": "-----BEGIN RSA PRIVATE KEY-----\\n...ASD...\n"
+}

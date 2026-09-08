@@ -5,17 +5,15 @@ persistence: false
 
 db:
   enabled: true
-  seed: true
 
 secrets:
   remote_secret_name: ""
 
   # APP_KEY fixed for ephemeral previews (not production).
   APP_KEY: "base64:ePbfuu8V1ehrN2StH6lpAGViahaFMMd1C3b9sYnLnqY="
-  DB_HOST: mysql
-  DB_PORT: "3306"
+
   DB_DATABASE: eventix
-  DB_USERNAME: root
+  DB_USERNAME: eventix
   DB_PASSWORD: root
 
 configMap:

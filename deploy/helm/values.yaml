@@ -9,8 +9,7 @@ nginx:
   image: nginx:1.27-alpine
 
 db:
-  enabled: false
-  seed: false
+  enabled: true
   image: mysql:8.0
 
 redis:
@@ -68,6 +67,8 @@ configMap:
   LOG_LEVEL: info
 
   DB_CONNECTION: mysql
+  DB_HOST: mysql
+  DB_PORT: "3306"
 
   SESSION_DRIVER: redis
   SESSION_LIFETIME: "120"

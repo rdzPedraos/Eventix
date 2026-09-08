@@ -26,7 +26,7 @@ spec:
             - sh
             - -c
             - |
-              php artisan migrate --force {{- if and .Values.db .Values.db.seed }} && \
+              php artisan migrate --force {{- if .Release.IsInstall }} && \
               php artisan db:seed --force {{- end }}
           envFrom:
             - configMapRef:

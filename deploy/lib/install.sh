@@ -52,7 +52,8 @@ helm repo add $ARGOCD https://argoproj.github.io/argo-helm 2>/dev/null || true
 helm upgrade --install $ARGOCD $ARGOCD/argo-cd \
   -n $ARGOCD \
   --create-namespace \
-  -f "$DIR/$ARGOCD/values.yaml"
+  -f "$DIR/$ARGOCD/values.yaml" \
+  --wait
 
 kubectl apply -f "$DIR/$ARGOCD/manifest"
 

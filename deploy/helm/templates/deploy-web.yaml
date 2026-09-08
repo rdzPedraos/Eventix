@@ -75,6 +75,7 @@ spec:
             - -c
             - |
               mkdir -p /var/www/storage/app/public &&
+              chown -R www-data:www-data /var/www/storage/app &&
               cp -a /var/www/public/. /mnt/public/ &&
               exec php-fpm -F
           ports:

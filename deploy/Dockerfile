@@ -38,7 +38,12 @@ RUN apk add --no-cache \
     curl \
     icu-dev \
     $PHPIZE_DEPS \
-    && docker-php-ext-install pdo pdo_mysql opcache intl
+    && pecl install redis
+
+RUN docker-php-ext-install pdo pdo_mysql opcache intl zip gd \
+    && docker-php-ext-enable redis \
+    && apk del $PHPIZE_DEPS \
+    && rm -rf /tmp/pear
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 

@@ -13,6 +13,10 @@ db:
   seed: false
   image: mysql:8.0
 
+redis:
+  enabled: true
+  image: redis:7-alpine
+
 persistence: true
 
 autoscaling:
@@ -65,7 +69,7 @@ configMap:
 
   DB_CONNECTION: mysql
 
-  SESSION_DRIVER: database
+  SESSION_DRIVER: redis
   SESSION_LIFETIME: "120"
   SESSION_ENCRYPT: "false"
 
@@ -73,7 +77,11 @@ configMap:
   FILESYSTEM_DISK: local
 
   QUEUE_CONNECTION: database
-  CACHE_STORE: database
+
+  CACHE_STORE: redis
+  REDIS_CLIENT: phpredis
+  REDIS_HOST: redis
+  REDIS_PORT: "6379"
 
   MAIL_MAILER: log
   MAIL_FROM_NAME: Eventix

@@ -6,6 +6,8 @@ use Exception;
 
 class OtpLibrary
 {
+    private const TTL_MINUTES = 5;
+
     private static function getOtpKey(string $id, string $source): string
     {
         return "otp_{$id}_{$source}";
@@ -22,7 +24,7 @@ class OtpLibrary
     public static function setOtpToken(string $id, string $source, string $otp): void
     {
         $cache_key = self::getOtpKey($id, $source);
-        cache()->put($cache_key, $otp, now()->addMinutes(5));
+        cache()->put($cache_key, $otp, now()->addMinutes(self::TTL_MINUTES));
     }
 
     public static function create(string $id, string $source, int $size = 5, $withLetters = false): string

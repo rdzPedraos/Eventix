@@ -33,14 +33,14 @@ RUN composer install \
 FROM php:8.3-fpm-alpine
 
 RUN apk add --no-cache \
-    zip \
     bash \
     curl \
     icu-dev \
+    libzip-dev \
     $PHPIZE_DEPS \
     && pecl install redis
 
-RUN docker-php-ext-install pdo pdo_mysql opcache intl zip gd \
+RUN docker-php-ext-install pdo pdo_mysql opcache intl zip \
     && docker-php-ext-enable redis \
     && apk del $PHPIZE_DEPS \
     && rm -rf /tmp/pear

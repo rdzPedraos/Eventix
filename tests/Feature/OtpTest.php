@@ -5,9 +5,9 @@ namespace Tests\Feature;
 use App\Library\OtpLibrary;
 use App\Mail\OtpMail;
 use Illuminate\Support\Facades\Mail;
-use Tests\TestCase;
+use Tests\DatabaseTestCase;
 
-class OtpTest extends TestCase
+class OtpTest extends DatabaseTestCase
 {
     public function test_must_throw_exception_if_parameters_are_missing()
     {

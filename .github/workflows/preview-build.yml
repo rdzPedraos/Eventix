@@ -95,6 +95,9 @@ jobs:
       - name: Run unit tests (PHPUnit)
         run: composer test:unit
 
+      - name: Run feature tests (PHPUnit)
+        run: composer test:feature
+
   build-and-push:
     needs: [reset-pr-state, javascript, php]
     runs-on: ubuntu-latest

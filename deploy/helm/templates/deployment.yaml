@@ -19,9 +19,20 @@ spec:
       volumes:
         - name: app-public
           emptyDir: {}
+
+        - name: app-storage
+          {{- if .Values.persistence }}
+          hostPath:
+            path: /data/eventix/app
+            type: DirectoryOrCreate
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+
         - name: nginx-config
           configMap:
             name: nginx-config
+
         - name: php-config
           configMap:
             name: php-config
@@ -62,13 +73,18 @@ spec:
           command:
             - /bin/sh
             - -c
-            - cp -a /var/www/public/. /mnt/public/ && exec php-fpm -F
+            - |
+              mkdir -p /var/www/storage/app/public &&
+              cp -a /var/www/public/. /mnt/public/ &&
+              exec php-fpm -F
           ports:
             - name: fpm
               containerPort: 9000
           volumeMounts:
             - name: app-public
               mountPath: /mnt/public
+            - name: app-storage
+              mountPath: /var/www/storage/app
             - name: php-config
               mountPath: /usr/local/etc/php/conf.d/z-custom.ini
               subPath: php.ini

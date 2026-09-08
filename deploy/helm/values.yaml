@@ -13,6 +13,8 @@ db:
   seed: false
   image: mysql:8.0
 
+persistence: true
+
 autoscaling:
   enabled: true
   minReplicas: 1

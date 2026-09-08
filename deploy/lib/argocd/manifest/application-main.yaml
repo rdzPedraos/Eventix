@@ -13,7 +13,6 @@ spec:
       releaseName: eventix
       valueFiles:
         - values.yaml
-        - values-production.yaml
       parameters:
         - name: image.tag
           value: $ARGOCD_APP_REVISION

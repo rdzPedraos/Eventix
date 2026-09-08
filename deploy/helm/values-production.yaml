@@ -1,7 +1,0 @@
-domain: eventix.k8s.test
-
-autoscaling:
-  enabled: true
-
-externalSecrets:
-  enabled: true

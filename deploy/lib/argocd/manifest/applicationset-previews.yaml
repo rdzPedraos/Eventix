@@ -33,6 +33,7 @@ spec:
         helm:
           releaseName: eventix
           valueFiles:
+            - values.yaml
             - values-preview.yaml
           parameters:
             - name: domain
